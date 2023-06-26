@@ -79,7 +79,12 @@ model Repair {
   @@index([carId, customerId])
 }
 
-// Prisma schema (schema.prisma)
+model Images {
+  id          String  @id @default(cuid())
+  fileKey     String
+  fileUrl     String
+  description String?
+}
 
 model TimeSlot {
   id               String  @id @default(cuid())
