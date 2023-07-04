@@ -50,7 +50,7 @@ const Header: FC<HeaderProps> = ({ page }) => {
           </div>
 
           {toggle && (
-            <NewClientEntry adminId={session.user.id} setToggle={setToggle} />
+            <NewClientEntry setToggle={setToggle} />
           )}
         </div>
       )}

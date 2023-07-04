@@ -5,7 +5,7 @@ import { FC, useState } from "react";
 import { Button } from "./Button";
 import { toast } from "./toast";
 import { FiLogOut } from "react-icons/fi";
-import { redirect } from "next/navigation";
+
 
 interface SignOutButtonProps {
   page: string;

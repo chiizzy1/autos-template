@@ -62,39 +62,47 @@ CREATE TABLE `Repair` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Images` (
+CREATE TABLE `Pictures` (
     `id` VARCHAR(191) NOT NULL,
-    `fileKey` VARCHAR(191) NOT NULL,
-    `fileUrl` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
+    `key` VARCHAR(191) NOT NULL,
+    `url` VARCHAR(191) NOT NULL,
+    `adminId` VARCHAR(191) NOT NULL,
+
+    INDEX `Pictures_adminId_idx`(`adminId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `SelectedDay` (
+    `id` VARCHAR(191) NOT NULL,
+    `day` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `TimeSlot` (
-    `id` VARCHAR(191) NOT NULL,
-    `date` VARCHAR(191) NOT NULL,
-    `time` VARCHAR(191) NOT NULL,
-    `availability` VARCHAR(191) NOT NULL,
-    `clientId` VARCHAR(191) NOT NULL,
-    `reason` VARCHAR(191) NULL,
-    `carType` VARCHAR(191) NULL,
-    `carModel` VARCHAR(191) NULL,
-    `yearManufactured` INTEGER NULL,
-    `additionalInfo` VARCHAR(191) NULL,
-
-    INDEX `TimeSlot_clientId_idx`(`clientId`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `appointmentClient` (
+CREATE TABLE `AppointmentClient` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
-    `phoneNumber` VARCHAR(191) NULL,
+    `phone` INTEGER NOT NULL,
+    `reason` VARCHAR(191) NOT NULL,
+    `make` VARCHAR(191) NOT NULL,
+    `model` VARCHAR(191) NOT NULL,
+    `year` INTEGER NOT NULL,
 
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `SelectedSesion` (
+    `id` VARCHAR(191) NOT NULL,
+    `bookDate` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `dayId` VARCHAR(191) NOT NULL,
+    `clientId` VARCHAR(191) NOT NULL,
+    `time` VARCHAR(191) NOT NULL,
+
+    INDEX `SelectedSesion_dayId_clientId_idx`(`dayId`, `clientId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

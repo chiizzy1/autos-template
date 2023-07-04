@@ -49,7 +49,7 @@ export default function CarDetail(url: URL) {
   }
 
   if (data) {
-    console.log(data);
+    // console.log(data);
   }
 
   return (
@@ -81,11 +81,10 @@ export default function CarDetail(url: URL) {
       <h3 className="font-bold text-xl text-black py-6 text-center">
         Car Repair History
       </h3>
-      <SingleRepairTable
+      {carId && <SingleRepairTable
         carId={carId}
         customerId={customerId}
-        reload={toggleModal}
-      />
+      />}
       {toggleModal && (
         <CreateRepairModal
           customerId={customerId}

@@ -1,32 +1,27 @@
 "use client";
 
-import { Customer } from "@prisma/client";
 import Link from "next/link";
 import { FC, useState } from "react";
 import CarsTable from "./CarsTable";
 import CustomerCard from "./CustomerCard";
-// import CustomerTransactionHistory from "./CustomerTransactionHistory";
 import DeleteCustomer from "./DeleteCustomer";
 import EditCustomerInfo from "./EditCustomerInfo";
 import RepairsTable from "./RepairsTable";
 import StatsCard from "./StatsCard";
 
-interface TestProps {
+interface CustomerProps {
   data: any;
   customerId: string;
 }
 
-const Test: FC<TestProps> = ({ data, customerId }) => {
+const Customer: FC<CustomerProps> = ({ data, customerId }) => {
   const [customerEditModal, setCustomerEditModal] = useState(false);
   const [customerDeleteModal, setCustomerDeleteModal] = useState(false);
 
   const { cars, repairs }: any = data;
 
-  // console.log("cars:", cars);
-  // console.log("carsRepairs:", repairs);
 
   // add SN to Cars array
-
   let customerCars: [] = [];
 
   if (cars) {
@@ -52,7 +47,7 @@ const Test: FC<TestProps> = ({ data, customerId }) => {
 
   return (
     <div>
-      Test bruhjk
+      Customer bruhjk
       <div className=" grid md:grid-cols-3 grid-cols-1 gap-4">
         <CustomerCard />
         <StatsCard />
@@ -81,7 +76,6 @@ const Test: FC<TestProps> = ({ data, customerId }) => {
         <h3 className="text-xl font-medium pb-4 sm: text-center">
           {data && data.firstName} Transaction History
         </h3>
-        {/* <CustomerTransactionHistory customerId="ertywuikx" /> */}
       </div>
       <h3 className="text-bold text-xl text-black py-6 text-center">
         All Customer Cars
@@ -111,4 +105,4 @@ const Test: FC<TestProps> = ({ data, customerId }) => {
   );
 };
 
-export default Test;
+export default Customer;

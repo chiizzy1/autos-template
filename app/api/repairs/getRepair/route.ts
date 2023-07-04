@@ -2,7 +2,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const GET = async (req: Request) => {
+export const POST = async (req: Request) => {
   const { customerId, carId } = await req.json();
   try {
     const session = await getAuthSession();

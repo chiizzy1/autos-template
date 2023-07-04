@@ -11,9 +11,6 @@ interface AdminAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 const AdminAuthForm: FC<AdminAuthFormProps> = ({ className, ...props }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { data: session } = useSession();
-  console.log(session);
-
   const loginWithGoogle = async () => {
     setIsLoading(true);
 

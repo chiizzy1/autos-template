@@ -1,28 +1,17 @@
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const POST = async (
+export const GET = async (
   req: Request,
-  { params }: { params: { imageId: string } }
 ) => {
-  const imageId = params.imageId;
-  console.log(imageId);
-
-  const { fileKey, fileUrl } =  await req.json()
   try {
 
-    await db.images.update({
-      where: { id: imageId  },
-      data: { 
-        fileKey,
-        fileUrl,
-      },
-    });
+    const allImages = await db.pictures.findMany({})
 
     return new Response(
       JSON.stringify({
         error: null,
-        image: "successfully updated image",
+        images: allImages,
       }),
       { status: 200 }
     );
@@ -31,7 +20,7 @@ export const POST = async (
       return new Response(
         JSON.stringify({
           error: error.issues,
-          image: null,
+          images: null,
         }),
         { status: 400 }
       );
@@ -39,7 +28,7 @@ export const POST = async (
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        image: null,
+        images: null,
       }),
       { status: 500 }
     );

@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import { getToken } from "next-auth/jwt";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
@@ -18,6 +19,13 @@ export const ourFileRouter = {
       console.log("Upload complete for userId:", metadata.userId);
 
       console.log("file url", file.url);
+      await db.pictures.create({
+        data: {
+          key: file.key,
+          url: file.url,
+          adminId: metadata.userId,
+        }
+      })
     }),
 } satisfies FileRouter;
 

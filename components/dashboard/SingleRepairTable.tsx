@@ -49,13 +49,11 @@ const columns: GridColDef[] = [
 interface SingleRepairTableProps {
   customerId: string;
   carId: string;
-  reload: boolean
 }
 
 const SingleRepairTable: FC<SingleRepairTableProps> = ({
   customerId,
   carId,
-  reload
 }) => {
   // Instead of passing the repairs data down as prop, fetch it on component load so that
   // whenever a repair is deleted or edited, it's rendered live on the componenet thereby
@@ -90,14 +88,13 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({
     // Function to call on page load
     const getCarRepairs = (data: any) => {
       mutate(data);
-      console.log(data);
     };
 
     getCarRepairs({ customerId, carId });
     // Call the function on page load
 
     // refetch data for table if changes occurs in any of the following 
-  }, [repairId, carId, customerId, mutate, deleteToggle, reload]);
+  }, []);
 
   // add SN to Cars array
 
@@ -152,6 +149,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({
         <DataGrid
           rows={repairs}
           columns={columns.concat(actionColumn)}
+          autoHeight={true}
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 5 },

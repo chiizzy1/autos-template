@@ -2,9 +2,10 @@ import { FC } from "react";
 import Link from "next/link";
 import { RxSketchLogo, RxDashboard, RxPerson } from "react-icons/rx";
 import { GiAutoRepair } from "react-icons/gi";
-import { FiSettings } from "react-icons/fi";
+import { FiUpload } from "react-icons/fi";
 import SignOutButton from "../ui/SignOutButton";
 import { AiOutlineCar } from "react-icons/ai";
+import { BsCalendarEvent } from "react-icons/bs";
 
 interface SideBarProps {
   children: React.ReactNode;
@@ -41,15 +42,18 @@ const SideBar: FC<SideBarProps> = ({ children }) => {
               <GiAutoRepair size={20} />
             </div>
           </Link>
-          <Link href="/">
+          <Link href="/dashboard/bookings">
             <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
-              <FiSettings size={20} />
+              <BsCalendarEvent size={20} />
+            </div>
+          </Link>
+          <Link href="/dashboard/upload-img">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+              <FiUpload size={20} />
             </div>
           </Link>
 
-          <div >
-            <SignOutButton page="dashboard" />
-          </div>
+          <SignOutButton page="dashboard" />
         </div>
       </div>
       <main className="ml-12 w-full">{children}</main>

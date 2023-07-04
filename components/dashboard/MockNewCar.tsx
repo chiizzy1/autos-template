@@ -35,7 +35,7 @@ const MockNewCar: FC<MockProps> = ({customerId}) => {
     control,
   } = useForm({ resolver: yupResolver(Schema) });
 
-  const createNewCar: any = async (info: any) => {
+  const createNewCar = async (info: any) => {
     console.log(info)
     const {data} = await axios.post(`/api/cars/createNew`, {...info, ownerId: customerId})
     return data

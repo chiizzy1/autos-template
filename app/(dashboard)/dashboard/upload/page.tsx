@@ -1,175 +1,78 @@
 "use client";
 
-// You need to import our styles for the button to look right. Best to import in the root /layout.tsx but this is fine
-import "@uploadthing/react/styles.css";
+import { useCallback, useState } from "react";
+// Note: `useUploadThing` is IMPORTED FROM YOUR CODEBASE using the `generateReactHelpers` function
+import { useDropzone } from "react-dropzone";
+import type { FileWithPath } from "react-dropzone";
+import {
+  generateClientDropzoneAccept,
+  generateMimeTypes,
+} from "uploadthing/client";
 
-import { UploadButton } from "@uploadthing/react";
+import { useUploadThing } from "@/lib/uploadthing";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 
-import { useState } from "react";
-import Link from "next/link";
-import { uploadFiles } from "@/lib/uploadthing";
-import { GiTireIronCross } from "react-icons/gi";
-import Image from "next/image";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
-import axios, { AxiosError } from "axios";
-import { toast } from "@/components/ui/toast";
-import { useMutation } from "@tanstack/react-query";
+export default function MultiUploader() {
+  const [files, setFiles] = useState<File[]>([]);
+  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
+    setFiles(acceptedFiles);
+  }, []);
 
-export default function UploadButtonPage() {
-  const [images, setImages] = useState<
+  const { startUpload, permittedFileInfo, isUploading } = useUploadThing(
+    "imageUploader",
     {
-      fileUrl: string;
-      fileKey: string;
-    }[]
-  >();
-
-  const title = images ? (
-    <>
-      <p>Upload Complete!</p>
-      <p className="mt-2"> files available</p>
-    </>
-  ) : null;
-
-  const imgList = (
-    <>
-      {title}
-     {images && <ul>
-          <li key={images[0].fileUrl} className="mt-2">
-            <Link href={images[0].fileUrl} target="_blank">
-              {images[0].fileUrl}
-            </Link>
-          </li>
-      </ul>}
-    </>
+      onClientUploadComplete: (data) => {
+        alert("uploaded successfully!");
+        console.log(data);
+      },
+      onUploadError: () => {
+        alert("error occurred while uploading");
+      },
+    }
   );
 
-  const { mutate, error, isLoading, isError } = useMutation({
-    mutationFn: async (info: any) => {
-      console.log('data:',info[0]);
-      const { data } = await axios.post(`/api/upload`, info[0]);
-      return data;
-    },
-    onSuccess: (successData) => {
-      console.log(successData);
+  const generatePermittedFileTypes = (config?: any) => {
+    const fileTypes = config ? Object.keys(config) : [];
 
-      toast({
-        title: "success uploading image",
-        message: "okay",
-        type: "success",
-      });
-    },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast({
-          title: "Error uploading image",
-          message: `${error?.response?.data.error} ⚠️`,
-          type: "error",
-        });
-      }
-    },
-  });
+    const maxFileCount = config
+      ? Object.values(config).map((v: any) => v.maxFileCount)
+      : [];
 
-  const handleSubmit = () => {
-    mutate(images);
+    return { fileTypes, multiple: maxFileCount.some((v) => v && v > 1) };
   };
 
+  const { fileTypes, multiple } = generatePermittedFileTypes(
+    permittedFileInfo?.config
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
+  });
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start p-24">
-      <UploadButton<OurFileRouter>
-        endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
-          if (res) {
-            setImages(res);
-          }
-          //alert("Upload Completed");
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
+    <div className="pt-8">
+      <input
+        className="py-8"
+        type="file"
+        onChange={(e: any) => {
+          setFiles(e.target.files);
+          console.log(e.target.files[0]);
         }}
       />
-      {imgList}
-
-      {images && (
-        <button className="bg-red-500 rounded-lg p-4 " onClick={handleSubmit}>
-          {" "}
-          upload to db
-        </button>
-      )}
-    </main>
+      <Button
+        isLoading={isUploading}
+        type="button"
+        className="max-w-sm w-full bg-slate-200"
+        onClick={() => {
+          if (!files) return;
+          void startUpload(Array.from(files));
+        }}
+        disabled={isUploading}
+      >
+        Upload
+      </Button>
+    </div>
   );
 }
-
-// const UploadSomeFilesPage = () => {
-//   const [image, setImage] = useState<null | any | File>();
-//   // const files = [
-//   //   new File(["foo"], "foo.txt", {
-//   //     type: "text/plain",
-//   //   }),
-//   // ];
-
-//   const onImageChange = (e: any) => {
-//     const file = e.target.files[0];
-
-//     console.log(file);
-//     TransformFileData(file);
-//   };
-
-//   const TransformFileData = (file: File) => {
-//     const reader = new FileReader();
-
-//     if (file) {
-//       reader.readAsDataURL(file);
-//       reader.onloadend = () => {
-//         setImage(reader.result);
-//       };
-//     } else {
-//       setImage(null);
-//     }
-//   };
-
-//   const uploadSomeFiles = async () => {
-//     const [res] = await uploadFiles([image], "imageUploader");
-//     return {
-//       file: {
-//         url: res.fileUrl,
-//       },
-//     };
-//   };
-
-//   const handleSubmit = async () => {
-//     if (!image) {
-//       alert("Please upload an Image");
-//     } else {
-//       console.log("image dey");
-//       uploadSomeFiles();
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <input type="file" name="postImage" onChange={onImageChange} />
-
-//       <button className={`p-5 bg-orange-400 mt-0`} onClick={handleSubmit}>
-//         share
-//       </button>
-//       {image && (
-//         <div className="flex  gap-4 w-24 h-24 overflow-hidden rounded-lg relative">
-//           <GiTireIronCross
-//             className="text-red-600 absolute right-4 top-2 cursor-pointer"
-//             onClick={() => setImage(null)}
-//           />
-//           <Image
-//             src={image}
-//             alt="img-preview"
-//             className="w-full max-h-72 object-cover rounded-lg"
-//             width={400}
-//             height={400}
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default UploadSomeFilesPage;

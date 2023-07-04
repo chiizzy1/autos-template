@@ -3,8 +3,8 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 
 export const POST = async (req: Request) => {
-  const { plateNumber, carMake, carModel, carYear, ownerId }: any = req.json();
-//   console.log(req.json());
+  const { plateNumber, carMake, carModel, carYear, ownerId } = await req.json();
+
   try {
     const session = await getAuthSession();
     const user = session?.user;

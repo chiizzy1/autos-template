@@ -27,6 +27,7 @@ model User {
   sessions      Session[]
 
   customers Customer[]
+  pictures  Pictures[]
 }
 
 model Customer {
@@ -39,7 +40,7 @@ model Customer {
   phone     Int          @unique
   cars      CarDetails[]
 
-  admin   User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  admin   User     @relation(fields: [adminId], references: [id])
   adminId String
   repairs Repair[]
 
@@ -79,39 +80,45 @@ model Repair {
   @@index([carId, customerId])
 }
 
-model Images {
-  id          String  @id @default(cuid())
-  fileKey     String
-  fileUrl     String
-  description String?
+model Pictures {
+  id      String @id @default(cuid())
+  key     String
+  url     String
+  admin   User   @relation(fields: [adminId], references: [id])
+  adminId String
+
+  @@index([adminId])
 }
 
-model TimeSlot {
-  id               String  @id @default(cuid())
-  date             String
-  time             String
-  availability     String
-  clientId         String
-  reason           String?
-  carType          String?
-  carModel         String?
-  yearManufactured Int?
-  additionalInfo   String?
-
-  // Add a relation to the Client model
-  client appointmentClient? @relation(fields: [clientId], references: [id])
-
-  @@index([clientId])
+model SelectedDay {
+  id              String           @id @default(cuid())
+  day             String
+  open            Boolean          @default(true)
+  selectedSesions SelectedSesion[]
 }
 
-model appointmentClient {
-  id          String  @id @default(cuid())
-  name        String
-  email       String
-  phoneNumber String?
+model AppointmentClient {
+  id              String           @id @default(cuid())
+  name            String
+  email           String
+  phone           Int
+  reason          String
+  make            String
+  model           String
+  year            Int
+  selectedSession SelectedSesion[]
+}
 
-  // Add a relation to the TimeSlot model
-  timeSlots TimeSlot[]
+model SelectedSesion {
+  id       String            @id @default(cuid())
+  bookDate DateTime          @default(now())
+  day      SelectedDay       @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  dayId    String
+  client   AppointmentClient @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  clientId String
+  time     String
+
+  @@index([dayId, clientId])
 }
 
 model Account {

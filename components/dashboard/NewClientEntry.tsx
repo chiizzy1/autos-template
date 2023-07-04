@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -14,10 +14,9 @@ import { toast } from "../ui/toast";
 
 interface NewClientEntryProps {
   setToggle: (toggle: boolean) => void;
-  adminId: string;
 }
 
-const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle, adminId }) => {
+const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
   const { push } = useRouter();
 
   // Handle Form with Yup
@@ -43,71 +42,14 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle, adminId }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
-  const createNewCar: any = async (info: any) => {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      carMake,
-      carModel,
-      carYear,
-      plateNumber,
-      estimatedCost,
-      paid,
-      fixed,
-      description,
-      repairStatus,
-    } = info;
-
-    // console.log({firstName, lastName, email, phone, carMake, carModel, carYear, plateNumber, estimatedCost, paid, fixed, description})
-
-    try {
-      const customerdata = await axios.post(`/api/customers/createNew`, {
-        email,
-        firstName,
-        lastName,
-        phone,
-      });
-      const customerId = customerdata.data.customerData.id;
-      console.log("Customer Id:", customerId);
-      let carId: string | null = null;
-      let repairId: string | null = null;
-
-      if (customerId) {
-        const carData = await axios.post(`/api/cars/createNew`, {
-          plateNumber,
-          carMake,
-          carModel,
-          carYear,
-          ownerId: customerId,
-        });
-        carId = carData.data.CarData.id;
-        console.log("Car id:", carId);
-      }
-      if (carId && customerId) {
-        const repairData = await axios.post(`/api/repairs/createNew`, {
-          description,
-          estimatedCost,
-          paid,
-          fixed,
-          carId,
-          customerId,
-          repairStatus,
-        });
-        repairId = repairData.data.RepairData.id;
-        console.log("Repair Id:", repairId);
-      }
-
-      return { carId, customerId, repairId };
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const { mutate, error, isLoading, isError } = useMutation(createNewCar, {
+  const { mutate, error, isLoading, isError } = useMutation({
+    mutationFn: async (info: any) => {
+      console.log(info);
+      const { data } = await axios.post("/api/newclient", info);
+      return data.clientData;
+    },
     onSuccess: (successData) => {
-      console.log(successData);
+      const { customerId } = successData;
       setToggle(false);
 
       toast({
@@ -115,7 +57,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle, adminId }) => {
         message: "okay",
         type: "success",
       });
-      push(`/dashboard/customers/`);
+      push(`/dashboard/customers/${customerId}`);
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -131,7 +73,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle, adminId }) => {
   });
 
   const handleFormSubmit = (data: any) => {
-    console.log(data);
     mutate(data);
   };
 

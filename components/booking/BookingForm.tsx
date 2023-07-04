@@ -6,16 +6,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "@/style";
 
-// interface BookingFormProps {
-//   clientData: {};
-//   setClientData: Dispatch<SetStateAction<{}>>
-// }
-
 interface BookingFormProps {
-  onSubmit: (formData: any) => void
+  onSubmit: (formData: any) => void;
 }
 
-const BookingForm: FC<BookingFormProps> = ({onSubmit}) => {
+const BookingForm: FC<BookingFormProps> = ({ onSubmit }) => {
   // Handle Form with Yup
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
@@ -34,12 +29,8 @@ const BookingForm: FC<BookingFormProps> = ({onSubmit}) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
-  const handleFormSubmit = (data: {}) => {
-    console.log(data);
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
           <p className="pb-2">First Name</p>

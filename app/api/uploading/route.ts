@@ -1,24 +1,36 @@
+import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { Images } from "@prisma/client";
 import { z } from "zod";
 
 export const POST = async (req: Request) => {
-  const { fileUrl, fileKey }: Images = await req.json();
+  const { fileUrl, fileKey } = await req.json();
   console.log("url:", `${fileUrl}`);
   console.log("key:", fileKey);
   try {
-    await db.images.create({
+    const session = await getAuthSession();
+    const user = session?.user;
+
+    if (user?.role !== "AUTHORIZED") {
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized to perform this action.",
+          data: null,
+        }),
+        { status: 401 }
+      );
+    }
+
+    await db.pictures.create({
       data: {
-        fileUrl: fileUrl,
-        fileKey: fileKey,
-        description: "w"
+        key: fileKey,
+        url: fileUrl,
+        adminId: user.id,
       },
     });
-
     return new Response(
       JSON.stringify({
         error: null,
-        status: "successfully uploaded image",
+        data: "successfully uploaded image",
       }),
       { status: 200 }
     );
@@ -27,7 +39,7 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          status: false,
+          data: null,
         }),
         { status: 401 }
       );
@@ -36,7 +48,7 @@ export const POST = async (req: Request) => {
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        status: false,
+        data: null,
       }),
       { status: 500 }
     );
