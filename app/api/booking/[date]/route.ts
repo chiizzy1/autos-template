@@ -5,9 +5,8 @@ export const POST = async (
   req: Request,
   { params }: { params: { date: string } }
 ) => {
+  const date = params.date;
   try {
-    const date = params.date;
-
     const getDaySessions = await db.selectedDay.findFirst({
       where: {
         day: date,
