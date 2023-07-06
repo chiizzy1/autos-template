@@ -37,7 +37,7 @@ const MobileMenu = () => {
 
   return (
     <nav className='z-[999] md:hidden'>
-      <div className='shadow-2xl rounded-md outline outline-2 outline-white dark:outline-slate-900'>
+      <div className='shadow-2xl rounded-md outline outline-2 outline-white'>
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild onClick={() => setOpen((prev) => !prev)}>
           <Image
@@ -54,14 +54,14 @@ const MobileMenu = () => {
                     href='/dashboard'
                     className='w-full flex items-center gap-1.5'>
                     <LayoutDashboard className='mr-2 h-5 w-5' />
-                    <span>DASHBOARD</span>
+                    <span className='text-sm'>Dashboard</span>
                   </Link>
                 ) : (
                   <Link
                     href='/login'
                     className='flex w-full items-center gap-1.5'>
                     <LayoutDashboard className='mr-2 h-5 w-5' />
-                    <span>SIGN IN</span>
+                    <span className='text-sm'>Sign In</span>
                   </Link>
                 )}
               </DropdownMenuItem>
@@ -71,7 +71,7 @@ const MobileMenu = () => {
                   href='/tracking'
                   className='w-full flex items-center gap-1.5'>
                   <Info className='mr-2 h-5 w-5' />
-                  <span>TRACKING</span>
+                  <span className='text-sm'>Tracking</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -79,7 +79,7 @@ const MobileMenu = () => {
                   href='/contact'
                   className='w-full flex items-center gap-1.5'>
                   <Info className='mr-2 h-5 w-5' />
-                  <span>CONTACT US</span>
+                  <span className='text-sm'>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -87,7 +87,15 @@ const MobileMenu = () => {
                   href='/booking'
                   className='w-full flex items-center gap-1.5'>
                   <Info className='mr-2 h-5 w-5' />
-                  <span>BOOKING</span>
+                  <span className='text-sm'>Booking</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  href='/towing'
+                  className='w-full flex items-center gap-1.5'>
+                  <Info className='mr-2 h-5 w-5' />
+                  <span className='text-sm'>Towing</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -95,13 +103,13 @@ const MobileMenu = () => {
                   href='/services'
                   className='w-full flex items-center gap-1.5'>
                   <Info className='mr-2 h-5 w-5' />
-                  <span>SERVICES</span>
+                  <span className='text-sm'>Services</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={signUserOut} className='gap-1.5'>
                 <User className='mr-2 h-5 w-5' />
-                <span>{isLoading ? 'Signing out' : 'Sign out'}</span>
+                <span className='text-sm'>{isLoading ? 'Signing out' : 'Sign out'}</span>
                 {isLoading ? (
                   <Loader2 className='animate-spin h-4 w-4' />
                 ) : null}

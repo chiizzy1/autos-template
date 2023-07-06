@@ -5,16 +5,16 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
-    <div className={``}>
+    <>
       <Navbar />
-      <div className=" mt-[5rem] max-w-7xl w-full mx-auto">
+      <main className=" mt-16 max-w-7xl w-full mx-auto">
         <Hero />
         <About />
         <Services />
         <Testimonials />
-        <Gallery />
-      </div>
+        {/* <Gallery /> */}
+      </main>
       <Footer/>
-    </div>
+    </>
   );
 }

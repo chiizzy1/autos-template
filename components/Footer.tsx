@@ -12,14 +12,14 @@ export default function Footer() {
               key={footerlink.title}
               className={`flex flex-col ss:my-0 my-4 min-w-[150px]`}
             >
-              <h4 className="text-dimPurple text-lg font-semibold">
+              <h4 className="text-dimPurple text-sm font-semibold">
                 {footerlink.title}
               </h4>
               <ul className="list-none mt-4">
                 {footerlink.links.map((link, index) => (
                   <li
                     key={link.name}
-                    className={`font-normal text-sm text-black hover:text-stone-600 cursor-pointer ${
+                    className={`font-normal text-xs text-black hover:text-stone-600 cursor-pointer ${
                       index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
                     }`}
                   >
@@ -31,7 +31,7 @@ export default function Footer() {
           ))}
 
           <div className="ss:my-0 my-4 min-w-[150px]">
-            <span className="text-dimPurple text-lg font-semibold ">Newsletter</span>
+            <span className="text-dimPurple text-sm font-semibold ">Newsletter</span>
             <div className="flex flex-col gap-2 mt-4">
               <label >
                 <span className="font-normal text-sm text-black">Get latest info about car fixes</span>

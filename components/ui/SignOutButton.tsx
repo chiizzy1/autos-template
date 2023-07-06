@@ -29,7 +29,7 @@ const SignOutButton: FC<SignOutButtonProps> = ({ page }) => {
   };
 
   return (
-    <Button onClick={signUserOut} isLoading={isLoading}>
+    <Button className="text-xs" onClick={signUserOut} isLoading={isLoading}>
       {page === "dashboard" ? <FiLogOut /> : "Sign Out"}
     </Button>
   );

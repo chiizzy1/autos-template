@@ -39,6 +39,20 @@ module.exports = {
         footer: "repeat(auto-fit, minmax(10rem, 1fr))",
         tile: "repeat(auto-fit, minmax(6rem, 1fr))"
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
     screens: {
       xs: "480px",

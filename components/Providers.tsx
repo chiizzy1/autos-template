@@ -8,7 +8,6 @@ import {
   useState,
 } from "react";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "next-themes";
 import type { FC, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -38,11 +37,9 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
 
   return (
     <GlobalContext.Provider value={{ name, setName, image, setImage }}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <QueryClientProvider client={queryClient}>
           <SessionProvider>{children}</SessionProvider>
         </QueryClientProvider>
-      </ThemeProvider>
     </GlobalContext.Provider>
   );
 };
