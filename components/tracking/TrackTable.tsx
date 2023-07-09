@@ -9,11 +9,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-interface TransactionsTableProps {
+interface TrackTableProps {
   trackData: any;
 }
 
-const TransactionsTable: FC<TransactionsTableProps> = ({ trackData }) => {
+const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 1200 }} aria-label="simple table">
@@ -48,4 +48,4 @@ const TransactionsTable: FC<TransactionsTableProps> = ({ trackData }) => {
   );
 };
 
-export default TransactionsTable;
+export default TrackTable;

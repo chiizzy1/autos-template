@@ -1,0 +1,49 @@
+"use client";
+
+import { FC } from "react";
+import TrackTable from "./TrackTable";
+import TrackUi from "./TrackUi";
+import Image from "next/image";
+import { customerCare } from "@/assets";
+
+interface TrackDetailsProps {
+  data: any;
+}
+
+const TrackDetails: FC<TrackDetailsProps> = ({ data }) => {
+  return (
+    <div>
+      <h4 className="text-dimPurple font-bold sm:py-9 py-6 w-full text-center">
+        Tracking Details
+      </h4>
+      <TrackTable trackData={data} />
+      
+      <div className="flex gap-8 lg:flex-row flex-col sm:py-9 py-6">
+        <div className="w-full rounded-md bg-green-50 p-6">
+          <h4 className="font-semibold text-center">Car Repair Status</h4>
+          <TrackUi status="Ready-for-Pick-up" />
+        </div>
+
+        <div className="w-full bg-sky-50 border rounded-md p-6">
+          <h4 className="font-semibold text-center">Not Satisfied?</h4>
+          <div className="flex items-center justify-center sm:py-9 py-6">
+            <div className="rounded-full overflow-hidden">
+              <Image
+                src={customerCare}
+                alt="customer care"
+                width={100}
+                height={100}
+              />
+            </div>
+            <p className="text-[.8rem] ml-8">
+              Have any Complaints!
+              <br /> Our agents are always online 24/7 to attent to you.
+            </p>
+          </div>
+        </div>
+      </div>{" "}
+    </div>
+  );
+};
+
+export default TrackDetails;

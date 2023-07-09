@@ -13,9 +13,9 @@ interface FeedbackCardProps {
 
 const FeedbackCard: FC<FeedbackCardProps> = ({ content, name, title, img }) => {
   return (
-    <div className="flex flex-col text-black rounded-lg shadow-md hover:shadow-xl p-5 bg-white ">
+    <div className="flex flex-col rounded-lg shadow-md hover:shadow-xl p-5 bg-sky-50 ">
       <Image src={quotes} alt="double_quotes" className="w-[42.6px] h-[27.6px] object-contain sm:mb-4 mb-2" />
-      <p className="sm:mb-4 mb-2 text-sm max-w-[370px]">
+      <p className="sm:mb-4 mb-2 text-xs max-w-[370px]">
         {content}
       </p>
   

@@ -19,84 +19,96 @@ export const services = [
     title: "Oil Change and Filter Replacement",
     description:
       "Regular oil changes are essential to keep your engine running smoothly.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Brake System Inspection and Repair",
     description:
       "The workshop will inspect and repair any issues with the brake system to ensure optimal braking performance.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Air conditioning system service and repair",
     description:
       "The workshop will inspect and service your vehicle's air conditioning system, including refrigerant recharge, compressor repair, and system leak detection, to keep you cool and comfortable during hot weather.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Suspension system inspection and repair",
     description:
       "The suspension system provides a comfortable ride and stability. The workshop will inspect and repair components such as shocks, struts, control arms, and bushings to ensure optimal handling and ride quality.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Exhaust system inspection and repair",
     description:
       "The exhaust system ensures the proper flow of exhaust gases from the engine. The workshop will inspect and repair components such as mufflers, catalytic converters, and exhaust pipes to maintain performance and minimize emissions.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Cooling system maintenance and repair",
     description:
       "The cooling system keeps the engine at a safe operating temperature. The workshop will inspect and repair components such as radiators, hoses, water pumps, and thermostats to prevent overheating and maintain efficient cooling.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Transmission fluid flush and replacement",
     description:
       "Transmission fluid is crucial for smooth gear shifting and overall transmission performance. The workshop will flush out old fluid and replace it with new fluid to maintain optimal transmission operation.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: " Electrical system repair",
     description:
       "Electrical issues can cause various problems in your vehicle. The workshop will diagnose and repair electrical system components such as alternators, starters, batteries, and wiring to restore proper functionality.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: " Battery testing and replacement",
     description:
       "The workshop will test your vehicle's battery to ensure it is functioning properly. If necessary, they will replace the battery with a new one to ensure reliable starting and electrical system performance.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Wheel alignment",
     description:
       "Wheel alignment ensures that all four wheels are properly aligned with each other and the road. This service improves steering stability, tire life, and overall handling.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Tire rotation and balancing",
     description:
       "Tire rotation involves moving tires from one position to another to ensure even wear. Balancing involves adjusting the weight distribution of each tire to avoid vibrations and ensure a smooth ride.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
   {
     title: "Engine diagnostics and tune-ups",
     description:
       "If your vehicle is experiencing performance issues or check engine light is on, the workshop will perform diagnostics to identify the problem. They will then tune up the engine, including spark plug replacement, fuel system cleaning, and adjusting engine components.",
-    image: "",
+    image:
+      "https://images.pexels.com/photos/3642618/pexels-photo-3642618.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     id: uuidv4(),
   },
 ];

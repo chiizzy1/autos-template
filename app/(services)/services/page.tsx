@@ -1,22 +1,30 @@
-import { services } from '@/constants'
-import { FC } from 'react'
+import ServicesCard from "@/components/services/ServicesCard";
+import LargeHeading from "@/components/ui/LargeHeading";
+import Paragraph from "@/components/ui/Paragraph";
+import { services } from "@/constants";
+import { FC } from "react";
 
-interface pageProps {
-  
-}
+interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
-  return  <div className="container max-w-7xl w-full mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Our Services</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map(({description, id, image, title}) => (
-          <div key={id} className="bg-white p-6 rounded shadow">
-            <h2 className="text-xl font-bold mb-4">{title}</h2>
-            <p>{description}</p>
-          </div>
-        ))}
+  return (
+    <main className="flex items-center justify-center">
+      <div className="container max-w-7xl mx-auto sm:py-16 py-6 w-full">
+        <LargeHeading>SERVICES</LargeHeading>
+        <Paragraph>Serving all your automotive needs</Paragraph>
+        <div className="flex flex-col justify-center sm:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map(({ description, id, image, title }) => (
+            <ServicesCard
+              key={id}
+              description={description}
+              image={image}
+              title={title}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-}
+    </main>
+  );
+};
 
-export default page
+export default page;

@@ -19,6 +19,7 @@ import three from "./3.png"
 import four from "./4.png"
 import done from "./done.svg";
 import adminIcon from "./adminIcon.png"
+import bru from "./bru.svg"
 
 export {
   quotes,
@@ -41,4 +42,5 @@ export {
   four,
   done,
   adminIcon,
+  bru,
 };

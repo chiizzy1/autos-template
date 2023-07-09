@@ -1,58 +1,100 @@
-import { FC } from "react";
-import { customerCare } from "@/assets";
-import Image from "next/image";
-import TrackingUi from "@/components/tracking/TrackingUi";
-import Table from "@/components/ui/Table";
+"use client";
 
-const info = [
-  {
-    id: 1,
-    carId: 1,
-    description: "Engine tune-up",
-    estimatedCost: 300,
-    status: "Check-In",
-  },
-];
 
-const page: FC = () => {
+import TrackDetails from "@/components/tracking/TrackDetails";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Button } from "@/components/ui/Button";
+import styles from "@/style";
+import FAQ from "@/components/tracking/FAQ";
+import { toast } from "@/components/ui/toast";
+import LargeHeading from "@/components/ui/LargeHeading";
+import Paragraph from "@/components/ui/Paragraph";
+
+export default function TrackPage() {
+  const Schema = yup.object().shape({
+    trackId: yup.string().required("please enter track id!!"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(Schema) });
+
+  const trackData = async (id: any) => {
+    const { data } = await axios.post(`/api/track/${id}`);
+    return data.trackData;
+  };
+
+  const { data, mutate, isLoading } = useMutation(
+    ["track"],
+    trackData,
+    {
+      onSuccess: (successData) => {
+        console.log(successData);
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          toast({
+            title: "Error tracking your car!",
+            message: `${error?.response?.data.error} ⚠️`,
+            type: "error",
+          });
+        }
+  
+        console.log(error);
+      },
+    }
+  );
+
+  const handleFormSubmit = (data: any) => {
+    console.log(data);
+    mutate(data.trackId);
+  };
+
   return (
     <main className="relative flex items-center justify-center">
       <div className="sm:py-16 py-6 w-full">
         <div className="container max-w-7xl mx-auto">
-          <TrackingUi />
-          {/* <FAQ /> */}
-          <h4 className="text-dimPurple font-bold sm:py-9 py-6 w-full text-center">
-            Tracking Details
-          </h4>
-          <Table info={info} />
-          <div className="flex gap-8 sm:flex-row flex-col sm:py-9 py-6">
-            <div className="w-full rounded-md bg-green-100 p-6">
-              <h4 className="font-semibold text-center">Car Repair Status</h4>
-              {/* <TrackUI status={info[0].status} /> */}
-            </div>
 
-            <div className="w-full bg-sky-200 border rounded-md p-6">
-              <h4 className="font-semibold text-center">Not Satisfied?</h4>
-              <div className="flex items-center justify-center sm:py-9 py-6">
-                <div className="rounded-full overflow-hidden">
-                  <Image
-                    src={customerCare}
-                    alt="customer care"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-                <p className="text-[.8rem] ml-8">
-                  Have any Complaints!
-                  <br /> Our agents are always online 24/7 to attent to you.
-                </p>
+          <LargeHeading>Track Your Car Repair</LargeHeading>
+          <Paragraph>Track your car repair progress and stay informed</Paragraph>
+          <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <div className="flex flex-wrap items-center -mx-3 mb-6">
+              <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
+                <input
+                  className={`${styles.formInputStyles}`}
+                  type="text"
+                  placeholder="trackId..."
+                  {...register("trackId")}
+                />
+                {errors.trackId && (
+                  <p className={`${styles.formErrorStyles}`}>
+                    Please enter a valid tracking ID.
+                  </p>
+                )}
+              </div>
+
+              <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
+                <Button
+                  variant="default"
+                  className="items-center w-full"
+                  isLoading={isLoading}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Fetching car repair data" : "Track your repair"}
+                </Button>
               </div>
             </div>
-          </div>{" "}
+          </form>
+          {data && <TrackDetails data={data} />}
+          <FAQ />
         </div>
       </div>
     </main>
   );
-};
-
-export default page;
+}

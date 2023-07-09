@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { Info, LayoutDashboard, Loader2, User } from 'lucide-react'
-import { signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
-import { useState } from 'react'
-import { Button } from './ui/Button'
+import { Info, LayoutDashboard, Loader2, User } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "./ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,106 +12,116 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './ui/DropdownMenu'
-import { toast } from './ui/toast'
-import Image from 'next/image'
-import { close, menu } from '@/assets'
+} from "./ui/DropdownMenu";
+import { toast } from "./ui/toast";
+import Image from "next/image";
+import { close, menu } from "@/assets";
 
 const MobileMenu = () => {
-  const { data: session } = useSession()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [open, setOpen] = useState<boolean>(false)
+  const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const signUserOut = async () => {
     try {
-      setIsLoading(true)
-      await signOut()
+      setIsLoading(true);
+      await signOut();
     } catch (error) {
       toast({
-        title: 'Error signing out',
-        message: 'Please try again later.',
-        type: 'error',
-      })
+        title: "Error signing out",
+        message: "Please try again later.",
+        type: "error",
+      });
     }
-  }
+  };
 
   return (
-    <nav className='z-[999] md:hidden'>
-      <div className='shadow-2xl rounded-md outline outline-2 outline-white'>
+    <nav className="z-[999] md:hidden">
+      <div className="shadow-2xl rounded-md outline outline-2 outline-white">
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild onClick={() => setOpen((prev) => !prev)}>
-          <Image
-          src={open ? close : menu}
-          alt="menu"
-          className="w-[28px] h-[28px] object-contain"
-        />
+            {/* <Image
+              src={open ? close : menu}
+              alt="menu"
+              className="w-[28px] h-[28px] object-contain"
+            /> */}
+            <Button variant='outline' size='lg'>
+              Menu
+            </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56'>
+          <DropdownMenuContent className="w-56">
             <DropdownMenuGroup onClick={() => setOpen(false)}>
               <DropdownMenuItem asChild>
                 {session ? (
                   <Link
-                    href='/dashboard'
-                    className='w-full flex items-center gap-1.5'>
-                    <LayoutDashboard className='mr-2 h-5 w-5' />
-                    <span className='text-sm'>Dashboard</span>
+                    href="/dashboard"
+                    className="w-full flex items-center gap-1.5"
+                  >
+                    <LayoutDashboard className="mr-2 h-5 w-5" />
+                    <span>Dashboard</span>
                   </Link>
                 ) : (
                   <Link
-                    href='/login'
-                    className='flex w-full items-center gap-1.5'>
-                    <LayoutDashboard className='mr-2 h-5 w-5' />
-                    <span className='text-sm'>Sign In</span>
+                    href="/login"
+                    className="flex w-full items-center gap-1.5"
+                  >
+                    <LayoutDashboard className="mr-2 h-5 w-5" />
+                    <span>Sign In</span>
                   </Link>
                 )}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link
-                  href='/tracking'
-                  className='w-full flex items-center gap-1.5'>
-                  <Info className='mr-2 h-5 w-5' />
-                  <span className='text-sm'>Tracking</span>
+                  href="/tracking"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Tracking</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href='/contact'
-                  className='w-full flex items-center gap-1.5'>
-                  <Info className='mr-2 h-5 w-5' />
-                  <span className='text-sm'>Contact Us</span>
+                  href="/contact"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href='/booking'
-                  className='w-full flex items-center gap-1.5'>
-                  <Info className='mr-2 h-5 w-5' />
-                  <span className='text-sm'>Booking</span>
+                  href="/booking"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Booking</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href='/towing'
-                  className='w-full flex items-center gap-1.5'>
-                  <Info className='mr-2 h-5 w-5' />
-                  <span className='text-sm'>Towing</span>
+                  href="/towing"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Towing</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href='/services'
-                  className='w-full flex items-center gap-1.5'>
-                  <Info className='mr-2 h-5 w-5' />
-                  <span className='text-sm'>Services</span>
+                  href="/services"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Services</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signUserOut} className='gap-1.5'>
-                <User className='mr-2 h-5 w-5' />
-                <span className='text-sm'>{isLoading ? 'Signing out' : 'Sign out'}</span>
+              <DropdownMenuItem onClick={signUserOut} className="gap-1.5">
+                <User className="mr-2 h-5 w-5" />
+                <span>{isLoading ? "Signing out" : "Sign out"}</span>
                 {isLoading ? (
-                  <Loader2 className='animate-spin h-4 w-4' />
+                  <Loader2 className="animate-spin h-4 w-4" />
                 ) : null}
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -119,7 +129,7 @@ const MobileMenu = () => {
         </DropdownMenu>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default MobileMenu
+export default MobileMenu;

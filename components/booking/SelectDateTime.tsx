@@ -112,7 +112,7 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
         <h4 className="font-medium text-sm mt-8">All available sessions</h4>
       )}
 
-      {data?.open ? (
+      {data?.open === true && (
         <div className="grid grid-cols-tile gap-6 my-8">
           {times?.map((time, i) =>
             allSelectedSessions.has(`${time.getTime()}`) ? (
@@ -138,8 +138,10 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
             )
           )}
         </div>
-      ) : (
-        <h3 className="text-red-500">No Available sessions today!!</h3>
+      )}
+
+      {data?.open === false && (
+        <h3 className="text-red-500">No Available sessions for this date!!</h3>
       )}
     </div>
   );
