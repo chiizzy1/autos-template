@@ -106,6 +106,7 @@ model AppointmentClient {
   make            String
   model           String
   year            Int
+  viewed          Boolean          @default(false)
   selectedSession SelectedSesion[]
 }
 

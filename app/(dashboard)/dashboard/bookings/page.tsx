@@ -8,9 +8,8 @@ import { FC } from "react";
 interface pageProps {}
 
 const page: FC<pageProps> = async ({}) => {
-  const data = await db.appointmentClient.findMany({
-    include: { selectedSession: true },
-  });
+ 
+  
 
   return (
     <main>
@@ -21,7 +20,7 @@ const page: FC<pageProps> = async ({}) => {
         <EditOpenCloseDays />
 
         <SmallHeading className="pb-4 pt-8">See all appointments!!</SmallHeading>
-        {data && <BookingTable data={data} />}
+        <BookingTable />
       </div>
     </main>
   );

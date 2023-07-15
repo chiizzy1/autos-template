@@ -27,6 +27,7 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     isLoading: loadingDay,
   } = useMutation(getDayStatus, {
     onSuccess: (successData) => {
+      console.log(successData);
       setDay(successData);
       setSelected(new Date(parseInt(successData.day)));
     },
@@ -38,13 +39,15 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     const { data } = await axios.post(`/api/booking/open/${info}`, {
       currentStatus: day.open,
     });
-    return data?.selected;
+    return data?.openStatus;
   };
 
   const { mutate, error, isLoading, isError, data } = useMutation(
     editOpenClose,
     {
       onSuccess: (successData) => {
+        console.log("weed:", successData);
+        setDay((prev: any) => ({ ...prev, open: !prev.open }));
         toast({
           title: "successfully edited day!!",
           message: "okay",

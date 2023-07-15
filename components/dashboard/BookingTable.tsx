@@ -1,8 +1,14 @@
 "use client";
 
-import { FC } from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import Link from "next/link";
+import { FC, useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Loading from "../ui/Loading";
+import { Button } from "../ui/Button";
+import { AiOutlineDelete } from "react-icons/ai";
+import BookingDetails from "./BookingDetails";
+import DeleteBooking from "./DeleteBooking";
 
 //  id make model   reason selectedSession[0].time
 const columns: GridColDef[] = [
@@ -22,43 +28,79 @@ const columns: GridColDef[] = [
     headerName: "phone",
     width: 200,
   },
-  {
-    field: "make",
-    headerName: "make",
-    width: 200,
-  },
-  {
-    field: "model",
-    headerName: "model",
-    width: 200,
-  },
-  {
-    field: "year",
-    headerName: "year",
-    width: 200,
-  },
+  // {
+  //   field: "make",
+  //   headerName: "make",
+  //   width: 200,
+  // },
+  // {
+  //   field: "model",
+  //   headerName: "model",
+  //   width: 200,
+  // },
+  // {
+  //   field: "year",
+  //   headerName: "year",
+  //   width: 200,
+  // },
   {
     field: "time",
     headerName: "appointment session",
     width: 200,
   },
-  {
-    field: "booked",
-    headerName: "booked on",
-    width: 200,
-  },
-  {
-    field: "reason",
-    headerName: "reason",
-    width: 200,
-  },
+  // {
+  //   field: "booked",
+  //   headerName: "booked on",
+  //   width: 200,
+  // },
+  // {
+  //   field: "reason",
+  //   headerName: "reason",
+  //   width: 200,
+  // },
 ];
 
-interface RepairsTableProps {
-  data: any;
-}
+interface RepairsTableProps {}
 
-const RepairsTable: FC<RepairsTableProps> = ({ data }) => {
+const RepairsTable: FC<RepairsTableProps> = () => {
+  const [bookingDetails, setBookingDetails] = useState<[] | null>(null);
+  const [bookingId, setBookingId] = useState<string>("");
+  const [toggleDetails, setToggleDetails] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+
+  // Update appointment to viewed when viewed
+
+  const updateViewed = async (info: string) => {
+    console.log("id:", info);
+    const { data } = await axios.put(`/api/booking/viewed/${info}`);
+    return data.updated;
+  };
+
+  const { mutate: viewed } = useMutation(updateViewed, {
+    onSuccess: (successData) => {
+      console.log(successData);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  // Fetch all Booking data
+  const getAllBookings = async () => {
+    const { data } = await axios.get("/api/booking/getAllBookings");
+    return data.bookingsData;
+  };
+
+  const { data, error, isError, isLoading } = useQuery(
+    ["allBookings"],
+    getAllBookings,
+    {
+      onSuccess: (successData) => {
+        console.log(successData);
+      },
+    }
+  );
+
   let bookings: [] = [];
 
   if (data) {
@@ -72,7 +114,6 @@ const RepairsTable: FC<RepairsTableProps> = ({ data }) => {
     });
   }
 
-//   console.log(bookings);
   const actionColumn: any = [
     {
       field: "action",
@@ -80,21 +121,26 @@ const RepairsTable: FC<RepairsTableProps> = ({ data }) => {
       width: 200,
       renderCell: (params: any) => (
         <div className="flex gap-4 items-center">
-          <div
-            onClick={() =>
-              alert(`Edit button with ID ${params.row.id} clicked!!`)
-            }
-            className="p-2 text-sky-500 rounded-md cursor-pointer"
+          <Button
+            onClick={() => {
+              setBookingDetails(params.row);
+              setToggleDetails(true);
+              params.row.viewed ? "" : viewed(params.row.id);
+            }}
+            variant="hero"
+            className={`${
+              params.row.viewed ? "bg-green-500" : "bg-red-500"
+            } border-sky-500`}
           >
-            Edit
-          </div>
+            view details
+          </Button>
           <div
-            onClick={() =>
-              alert(`delete button with ID ${params.row.id} cliked!!`)
-            }
-            className="p-2 text-red-500 rounded-md cursor-pointer"
+            onClick={() => {
+              setBookingId(params.row.id);
+              setDeleteModal(true);
+            }}
           >
-            Delete
+            <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
           </div>
         </div>
       ),
@@ -102,19 +148,33 @@ const RepairsTable: FC<RepairsTableProps> = ({ data }) => {
   ];
 
   return (
-    <div style={{ height: 700, width: "100%" }}>
-      <DataGrid
-        rows={bookings}
-        columns={columns.concat(actionColumn)}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
+    <>
+      {isLoading && <Loading text="loading appointments" />}
+      {bookings && (
+        <div style={{ height: 700, width: "100%" }}>
+          <DataGrid
+            rows={bookings}
+            columns={columns.concat(actionColumn)}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+          />
+        </div>
+      )}
+      {toggleDetails && (
+        <BookingDetails
+          bookingDetails={bookingDetails}
+          setToggleDetails={setToggleDetails}
+        />
+      )}
+      {deleteModal && (
+        <DeleteBooking bookingId={bookingId} setDeleteModal={setDeleteModal} />
+      )}
+    </>
   );
 };
 

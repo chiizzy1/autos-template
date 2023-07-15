@@ -11,7 +11,7 @@ export const GET = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "Unauthorized to perform this action.",
-          bookings: null,
+          bookingsData: null,
         }),
         { status: 401 }
       );
@@ -19,14 +19,14 @@ export const GET = async (req: Request) => {
 
     const allBookings = await db.appointmentClient.findMany({
         include: {
-            selectedSession: true
+            selectedSession: true,
         }
     })
 
     return new Response(
       JSON.stringify({
         error: null,
-        bookings: allBookings,
+        bookingsData: allBookings,
       }),
       { status: 200 }
     );
@@ -35,7 +35,7 @@ export const GET = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          bookings: null,
+          bookingsData: null,
         }),
         { status: 401 }
       );
@@ -44,7 +44,7 @@ export const GET = async (req: Request) => {
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        bookings: null,
+        bookingsData: null,
       }),
       { status: 500 }
     );
