@@ -6,12 +6,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import Link from "next/link";
+import SmallHeading from "../ui/SmallHeading";
 
 const FAQ: FC = () => (
   <div className="rounded-lg sm:py-9 py-6 ">
-    <h3 className="text-2xl text-dimPurple font-bold sm:pb-6 pb-4">
-      Frequently asked questions
-    </h3>
+    <SmallHeading>Frequently asked questions</SmallHeading>
 
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
@@ -31,16 +30,17 @@ const FAQ: FC = () => (
         <AccordionContent>
           <ul className="list-disc">
             <li className="pb-2">
-              <strong>Schedule your repair:</strong><br/> Contact Car Clinic to book
-              an appointment for your car repair. Provide them with the
-              necessary details about your vehicle and the repair required.
+              <strong>Schedule your repair:</strong>
+              <br /> Contact Car Clinic to book an appointment for your car
+              repair. Provide them with the necessary details about your vehicle
+              and the repair required.
             </li>
 
             <li className="pb-2">
-              <strong>Receive the tracking ID: </strong><br/> Once your repair
-              appointment is confirmed, Car Clinic will assign a unique tracking
-              ID to your repair order. This ID serves as a reference for
-              tracking the progress of your repair.
+              <strong>Receive the tracking ID: </strong>
+              <br /> Once your repair appointment is confirmed, Car Clinic will
+              assign a unique tracking ID to your repair order. This ID serves
+              as a reference for tracking the progress of your repair.
             </li>
           </ul>
         </AccordionContent>
@@ -55,11 +55,9 @@ const FAQ: FC = () => (
 
           <ul className="list-disc">
             <li className="pb-2">
-              <strong>Contact Car Clinic:</strong><br/> Reach out to the{" "}
-              <Link
-                className="text-dimPurple"
-                href="/contact"
-              >
+              <strong>Contact Car Clinic:</strong>
+              <br /> Reach out to the{" "}
+              <Link className="text-dimPurple" href="/contact">
                 Car Clinic customer support team
               </Link>{" "}
               and talk to an agent about your forgotten tracking ID and request
@@ -67,16 +65,18 @@ const FAQ: FC = () => (
             </li>
 
             <li className="pb-2">
-              <strong>Provide necessary information:</strong><br/> Car Clinic will
-              ask for specific details to verify your identity and retrieve your
-              tracking ID. Be prepared to provide information such as your name,
-              contact details, and any relevant information about your car.
+              <strong>Provide necessary information:</strong>
+              <br /> Car Clinic will ask for specific details to verify your
+              identity and retrieve your tracking ID. Be prepared to provide
+              information such as your name, contact details, and any relevant
+              information about your car.
             </li>
 
             <li className="pb-2">
-              <strong>Assistance from customer support:</strong><br/> After verifying
-              your identity, Car Clinic&apos;s customer support team will assist
-              you in retrieving your tracking ID instantly.
+              <strong>Assistance from customer support:</strong>
+              <br /> After verifying your identity, Car Clinic&apos;s customer
+              support team will assist you in retrieving your tracking ID
+              instantly.
             </li>
           </ul>
         </AccordionContent>

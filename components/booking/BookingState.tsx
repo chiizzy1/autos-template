@@ -6,6 +6,7 @@ import SelectDateTime from "./SelectDateTime";
 import { toast } from "../ui/toast";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
+import SmallHeading from "../ui/SmallHeading";
 
 interface BookingStateProps {}
 
@@ -15,7 +16,8 @@ interface DateType {
 }
 
 const BookingState: FC<BookingStateProps> = ({}) => {
-  const [dayId, setDayId] = useState<string>()
+  const [dayId, setDayId] = useState<string>();
+  const [toggle, setToggle] = useState<boolean>(false);
   const [session, setSession] = useState<DateType>({
     justDate: null,
     dateTime: null,
@@ -49,7 +51,6 @@ const BookingState: FC<BookingStateProps> = ({}) => {
   });
 
   const handleBookingSubmit = (formData: any) => {
-    console.log('dayId:', dayId)
     mutate({
       ...formData,
       dayId,
@@ -58,13 +59,23 @@ const BookingState: FC<BookingStateProps> = ({}) => {
     });
   };
 
+
   return (
     <div>
-      <h4 className="font-medium text-lg">Select Appointment Date and Time</h4>
-      <SelectDateTime session={session} setSession={setSession} setDayId={setDayId} />
+      <SmallHeading>Select Appointment Date and Time</SmallHeading>
+      <SelectDateTime
+        session={session}
+        setSession={setSession}
+        setDayId={setDayId}
+        setToggle={setToggle}
+      />
 
-      <h4 className="font-medium text-lg my-8">Booking Details</h4>
-      <BookingForm onSubmit={handleBookingSubmit} />
+      {toggle && (
+        <>
+          <SmallHeading className="pt-8 pb-4">Appointment Details</SmallHeading>
+          <BookingForm onSubmit={handleBookingSubmit} isLoading={isLoading} />
+        </>
+      )}
     </div>
   );
 };

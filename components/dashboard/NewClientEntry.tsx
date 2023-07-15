@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "@/style";
@@ -11,6 +11,9 @@ import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
+import Select from "react-select";
+import { Textarea } from "../ui/Textarea";
+import { Input } from "../ui/Input";
 
 interface NewClientEntryProps {
   setToggle: (toggle: boolean) => void;
@@ -30,15 +33,13 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     carYear: yup.number().required("What year was your car manufactured?"),
     plateNumber: yup.string().required("enter plate number"),
     estimatedCost: yup.number().required("please enter car make"),
-    paid: yup.boolean(),
-    fixed: yup.boolean(),
     description: yup.string().required("enter plate number"),
-    repairStatus: yup.string().required("enter repair status"),
   });
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
@@ -72,8 +73,26 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     },
   });
 
+  const selectOptions = [
+    { value: true, label: "Yes" },
+    { value: false, label: "No" },
+  ];
+
+  // Check-In  In-Progress  Ready-for-Pick-up
+  const repairStages = [
+    { value: "Check-In", label: "Check-In" },
+    { value: "In-Progress", label: "In Progress" },
+    { value: "Ready-for-Pick-up", label: "Ready for Pick up" },
+    { value: "Delivered", label: "Delivered" },
+  ];
+
   const handleFormSubmit = (data: any) => {
-    mutate(data);
+    mutate({
+      ...data,
+      fixed: data.fixed.value,
+      paid: data.paid.value,
+      repairStatus: data.repairStatus.value,
+    });
   };
 
   return (
@@ -84,8 +103,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">First Name</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="First Name..."
                 {...register("firstName")}
@@ -98,8 +117,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Last Name</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="Last name..."
                 {...register("lastName")}
@@ -115,8 +134,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Phone</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="tel"
                 placeholder="Phone..."
                 {...register("phone")}
@@ -129,9 +148,9 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Email</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
+              <Input
+                className="bg-slate-100 text-black"
+                type="email"
                 placeholder="Email..."
                 {...register("email")}
               />
@@ -146,8 +165,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/3 px-3 mb-6 md:mb-0">
               <p className="pb-2">Vehicle Make</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g Mercedes Benz..."
                 {...register("carMake")}
@@ -160,8 +179,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             </div>
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Car Model</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g GLE 63..."
                 {...register("carModel")}
@@ -174,9 +193,9 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             </div>
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Year</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
+              <Input
+                className="bg-slate-100 text-black"
+                type="number"
                 placeholder="e.g 2022..."
                 {...register("carYear")}
               />
@@ -190,23 +209,26 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
 
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">repair staus</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g in progress..."
-                {...register("repairStatus")}
+              <p className="pb-2">Repair Status</p>
+
+              <Controller
+                name="repairStatus"
+                control={control}
+                defaultValue={{ value: "Check-In", label: "Check-In" }}
+                render={({ field }) => (
+                  <Select
+                    options={repairStages}
+                    {...field}
+                    className="bg-slate-100 text-black"
+                  />
+                )}
               />
-              {errors.repairStatus && (
-                <p className={`${styles.formErrorStyles}`}>
-                  please enter the repair status!
-                </p>
-              )}
             </div>
+
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">plate Number</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g GLE 63..."
                 {...register("plateNumber")}
@@ -220,10 +242,10 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           </div>
 
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
+            <div className="w-full sm:w-1/3 px-3 mb-6 md:mb-0">
               <p className="pb-2">Estimated Cost</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
+                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g $50.23..."
                 {...register("estimatedCost")}
@@ -234,48 +256,59 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 </p>
               )}
             </div>
-            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Payment status (boolean)</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g true..."
-                {...register("paid")}
+
+            <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Payment Status</p>
+
+              <Controller
+                name="paid"
+                control={control}
+                defaultValue={{ value: false, label: "No" }}
+                render={({ field }) => (
+                  <Select
+                    options={selectOptions}
+                    {...field}
+                    className="bg-slate-100 text-black"
+                  />
+                )}
               />
-              {errors.paid && (
-                <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter car payment status
-                </p>
-              )}
+            </div>
+
+            <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Fixed</p>
+
+              <Controller
+                name="fixed"
+                control={control}
+                defaultValue={{ value: false, label: "No" }}
+                render={({ field }) => (
+                  <Select
+                    options={selectOptions}
+                    {...field}
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? 'grey' : 'red',
+                        backgroundColor: 'grey'
+                      }),
+                    }}
+                  />
+                )}
+              />
             </div>
           </div>
 
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Repair description</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
+            <div className="w-full px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Car Diagnosis</p>
+              <Textarea
+                className="bg-slate-100 text-black"
                 placeholder="e.g servicing..."
                 {...register("description")}
               />
               {errors.description && (
                 <p className={`text-red-500 ${styles.formErrorStyles}`}>
                   Please enter repair description
-                </p>
-              )}
-            </div>
-            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Fixed status (boolean) </p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g true..."
-                {...register("fixed")}
-              />
-              {errors.fixed && (
-                <p className={`${styles.formErrorStyles}`}>
-                  please enter car fixed status!
                 </p>
               )}
             </div>

@@ -14,12 +14,11 @@ import { Button } from "../ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface EditCarProps {
-  customerId: string;
   carId: string;
   setEditModal: (toggle: boolean) => void;
 }
 
-const EditCar: FC<EditCarProps> = ({ customerId, carId, setEditModal }) => {
+const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
   // Handle Form with Yup
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),

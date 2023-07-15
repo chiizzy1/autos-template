@@ -27,7 +27,7 @@ const SignInButton: FC<SignInButtonProps> = ({}) => {
         }
     };
 
-  return <Button className='text-xs' onClick={signInWithGoogle} isLoading={isLoading}>
+  return <Button variant="purple" onClick={signInWithGoogle} isLoading={isLoading}>
     Sign In
   </Button>
 }

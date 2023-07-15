@@ -20,7 +20,7 @@ export const POST = async (req: Request) => {
 
     let finishDate: Date | null = null;
 
-    if (repairInfo.fixed == true) {
+    if (repairInfo.picked == true) {
       finishDate = new Date();
     }
 

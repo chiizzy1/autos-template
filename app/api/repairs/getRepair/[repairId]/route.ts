@@ -2,11 +2,11 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const DELETE = async (req: Request) => {
-  const { repairId } = await req.json();
-
-  // console.log(repairId);
-
+export const GET = async (
+  req: Request,
+  { params }: { params: { repairId: string } }
+) => {
+  const repairId = params.repairId;
   try {
     const session = await getAuthSession();
     const user = session?.user;
@@ -15,20 +15,26 @@ export const DELETE = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "Unauthorized to perform this action.",
-          success: false,
+          RepairData: null,
         }),
         { status: 401 }
       );
     }
 
-    await db.repair.delete({
-      where: { id: repairId as string },
+    const getRepairData = await db.repair.findFirst({
+      where: {
+        id: repairId,
+      },
+      include: {
+        car: true,
+        owner: true,
+      },
     });
 
     return new Response(
       JSON.stringify({
         error: null,
-        success: true,
+        RepairData: getRepairData,
       }),
       { status: 200 }
     );
@@ -37,7 +43,7 @@ export const DELETE = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          success: false,
+          RepairData: null,
         }),
         { status: 401 }
       );
@@ -46,9 +52,9 @@ export const DELETE = async (req: Request) => {
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        success: false,
+        RepairData: null,
       }),
-      { status: 401 }
+      { status: 500 }
     );
   }
 };

@@ -13,6 +13,7 @@ import FAQ from "@/components/tracking/FAQ";
 import { toast } from "@/components/ui/toast";
 import LargeHeading from "@/components/ui/LargeHeading";
 import Paragraph from "@/components/ui/Paragraph";
+import { Input } from "@/components/ui/Input";
 
 export default function TrackPage() {
   const Schema = yup.object().shape({
@@ -62,26 +63,26 @@ export default function TrackPage() {
         <div className="container max-w-7xl mx-auto">
 
           <LargeHeading>Track Your Car Repair</LargeHeading>
-          <Paragraph>Track your car repair progress and stay informed</Paragraph>
+
           <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <div className="flex flex-wrap items-center -mx-3 mb-6">
+            <div className="flex flex-wrap items-center -mx-3 mb-6 transition-all">
               <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
-                <input
-                  className={`${styles.formInputStyles}`}
+                <Input
+                  className="bg-zinc-100"
                   type="text"
-                  placeholder="trackId..."
+                  placeholder="enter your tracking ID here..."
                   {...register("trackId")}
                 />
                 {errors.trackId && (
                   <p className={`${styles.formErrorStyles}`}>
-                    Please enter a valid tracking ID.
+                    Please enter a valid tracking ID!
                   </p>
                 )}
               </div>
 
               <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
                 <Button
-                  variant="default"
+                  variant="purple"
                   className="items-center w-full"
                   isLoading={isLoading}
                   disabled={isLoading}

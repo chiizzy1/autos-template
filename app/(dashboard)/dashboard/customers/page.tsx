@@ -1,14 +1,12 @@
 import GetAllCustomers from "@/components/dashboard/GetAllCustomers";
 import Header from "@/components/dashboard/Header";
 
-const page = async () => {
+const page = () => {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="container max-w-7xl mx-auto">
-        <Header page="" />
+    <main className="min-h-screen">
+        <Header page="allCustomer" />
         <GetAllCustomers />
-      </div>
-    </div>
+    </main>
   );
 };
 

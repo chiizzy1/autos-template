@@ -3,18 +3,12 @@
 import { FC } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 
 const columns: GridColDef[] = [
   { field: "sn", headerName: "SN", width: 70 },
-//   {
-//     field: "fullName",
-//     headerName: "Name",
-//     description: "This column has a value getter and is not sortable.",
-//     width: 200,
-//     valueGetter: (params: GridValueGetterParams) =>
-//       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-//   },
   {
     field: "description",
     headerName: "description",
@@ -54,11 +48,40 @@ const columns: GridColDef[] = [
 
 
 interface RepairsTableProps {
-  repairs: any
   customerId: string
 }
 
-const RepairsTable: FC<RepairsTableProps> = ({repairs, customerId}) => {
+const RepairsTable: FC<RepairsTableProps> = ({ customerId}) => {
+
+  async function allRepairs() {
+    const { data } = await axios.get(`/api/repairs/getCustomerRepairs/${customerId}`);
+    return data.RepairData;
+  }
+
+  const { data, error, isError, isLoading } = useQuery(
+    ["allRepairs"],
+    allRepairs,
+    {
+      onSuccess: (successData) => {
+        console.log(successData);
+      },
+    }
+  );
+
+
+  // add SN to repairs array
+  let repairs: [] = [];
+
+  if (data) {
+    repairs = data.map((info: any, i: number) => {
+      return {
+        ...info,
+        sn: i + 1,
+      };
+    });
+  }
+
+
     const actionColumn: any = [
         {
           field: "action",

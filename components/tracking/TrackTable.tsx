@@ -38,8 +38,12 @@ const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
             <TableCell>{`${trackData.make} ${trackData.model} ${trackData.year}`}</TableCell>
             <TableCell>{trackData.description}</TableCell>
             <TableCell>{trackData.estimatedCost}</TableCell>
-            <TableCell>{trackData.startDate}</TableCell>
-            <TableCell>{trackData.finishDate}</TableCell>
+            <TableCell>
+              {new Date(trackData.startDate).toDateString()}
+            </TableCell>
+            <TableCell>
+              {new Date(trackData.finishDate).toDateString()}
+            </TableCell>
             {/* <TableCell > <p className={`p-[px] rounded-[5px]  ${row.protein > 4 ? 'bg-red-500' : 'bg-green-400'}`}>{row.protein}</p></TableCell> */}
           </TableRow>
         </TableBody>

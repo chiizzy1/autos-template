@@ -6,7 +6,7 @@ export const POST = async (
   { params }: { params: { trackId: string } }
 ) => {
   const trackId = params.trackId;
-  console.log(trackId);
+
   try {
     const trackInfo = await db.repair.findFirst({
       where: { trackId: trackId as string },

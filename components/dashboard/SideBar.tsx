@@ -23,32 +23,32 @@ const SideBar: FC<SideBarProps> = ({ children }) => {
           </Link>
           <span className="border-b-[1px] border-gray-200 w-full p-2"></span>
           <Link href="/dashboard">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <RxDashboard size={20} />
             </div>
           </Link>
           <Link href="/dashboard/customers">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <RxPerson size={20} />
             </div>
           </Link>
           <Link href="/dashboard/cars">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <AiOutlineCar size={20} />
             </div>
           </Link>
           <Link href="/dashboard/repairs">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <GiAutoRepair size={20} />
             </div>
           </Link>
           <Link href="/dashboard/bookings">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <BsCalendarEvent size={20} />
             </div>
           </Link>
           <Link href="/dashboard/upload-img">
-            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
+            <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <FiUpload size={20} />
             </div>
           </Link>

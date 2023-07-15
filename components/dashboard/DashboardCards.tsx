@@ -36,7 +36,7 @@ const DashboardCards: FC<DashboardCardsProps> = ({}) => {
   );
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading text="Loading" />;
   }
 
   if (isError) {

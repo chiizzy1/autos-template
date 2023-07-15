@@ -10,16 +10,14 @@ import { useRouter } from "next/navigation";
 interface DeleteCarProps {
   carId: string;
   setDeleteModal: (toggle: boolean) => void;
-  customerId: string
 }
 
-const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal, customerId }) => {
-
-    const { push } = useRouter();
+const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal }) => {
+  const { refresh } = useRouter();
 
   const { mutate } = useMutation(
-    async (id: any) => {
-      const { data } = await axios.delete("/api/cars/delete", { data: id });
+    async (id: string) => {
+      const { data } = await axios.delete(`/api/cars/delete/${id}`);
       return data;
     },
     {
@@ -32,8 +30,7 @@ const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal, customerId }) =>
           message: "okay",
           type: "success",
         });
-
-        push(`/dashboard/customers/${customerId}`)
+        refresh();
       },
       onError: (error: any) => {
         if (error instanceof AxiosError) {
@@ -48,20 +45,22 @@ const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal, customerId }) =>
     }
   );
 
+  console.log("carId:", carId);
+
   const deleteRepair = () => {
-    // console.log(carId)
-    mutate({ carId });
+    mutate(carId);
   };
 
   return (
     <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 ">
       <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
         <h2 className="text-xl">
-          Are you sure you want to delete this repair details? 😥
+          Are you sure you want to delete this car details? 😥
         </h2>
-        <h3 className="text-red-600 text-sm">
-          Pressing the delete button will permenantly delete your post
-        </h3>
+        <p className="text-red-600 text-sm">
+          deleting this car data also deletes all repairs and other data
+          attached to it!
+        </p>
         <div
           onClick={() => {
             setDeleteModal(false);

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { adminIcon } from "@/assets";
 import { Loader2 } from "lucide-react";
 import { Button } from "../ui/Button";
+import NewCustomer from "./NewCustomer";
 
 interface HeaderProps {
   page: string;
@@ -14,47 +15,55 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ page }) => {
   const { data: session, status } = useSession();
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [newCustomer, setNewCustomer] = useState<boolean>(false);
 
   const loading = status === "loading";
 
   return (
-    <div className="bg-white rounded-lg p-4">
-      {loading && (
-        <Loader2 className="animate-spin h-2 w-2 dark:text-slate-200" />
-      )}
+    <>
+      {loading && <Loader2 className="animate-spin h-4 w-4" />}
       {session && (
-        <div className="flex justify-between pt-4">
-          <div className="p-4">
-            <h2 className="font-medium">Welcome Back, {session.user.name}</h2>
-          </div>
-
-          {page === "dashboard" ? (
-            <Button
-              onClick={() => setToggle(true)}
-              variant="outline"
-              className="items-center"
-            >New Entry</Button>
-          ) : (
-            ""
-          )}
-          <div className="avatar online">
-            <div className="h-10  rounded-full">
-              <Image
-                src={session.user.image ? session.user.image : adminIcon}
-                alt="user"
-                width={30}
-                height={30}
-              />
+        <div className=" pt-4 px-4">
+          <div className="bg-white flex justify-between p-4 rounded-lg items-center">
+            <div className="flex items-center">
+              <div className="avatar">
+                <div className="h-10  rounded-full">
+                  <Image
+                    src={session.user.image ? session.user.image : adminIcon}
+                    alt="user"
+                    width={30}
+                    height={30}
+                  />
+                </div>
+              </div>
+              <p
+                className={`font-bold text-base text-dimPurple ml-4 ${
+                  page === "dashboard" ? "hidden sm:flex" : ""
+                }`}
+              >
+                Hello, {session.user.name}
+              </p>
             </div>
-          </div>
 
-          {toggle && (
-            <NewClientEntry setToggle={setToggle} />
-          )}
+            {page === "dashboard" ? (
+              <Button onClick={() => setToggle(true)} variant="purple">
+                New Entry
+              </Button>
+            ) : page === "allCustomer" ? (
+              <Button onClick={() => setNewCustomer(true)} variant="purple">
+                New Customer
+              </Button>
+            ) : (
+              ""
+            )}
+
+            {toggle && <NewClientEntry setToggle={setToggle} />}
+            {newCustomer && <NewCustomer setNewCustomer={setNewCustomer} />}
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

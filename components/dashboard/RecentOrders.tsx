@@ -1,8 +1,7 @@
-import { data } from "@/constants";
 import React from "react";
-import { FaShoppingBag } from "react-icons/fa";
-
 import { FC } from "react";
+import { formatTimeToNow } from "@/lib/utils";
+import { BiDollar } from "react-icons/bi";
 
 interface RecentOrdersProps {
   repairs: any;
@@ -20,7 +19,7 @@ const RecentOrders: FC<RecentOrdersProps> = ({ repairs }) => {
               className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
             >
               <div className="bg-purple-100 rounded-lg p-3">
-                <FaShoppingBag className="text-purple-800" />
+                <BiDollar className="text-purple-800" />
               </div>
               <div className="pl-4">
                 <p className="text-gray-800 font-bold">
@@ -29,7 +28,7 @@ const RecentOrders: FC<RecentOrdersProps> = ({ repairs }) => {
                 <p className="text-gray-400 text-sm">{`${obj.owner.firstName} ${obj.owner.lastName}`}</p>
               </div>
               <p className="lg:flex md:hidden absolute right-6 text-sm">
-                {obj.startDate}
+                {formatTimeToNow(new Date(obj.startDate))}
               </p>
             </li>
           ) : (

@@ -5,6 +5,7 @@ import TrackTable from "./TrackTable";
 import TrackUi from "./TrackUi";
 import Image from "next/image";
 import { customerCare } from "@/assets";
+import SmallHeading from "../ui/SmallHeading";
 
 interface TrackDetailsProps {
   data: any;
@@ -13,19 +14,16 @@ interface TrackDetailsProps {
 const TrackDetails: FC<TrackDetailsProps> = ({ data }) => {
   return (
     <div>
-      <h4 className="text-dimPurple font-bold sm:py-9 py-6 w-full text-center">
-        Tracking Details
-      </h4>
+      <SmallHeading className="mb-4">Car Details</SmallHeading>
       <TrackTable trackData={data} />
-      
       <div className="flex gap-8 lg:flex-row flex-col sm:py-9 py-6">
         <div className="w-full rounded-md bg-green-50 p-6">
-          <h4 className="font-semibold text-center">Car Repair Status</h4>
+          <SmallHeading>Car Repair Status</SmallHeading>
           <TrackUi status="Ready-for-Pick-up" />
         </div>
 
         <div className="w-full bg-sky-50 border rounded-md p-6">
-          <h4 className="font-semibold text-center">Not Satisfied?</h4>
+          <SmallHeading>Not Satisfied?</SmallHeading>
           <div className="flex items-center justify-center sm:py-9 py-6">
             <div className="rounded-full overflow-hidden">
               <Image

@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { FC, useState } from "react";
 import CarsTable from "./CarsTable";
 import CustomerCard from "./CustomerCard";
 import DeleteCustomer from "./DeleteCustomer";
 import EditCustomerInfo from "./EditCustomerInfo";
 import RepairsTable from "./RepairsTable";
-import StatsCard from "./StatsCard";
+import NewCarModal from "./NewCarModal";
+import SmallHeading from "../ui/SmallHeading";
 
 interface CustomerProps {
   data: any;
@@ -17,9 +17,9 @@ interface CustomerProps {
 const Customer: FC<CustomerProps> = ({ data, customerId }) => {
   const [customerEditModal, setCustomerEditModal] = useState(false);
   const [customerDeleteModal, setCustomerDeleteModal] = useState(false);
+  const [newCarModal, setNewCarModal] = useState(false);
 
-  const { cars, repairs }: any = data;
-
+  const { cars, repairs, ...customerInfo }: any = data;
 
   // add SN to Cars array
   let customerCars: [] = [];
@@ -35,9 +35,15 @@ const Customer: FC<CustomerProps> = ({ data, customerId }) => {
 
   // add SN to repairs array
   let repairsData: [] = [];
+  let activeRepairs: number = 0;
+  let pendingPayments: number = 0;
+  let total: number = 0;
 
   if (repairs) {
     repairsData = repairs.map((info: any, i: number) => {
+      if (!info.paid) pendingPayments++;
+      if (!info.fixed) activeRepairs++;
+      total += info.estimatedCost;
       return {
         ...info,
         sn: i + 1,
@@ -46,62 +52,62 @@ const Customer: FC<CustomerProps> = ({ data, customerId }) => {
   }
 
   return (
-    <div>
-      Customer bruhjk
-      <div className=" grid md:grid-cols-3 grid-cols-1 gap-4">
-        <CustomerCard />
-        <StatsCard />
-        <div className="bg-white shadow-lg border p-4 rounded-lg flex flex-col gap-2">
-          <div
-            onClick={() => setCustomerDeleteModal(true)}
-            className="bg-red-400 p-6 rounded cursor-pointer"
-          >
-            Delete Customer Data
-          </div>
-          <div
-            onClick={() => setCustomerEditModal(true)}
-            className="bg-sky-400 p-6 rounded cursor-pointer"
-          >
-            Edit Customer Info
-          </div>
-          <div className="bg-green-400 p-6 rounded cursor-pointer">
-            <Link href={`dashboard/customers/${customerId}/cars/newcar`}>
-              Add New Car
-            </Link>
-          </div>
-          {/* <Link href={`dashbaord/customers/${customerId}/cars`}>View all cars</Link> */}
-        </div>
+    <>
+      <SmallHeading className="pl-4 py-4">
+        {`${data.lastName} ${data.firstName}`} Transactions Page
+      </SmallHeading>
+      <CustomerCard
+        customerInfo={customerInfo}
+        cars={cars}
+        repairs={repairs}
+        setCustomerDeleteModal={setCustomerDeleteModal}
+        setCustomerEditModal={setCustomerEditModal}
+        setNewCarModal={setNewCarModal}
+        activeRepairs={activeRepairs}
+        pendingPayments={pendingPayments}
+        total={total}
+      />
+      <div className="p-4">
+        {customerCars && (
+          <>
+            <div className="flex">
+              <SmallHeading className="py-4">
+                All {`${data.lastName} ${data.firstName}`} Cars
+              </SmallHeading>
+            </div>
+            <CarsTable customerId={customerId} />
+          </>
+        )}
+
+        {repairsData && (
+          <>
+            <SmallHeading className="py-4">
+              All {`${data.lastName} ${data.firstName}`} Repairs
+            </SmallHeading>
+            <RepairsTable customerId={customerId} />
+          </>
+        )}
+        {customerEditModal && (
+          <EditCustomerInfo
+            customerId={customerId}
+            setCustomerEditModal={setCustomerEditModal}
+          />
+        )}
+        {customerDeleteModal && (
+          <DeleteCustomer
+            customerId={customerId}
+            setCustomerDeleteModal={setCustomerDeleteModal}
+            page="customer"
+          />
+        )}
+        {newCarModal && (
+          <NewCarModal
+            customerId={customerId}
+            setNewCarModal={setNewCarModal}
+          />
+        )}
       </div>
-      <div className="pt-8">
-        <h3 className="text-xl font-medium pb-4 sm: text-center">
-          {data && data.firstName} Transaction History
-        </h3>
-      </div>
-      <h3 className="text-bold text-xl text-black py-6 text-center">
-        All Customer Cars
-      </h3>
-      {customerCars && (
-        <CarsTable cars={customerCars} customerId={customerId} />
-      )}
-      <h3 className="text-bold text-xl text-black py-6 text-center">
-        Customer Repair History
-      </h3>
-      {repairsData && (
-        <RepairsTable repairs={repairsData} customerId={customerId} />
-      )}
-      {customerEditModal && (
-        <EditCustomerInfo
-          customerId={customerId}
-          setCustomerEditModal={setCustomerEditModal}
-        />
-      )}
-      {customerDeleteModal && (
-        <DeleteCustomer
-          customerId={customerId}
-          setCustomerDeleteModal={setCustomerDeleteModal}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

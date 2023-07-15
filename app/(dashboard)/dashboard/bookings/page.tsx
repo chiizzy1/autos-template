@@ -1,5 +1,7 @@
 import BookingTable from "@/components/dashboard/BookingTable";
 import EditOpenCloseDays from "@/components/dashboard/EditOpenCloseDays";
+import Header from "@/components/dashboard/Header";
+import SmallHeading from "@/components/ui/SmallHeading";
 import { db } from "@/lib/db";
 import { FC } from "react";
 
@@ -11,14 +13,17 @@ const page: FC<pageProps> = async ({}) => {
   });
 
   return (
-    <div>
-      <h3 className="py-4">Edit Opening/Closing dates!!</h3>
+    <main>
+      <Header page="" />
+      <div className="p-4">
+        <SmallHeading className="py-4">Edit Opening/Closing dates!</SmallHeading>
 
-    <EditOpenCloseDays />
+        <EditOpenCloseDays />
 
-      <h3 className="pt-10">See all appointments!!</h3>
-      {data && <BookingTable data={data} />}
-    </div>
+        <SmallHeading className="pb-4 pt-8">See all appointments!!</SmallHeading>
+        {data && <BookingTable data={data} />}
+      </div>
+    </main>
   );
 };
 

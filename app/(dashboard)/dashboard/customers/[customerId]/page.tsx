@@ -24,19 +24,16 @@ export default function CustomerDetail(url: URL) {
     queryKey: ["customer"],
     queryFn: () => fetchDetails(url.params.customerId),
   });
-  if (isLoading) {
-    return <Loading />;
+ 
+  if (isError) {
+    return <h4 className="text-red-500 font-bold text-2xl">Error Loading page!</h4>
   }
 
-  if (isError) {
-    return (
-      <h4 className="text-red-500 font-bold text-2xl">Error Loading page!</h4>
-    );
-  }
   return (
-    <div>
+    <main className="min-h-screen">
       <Header page="" />
+      {isLoading && <Loading text="loading customer data" />}
       {data && <Customer data={data} customerId={url.params.customerId} />}
-    </div>
+    </main>
   );
 }

@@ -4,6 +4,8 @@ import { RxPerson } from "react-icons/rx";
 import { AiOutlineCar, AiOutlineWallet } from "react-icons/ai";
 import { GiAutoRepair } from "react-icons/gi";
 
+
+
 interface TopCardsProps {
   customers: [];
   cars: [];
@@ -12,79 +14,96 @@ interface TopCardsProps {
 
 const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
   let init = 0;
-  const totalRevenue = repairs.map((obj: any) => (init += obj.estimatedCost));
+  repairs.map((obj: any) => (init += obj.estimatedCost));
+
+  // title
+  // stat
+  // link
+  //
+
   return (
-    <div className="grid lg:grid-cols-4 gap-4 p-4">
-      <div className="lg:col-span-1 col-span-1 bg-white shadow-lg flex justify-between w-full border p-4 rounded-lg">
-        <div className="flex flex-col justify-between">
-          <p className="">Customers</p>
-          <p className="text-gray-600 py-2">{customers.length}</p>
-          <span className="text-xs text-gray-600 underline">
-            See all Customers
-          </span>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+      <div className="bg-white border p-6 rounded-lg">
+        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="text-sm font-medium">Total Revenue</div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            className="h-4 w-4 text-muted-foreground"
+          >
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
         </div>
-
-        <div className="flex flex-col justify-between">
-          <div className="flex text-red-500">
-            <TiArrowSortedDown />
-            <span>-5%</span>
-          </div>
-          <div className="p-2 bg-red-300 flex items-center justify-center rounded-sm">
-            <RxPerson size={20} />
-          </div>
-        </div>
-      </div>
-      <div className="lg:col-span-1 col-span-1 bg-white shadow-lg flex justify-between w-full border p-4 rounded-lg">
-        <div className="flex flex-col justify-between">
-          <p className="">Cars</p>
-          <p className="text-gray-600 py-2">{cars.length}</p>
-          <span className="text-xs text-gray-600 underline">See all Cars</span>
-        </div>
-
-        <div className="flex flex-col justify-between">
-          <div className="flex text-green-500">
-            <TiArrowSortedDown />
-            <span>-5%</span>
-          </div>
-          <div className="p-2 bg-red-300 flex items-center justify-center rounded-sm">
-            <AiOutlineCar size={20} />{" "}
-          </div>
+        <div>
+          <div className="text-2xl font-bold">{init.toLocaleString("en")}</div>
+          <p className="text-xs text-muted-foreground">
+            +200.1% from last month
+          </p>
         </div>
       </div>
-      <div className="lg:col-span-1 col-span-1 bg-white shadow-lg flex justify-between w-full border p-4 rounded-lg">
-        <div className="flex flex-col justify-between">
-          <p className="">Repairs</p>
-          <p className="text-gray-600 py-2">{repairs.length}</p>
-          <span className="text-xs text-gray-600 underline">
-            See all repairs
-          </span>
-        </div>
 
-        <div className="flex flex-col justify-between">
-          <div className="flex text-green-500">
-            <TiArrowSortedUp />
-            <span>+25%</span>
+      <div className="bg-white border p-6 rounded-lg">
+        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="text-sm font-medium">
+            {" "}
+            {`Customer${customers.length > 1 ? "s" : ""}`}
           </div>
-          <div className="p-2 bg-red-300 flex items-center justify-center rounded-sm">
-            <GiAutoRepair size={20} />
-          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            className="h-4 w-4 text-muted-foreground"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+        <div>
+          <div className="text-2xl font-bold">{customers.length}</div>
+          <p className="text-xs text-muted-foreground">
+            +180.1% from last month
+          </p>
         </div>
       </div>
-      <div className="lg:col-span-1 col-span-1 bg-white shadow-lg flex justify-between w-full border p-4 rounded-lg">
-        <div className="flex flex-col justify-between">
-          <p className="">Total Revenue</p>
-          <p className="text-gray-600 py-2">{init.toLocaleString("en")}</p>
-          <span className="text-xs text-gray-600 underline">See smoke</span>
-        </div>
 
-        <div className="flex flex-col justify-between">
-          <div className="flex text-green-500">
-            <TiArrowSortedUp />
-            <span>-5%</span>
-          </div>
-          <div className="p-2 bg-red-300 flex items-center justify-center rounded-sm">
-            <AiOutlineWallet size={20} />
-          </div>
+      <div className="bg-white border p-6 rounded-lg">
+        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="text-sm font-medium">{`Car${
+            cars.length > 1 ? "s" : ""
+          }`}</div>
+          <AiOutlineCar size={17} />{" "}
+        </div>
+        <div>
+          <div className="text-2xl font-bold">{cars.length}</div>
+          <p className="text-xs text-muted-foreground">
+            +3520.1% from last month
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-white border p-6 rounded-lg">
+        <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <div className="text-sm font-medium">{`Repair${
+            repairs.length > 1 ? "s" : ""
+          }`}</div>
+
+          <GiAutoRepair size={17} />
+        </div>
+        <div>
+          <div className="text-2xl font-bold">{repairs.length}</div>
+          <p className="text-xs text-muted-foreground">
+            +2000.1% from last month
+          </p>
         </div>
       </div>
     </div>

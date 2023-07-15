@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import ReactDatePicker from "react-datepicker";
-import { Button } from "../ui/Button";
+import { Button, buttonVariants } from "../ui/Button";
 import axios, { AxiosError } from "axios";
 import { toast } from "../ui/toast";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ interface EditOpenCloseDaysProps {}
 
 const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
   const [day, setDay] = useState<any>();
+  const [selected, setSelected] = useState<Date | null>(null);
 
   // Get cureent status of selected date
 
@@ -20,17 +21,20 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     return data?.selected;
   };
 
-  const { mutate: getDayInfo, data: dayData } = useMutation(getDayStatus, {
+  const {
+    mutate: getDayInfo,
+    data: dayData,
+    isLoading: loadingDay,
+  } = useMutation(getDayStatus, {
     onSuccess: (successData) => {
-      console.log(successData);
       setDay(successData);
+      setSelected(new Date(parseInt(successData.day)));
     },
     onError: (error) => console.log(error),
   });
 
   // Edit Open / close days
   const editOpenClose = async (info: any) => {
-    console.log('dayData:', info)
     const { data } = await axios.post(`/api/booking/open/${info}`, {
       currentStatus: day.open,
     });
@@ -41,8 +45,6 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     editOpenClose,
     {
       onSuccess: (successData) => {
-        console.log(successData);
-
         toast({
           title: "successfully edited day!!",
           message: "okay",
@@ -61,37 +63,43 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     }
   );
 
-  console.log(day);
   return (
     <div>
-      <h4 className="font-medium text-sm mt-8">
+      <p className="font-medium text-sm mt-4 mb-2">
         Please Select a date to see all available sessions
-      </h4>
-      <ReactDatePicker
-        // selected={new Date(parseInt(day.day)).toLocaleString()}
-        dateFormat="dd-MM-yy"
-        minDate={new Date()}
-        className="bg-sky-700 text-white my-8 rounded-md w-full h-[5rem] text-center cursor-pointer"
-        placeholderText="select date"
-        filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
-        onChange={(date: Date) => {
-          console.log(typeof date.getTime());
-          console.log(date.getTime());
-          getDayInfo(date.getTime());
-        }}
-      />
+      </p>
+      <div className="flex items-center gap-4 transition-all">
+        <ReactDatePicker
+          selected={selected}
+          dateFormat="dd-MM-yy"
+          minDate={new Date()}
+          className={`${buttonVariants({
+            variant: "purple",
+          })}`}
+          placeholderText="select date"
+          filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
+          onChange={(date: Date) => {
+            getDayInfo(date.getTime());
+          }}
+        />
 
-      {day && (
-        <Button
-          variant="default"
-          className="items-center"
-          isLoading={isLoading}
-          disabled={isLoading}
-          onClick={() => mutate(day.day)}
-        >
-          {isLoading ? "Editing ..." : `${day.open ? "close" : "open"} day!`}
-        </Button>
-      )}
+        {loadingDay && (
+          <Button variant="purple" isLoading={loadingDay} disabled={loadingDay}>
+            loading data
+          </Button>
+        )}
+        {day && (
+          <Button
+            variant="default"
+            className={`${day.open ? "bg-green-500" : "bg-red-500"}`}
+            isLoading={isLoading}
+            disabled={isLoading}
+            onClick={() => mutate(day.day)}
+          >
+            {isLoading ? "Editing ..." : `${day.open ? "close" : "open"} day!`}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

@@ -7,11 +7,20 @@ import { add, format } from "date-fns";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "../ui/toast";
+import Loading from "../ui/Loading";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
+import { buttonVariants } from "../ui/Button";
 
 interface SelectDateTimeProps {
   session: DateTime;
   setSession: Dispatch<SetStateAction<DateTime>>;
   setDayId: Dispatch<SetStateAction<string | undefined>>;
+  setToggle: Dispatch<SetStateAction<boolean>>;
 }
 
 interface DateTime {
@@ -23,6 +32,7 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
   session,
   setSession,
   setDayId,
+  setToggle,
 }) => {
   const [select, setSelect] = useState(-1);
 
@@ -46,7 +56,8 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
 
   const times = getTimes();
 
-  console.log(session.dateTime?.getTime());
+  // console.log('date:',session.justDate)
+  // console.log(session.dateTime?.getTime());
 
   const sessionData = async (info: any) => {
     const { data } = await axios.post(`/api/booking/${info}`);
@@ -87,6 +98,14 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
       );
     }
   }
+
+  if (isLoading) {
+    return <Loading text="loading sessions for selected date" />;
+  }
+
+  if (isError) {
+    return <p className="text-red-500 font-bold">Error loading data!</p>;
+  }
   //  console.log(allSelectedSessions)
   return (
     <div>
@@ -97,7 +116,9 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
         selected={session.justDate}
         dateFormat="dd-MM-yy"
         minDate={new Date()}
-        className="bg-sky-700 text-white my-8 rounded-md w-full h-[5rem] text-center cursor-pointer"
+        className={`${buttonVariants({
+          variant: "purple",
+        })} text-lg text-white mt-4`}
         placeholderText="select date"
         filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
         onChange={(date: Date) => {
@@ -108,36 +129,45 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
         }}
       />
 
-      {data && (
-        <h4 className="font-medium text-sm mt-8">All available sessions</h4>
-      )}
-
       {data?.open === true && (
-        <div className="grid grid-cols-tile gap-6 my-8">
-          {times?.map((time, i) =>
-            allSelectedSessions.has(`${time.getTime()}`) ? (
-              <div key={i} className="bg-red-400">
-                {format(time, "kk:mm")}
-              </div>
-            ) : (
-              <div
-                key={i}
-                onClick={() => {
-                  setSelect(i);
-                  setSession((prevDetails) => ({
-                    ...prevDetails,
-                    dateTime: time,
-                  }));
-                }}
-                className={`${
-                  select == i ? "bg-green-400" : "bg-zinc-200"
-                }  border rounded-lg py-2 text-center`}
-              >
-                {format(time, "kk:mm")}
-              </div>
-            )
-          )}
-        </div>
+        <>
+          <h4 className="font-medium text-sm mt-8">All sessions for selected date</h4>
+          <div className="grid grid-cols-tile gap-6 mt-4">
+            {times?.map((time, i) =>
+              allSelectedSessions.has(`${time.getTime()}`) ? (
+                <TooltipProvider key={i}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="bg-red-200 border cursor-not-allowed rounded-lg py-2 text-center ">
+                        {format(time, "kk:mm")}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>unavailable</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : (
+                <div
+                  key={i}
+                  onClick={() => {
+                    setSelect(i);
+                    setSession((prevDetails) => ({
+                      ...prevDetails,
+                      dateTime: time,
+                    }));
+                    setToggle(true);
+                  }}
+                  className={`${
+                    select == i ? "bg-green-400" : "bg-zinc-200"
+                  }  border cursor-pointer rounded-lg py-2 text-center`}
+                >
+                  {format(time, "kk:mm")}
+                </div>
+              )
+            )}
+          </div>
+        </>
       )}
 
       {data?.open === false && (

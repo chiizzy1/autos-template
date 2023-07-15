@@ -1,11 +1,12 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import EditRepair from "./EditRepair";
 import DeleteModal from "./DeleteModal";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 const columns: GridColDef[] = [
   { field: "sn", headerName: "SN", width: 70 },
@@ -47,18 +48,16 @@ const columns: GridColDef[] = [
 ];
 
 interface SingleRepairTableProps {
-  customerId: string;
   carId: string;
 }
 
 const SingleRepairTable: FC<SingleRepairTableProps> = ({
-  customerId,
   carId,
 }) => {
   // Instead of passing the repairs data down as prop, fetch it on component load so that
   // whenever a repair is deleted or edited, it's rendered live on the componenet thereby
   // increasing user experience
-  const [repairData, setRepairData] = useState([]);
+
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [description, setDescription] = useState<string>("");
@@ -68,40 +67,29 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({
   const [finishDate, setFinishDate] = useState<boolean>(false);
   const [repairId, setRepairId] = useState<string>("");
 
-  const getCarRepairs: any = async (info: any) => {
-    console.log(info);
-    const { data } = await axios.post(`/api/repairs/getRepair`, info);
+  const {refresh}  = useRouter()
+  
+  async function fetchCarRepairsData() {
+    const { data } = await axios.get(`/api/repairs/getCarRepairs/${carId}`);
     return data.RepairData;
-  };
+  }
 
-  const { mutate, error, isLoading, isError } = useMutation(getCarRepairs, {
-    onSuccess: (successData: []) => {
-      console.log(successData);
-      setRepairData(successData);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  useEffect(() => {
-    // Function to call on page load
-    const getCarRepairs = (data: any) => {
-      mutate(data);
-    };
-
-    getCarRepairs({ customerId, carId });
-    // Call the function on page load
-
-    // refetch data for table if changes occurs in any of the following 
-  }, []);
+  const { data, isLoading } = useQuery(
+    ["carRepairHistory"],
+    fetchCarRepairsData,
+    {
+      onSuccess: (successData) => {
+        console.log(successData);
+      },
+    }
+  );
 
   // add SN to Cars array
 
   let repairs: any = [];
 
-  if (repairData) {
-    repairs = repairData.map((info: any, i: number) => {
+  if (data) {
+    repairs = data.map((info: any, i: number) => {
       return {
         ...info,
         sn: i + 1,

@@ -113,6 +113,37 @@ export const services = [
   },
 ];
 
+export const days = [
+  {
+    day: "Sunday",
+    activity: "Closed",
+  },
+  {
+    day: "Monday",
+    activity: "08:00am - 06:00pm",
+  },
+  {
+    day: "Tuesday",
+    activity: "08:00am - 06:00pm",
+  },
+  {
+    day: "Wednesday",
+    activity: "08:00am - 06:00pm",
+  },
+  {
+    day: "Thursday",
+    activity: "08:00am - 06:00pm",
+  },
+  {
+    day: "Friday",
+    activity: "08:00am - 06:00pm",
+  },
+  {
+    day: "Saturday",
+    activity: "08:00am - 06:00pm",
+  },
+];
+
 export const features = [
   {
     id: "feature-1",
@@ -311,115 +342,75 @@ export const socialMedia = [
   },
 ];
 
-export const data = [
+export const appointmentForm = [
   {
-    id: 1,
-    name: {
-      first: "John",
-      last: "Smith",
-    },
-    total: 2795.95,
-    status: "On Hold",
-    method: "PayPal",
-    date: "15 Minutes ago",
+    label: "First Name",
+    element: "input",
+    type: "text",
+    width: "sm:w-1/2",
+    placeholder: "type your first name here...",
+    register: "firstName",
+    errorMessage: "first name is required.",
   },
   {
-    id: 2,
-    name: {
-      first: "Chris",
-      last: "Adams",
-    },
-    total: 1195.95,
-    status: "Processing",
-    method: "PayPal",
-    date: "23 Minutes ago",
+    label: "Last Name",
+    element: "input",
+    type: "text",
+    width: "sm:w-1/2",
+    placeholder: "type your last name here...",
+    register: "lastName",
+    errorMessage: "last name is required.",
   },
   {
-    id: 3,
-    name: {
-      first: "Sarah",
-      last: "Smith",
-    },
-    total: 495.85,
-    status: "Completed",
-    method: "Visa",
-    date: "1 Hour ago",
+    label: "Phone",
+    element: "input",
+    type: "tel",
+    width: "sm:w-1/2",
+    placeholder: "type your phone here...",
+    register: "phone",
+    errorMessage: "phone is required.",
   },
   {
-    id: 4,
-    name: {
-      first: "Joseph",
-      last: "Choo",
-    },
-    total: 150.45,
-    status: "Processing",
-    method: "MasterCard",
-    date: "1 Hour ago",
+    label: "Email",
+    element: "input",
+    type: "email",
+    width: "sm:w-1/2",
+    placeholder: "type your email here...",
+    register: "email",
+    errorMessage: "email is required.",
   },
   {
-    id: 5,
-    name: {
-      first: "Steve",
-      last: "Harding",
-    },
-    total: 175.25,
-    status: "On Hold",
-    method: "PayPal",
-    date: "2 Hour ago",
+    label: "Vehicle Make",
+    element: "input",
+    type: "text",
+    width: "sm:w-1/3",
+    placeholder: "e.g Mercedes Benz...",
+    register: "carMake",
+    errorMessage: "car manufacturer is required.",
   },
   {
-    id: 6,
-    name: {
-      first: "Laura",
-      last: "Croft",
-    },
-    total: 1295.75,
-    status: "Completed",
-    method: "Check",
-    date: "3 Hour ago",
+    label: "Car Model",
+    element: "input",
+    type: "text",
+    width: "sm:w-1/3",
+    placeholder: "e.g GLE 63...",
+    register: "carModel",
+    errorMessage: "car model is required.",
   },
   {
-    id: 7,
-    name: {
-      first: "Michael",
-      last: "Jones",
-    },
-    total: 89.95,
-    status: "Completed",
-    method: "MasterCard",
-    date: "3 Hour ago",
+    label: "Year Manufactured",
+    element: "input",
+    type: "number",
+    width: "sm:w-1/3",
+    placeholder: "e.g 2023...",
+    register: "carYear",
+    errorMessage: "year is required.",
   },
   {
-    id: 8,
-    name: {
-      first: "James",
-      last: "Bond",
-    },
-    total: 689.45,
-    status: "Completed",
-    method: "Visa",
-    date: "7 Hour ago",
-  },
-  {
-    id: 9,
-    name: {
-      first: "Haley",
-      last: "Whiting",
-    },
-    total: 14.99,
-    status: "Completed",
-    method: "PayPal",
-    date: "1 Day ago",
-  },
-  {
-    id: 10,
-    name: {
-      first: "Tim",
-      last: "Thomas",
-    },
-    total: 218.99,
-    status: "Completed",
-    method: "MasterCard",
-    date: "1 Day ago",
-  },
+    label: "Reason for appointment",
+    element: "textarea",
+    placeholder: "Share any additional information with us.",
+    register: "message",
+    errorMessage: "cannot be blank!",
+  }
 ];

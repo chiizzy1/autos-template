@@ -12,7 +12,7 @@ const page: FC<pageProps> = ({}) => {
       <div className="container max-w-7xl mx-auto sm:py-16 py-6 w-full">
         <LargeHeading>SERVICES</LargeHeading>
         <Paragraph>Serving all your automotive needs</Paragraph>
-        <div className="flex flex-col justify-center sm:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col justify-center xs:grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all">
           {services.map(({ description, id, image, title }) => (
             <ServicesCard
               key={id}

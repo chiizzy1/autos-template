@@ -2,8 +2,11 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const POST = async (req: Request) => {
-  const { customerId, carId } = await req.json();
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { carId: string } }
+) => {
+  const carId = params.carId;
   try {
     const session = await getAuthSession();
     const user = session?.user;
@@ -12,27 +15,34 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "Unauthorized to perform this action.",
-          RepairData: null,
+          success: false,
         }),
         { status: 401 }
       );
     }
 
-    const getRepairData = await db.repair.findMany({
-      where: {
-        customerId: customerId,
-        carId: carId,
-      },
-      include: {
-        car: true,
-        owner: true,
-      },
+    const getCar = await db.carDetails.findFirst({
+      where: { id: carId as string },
+    });
+
+    if (!getCar) {
+      return new Response(
+        JSON.stringify({
+          error: "Car does not exist!",
+          success: false,
+        }),
+        { status: 400 }
+      );
+    }
+
+    await db.carDetails.delete({
+      where: { id: carId as string },
     });
 
     return new Response(
       JSON.stringify({
         error: null,
-        RepairData: getRepairData,
+        success: "Successfully deleted car data!",
       }),
       { status: 200 }
     );
@@ -41,16 +51,16 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          RepairData: null,
+          success: false,
         }),
-        { status: 401 }
+        { status: 400 }
       );
     }
 
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        RepairData: null,
+        success: false,
       }),
       { status: 500 }
     );

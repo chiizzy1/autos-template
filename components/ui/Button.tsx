@@ -11,12 +11,13 @@ const buttonVariants = cva(
         default: "bg-slate-900 text-white hover:bg-slate-800 ",
         destructive: "text-white hover:bg-red-600 ",
         outline:
-          "bg-slate-900 text-white hover:bg-slate-800  border border-slate-200 ",
+          "bg-slate-900 text-white hover:bg-slate-800  border border-slate-200 cursor-pointer",
         subtle: "bg-slate-100 text-slate-900 hover:bg-slate-200 ",
         ghost:
           "bg-transparent hover:bg-slate-100 data-[state=open]:bg-transparent ",
         link: "bg-transparent text-sm font-bold text-dimPurple underline-offset-4 hover:underline hover:text-purple-600 ",
         hero: "bg-transparent py-4 px-8 text-white border-2 hover:bg-white hover:text-black",
+        purple: "bg-dimPurple text-white text-center border hover:bg-purple-950 cursor-pointer",
       },
       size: {
         default: "h-10 py-2 px-4",
