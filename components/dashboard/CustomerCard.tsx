@@ -11,6 +11,7 @@ interface CustomerCardProps {
   pendingPayments: number;
   activeRepairs: number;
   total: number;
+  outstanding: number;
 }
 
 const CustomerCard: FC<CustomerCardProps> = ({
@@ -22,10 +23,10 @@ const CustomerCard: FC<CustomerCardProps> = ({
   setNewCarModal,
   activeRepairs,
   pendingPayments,
-  total
+  total,
+  outstanding,
 }) => {
   const { lastName, firstName, email, phone, createdAt } = customerInfo;
-
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
@@ -92,7 +93,7 @@ const CustomerCard: FC<CustomerCardProps> = ({
           <strong className="pr-2">Active Repairs:</strong> {activeRepairs}
         </p>
         <p className="text-xs">
-          <strong className="pr-2">Completed Repairs:</strong> $
+          <strong className="pr-2">Completed Repairs:</strong>
           {repairs.length - activeRepairs}
         </p>
       </div>
@@ -121,10 +122,11 @@ const CustomerCard: FC<CustomerCardProps> = ({
           {total.toLocaleString("en")}
         </p>
         <p className="text-xs mb-1">
-          <strong className="pr-2">Total payment:</strong> ${total - pendingPayments}
+          <strong className="pr-2">Total payment:</strong> $
+          {total - outstanding}
         </p>
         <p className="text-xs">
-          <strong className="pr-2">Pending Payment:</strong> ${pendingPayments}
+          <strong className="pr-2">Pending Payment:</strong> ${outstanding}
         </p>
       </div>
 

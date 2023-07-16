@@ -52,7 +52,7 @@ export default function MultiUploader() {
   });
 
   return (
-    <div className="pt-8">
+    <div className="p-4">
       <input
         className="py-8"
         type="file"

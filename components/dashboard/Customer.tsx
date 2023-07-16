@@ -38,10 +38,14 @@ const Customer: FC<CustomerProps> = ({ data, customerId }) => {
   let activeRepairs: number = 0;
   let pendingPayments: number = 0;
   let total: number = 0;
+  let outstanding: number = 0;
 
   if (repairs) {
     repairsData = repairs.map((info: any, i: number) => {
-      if (!info.paid) pendingPayments++;
+      if (!info.paid) {
+        pendingPayments++;
+        outstanding += info.estimatedCost;
+      }
       if (!info.fixed) activeRepairs++;
       total += info.estimatedCost;
       return {
@@ -66,6 +70,7 @@ const Customer: FC<CustomerProps> = ({ data, customerId }) => {
         activeRepairs={activeRepairs}
         pendingPayments={pendingPayments}
         total={total}
+        outstanding={outstanding}
       />
       <div className="p-4">
         {customerCars && (

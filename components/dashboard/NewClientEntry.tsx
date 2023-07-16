@@ -99,6 +99,16 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 overflow-scroll">
         <div className="absolute bg-white top-[90%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
+          <div className="flex">
+            <div
+              className="p-1 border border-red-500 rounded-md"
+              onClick={() => {
+                setToggle(false);
+              }}
+            >
+              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+            </div>
+          </div>
           <h3 className="font-bold text-center text-xl">Create new entry</h3>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
@@ -288,8 +298,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                     styles={{
                       control: (baseStyles, state) => ({
                         ...baseStyles,
-                        borderColor: state.isFocused ? 'grey' : 'red',
-                        backgroundColor: 'grey'
+                        borderColor: state.isFocused ? "grey" : "red",
+                        backgroundColor: "grey",
                       }),
                     }}
                   />
@@ -312,15 +322,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 </p>
               )}
             </div>
-          </div>
-
-          <div
-            onClick={() => {
-              setToggle(false);
-            }}
-          >
-            {" "}
-            <AiOutlineClose />
           </div>
 
           <div className="flex items-center justify-center w-full">

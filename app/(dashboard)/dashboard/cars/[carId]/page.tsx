@@ -6,6 +6,7 @@ import DeleteCar from "@/components/dashboard/DeleteCar";
 import EditCar from "@/components/dashboard/EditCar";
 import Header from "@/components/dashboard/Header";
 import SingleRepairTable from "@/components/dashboard/SingleRepairTable";
+import Loading from "@/components/ui/Loading";
 import SmallHeading from "@/components/ui/SmallHeading";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -45,18 +46,14 @@ export default function CarDetail(url: URL) {
     return <div>Error!</div>;
   }
 
-  if (isLoading) {
-    return <h1> Loading...</h1>;
-  }
-
   if (data) {
     customerId = data.ownerId;
   }
 
   return (
-    <>
+    <main className="min-h-screen">
       {data && (
-        <main>
+        <>
           <Header page="" />
 
           <CarCards
@@ -83,8 +80,9 @@ export default function CarDetail(url: URL) {
           {deleteModal && (
             <DeleteCar carId={carId} setDeleteModal={setDeleteModal} />
           )}
-        </main>
+        </>
       )}
-    </>
+      {isLoading && <Loading text="Loading Car Info" />}
+    </main>
   );
 }

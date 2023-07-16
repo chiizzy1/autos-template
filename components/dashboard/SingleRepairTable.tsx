@@ -7,6 +7,8 @@ import DeleteModal from "./DeleteModal";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Button } from "../ui/Button";
 
 const columns: GridColDef[] = [
   { field: "sn", headerName: "SN", width: 70 },
@@ -51,24 +53,18 @@ interface SingleRepairTableProps {
   carId: string;
 }
 
-const SingleRepairTable: FC<SingleRepairTableProps> = ({
-  carId,
-}) => {
+const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
   // Instead of passing the repairs data down as prop, fetch it on component load so that
   // whenever a repair is deleted or edited, it's rendered live on the componenet thereby
   // increasing user experience
 
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
-  const [description, setDescription] = useState<string>("");
-  const [fixed, setFixed] = useState<boolean>(false);
-  const [paid, setPaid] = useState<boolean>(false);
-  const [estimatedCost, setEstimatedCost] = useState<number>(0.0);
-  const [finishDate, setFinishDate] = useState<boolean>(false);
   const [repairId, setRepairId] = useState<string>("");
+  const [repairDetails, setRepairDetails] = useState<any>();
 
-  const {refresh}  = useRouter()
-  
+  const { refresh } = useRouter();
+
   async function fetchCarRepairsData() {
     const { data } = await axios.get(`/api/repairs/getCarRepairs/${carId}`);
     return data.RepairData;
@@ -104,28 +100,24 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({
       width: 200,
       renderCell: (params: any) => (
         <div className="flex gap-4 items-center">
-          <div
+          <Button
+            variant="hero"
+            className="text-sky-500 border-sky-500"
             onClick={() => {
-              setDescription(params.row.description);
-              setFixed(params.row.fixed);
-              setPaid(params.row.paid);
-              setEstimatedCost(params.row.estimatedCost);
-              setFinishDate(params.row.finishDate);
-              setRepairId(params.row.id);
               setToggleModal(true);
+              setRepairDetails(params.row);
             }}
-            className="p-2 text-sky-500 rounded-md cursor-pointer"
           >
-            Edit
-          </div>
+            View / Edit
+          </Button>
+
           <div
             onClick={() => {
               setDeleteToggle(true);
               setRepairId(params.row.id);
             }}
-            className="p-2 text-red-500 rounded-md cursor-pointer"
           >
-            Delete
+            <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
           </div>
         </div>
       ),
@@ -133,30 +125,26 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({
   ];
   return (
     <div>
-      { repairs && <div style={{ height: 300, width: "100%" }}>
-        <DataGrid
-          rows={repairs}
-          columns={columns.concat(actionColumn)}
-          autoHeight={true}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-        />
-      </div>}
+      {repairs && (
+        <div style={{ height: 300, width: "100%" }}>
+          <DataGrid
+            rows={repairs}
+            columns={columns.concat(actionColumn)}
+            autoHeight={true}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+          />
+        </div>
+      )}
       {toggleModal && (
         <EditRepair
           setToggleModal={setToggleModal}
-          description={description}
-          fixed={fixed}
-          paid={paid}
-          estimatedCost={estimatedCost}
-          finishDate={finishDate}
-          repairId={repairId}
-          repairStatus="true"
+          repairDetails={repairDetails}
         />
       )}
 

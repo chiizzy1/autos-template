@@ -69,6 +69,8 @@ model Repair {
   trackId       String     @default(cuid())
   paid          Boolean    @default(false)
   fixed         Boolean    @default(false)
+  delivered     Boolean    @default(false)
+  deliveryDate  DateTime?
   car           CarDetails @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId         String
   repairStatus  String

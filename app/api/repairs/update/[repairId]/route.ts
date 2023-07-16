@@ -40,15 +40,21 @@ export const PUT = async (
     }
 
     let finishDate: Date | null = null;
+    let deliveryDate: Date | null = null;
 
     if (data.fixed == true) {
       finishDate = new Date();
+    }
+
+    if (data.delivered == true) {
+      deliveryDate = new Date();
     }
 
     const updateRepairData = await db.repair.update({
       where: { id: repairId as string },
       data: {
         ...data,
+        deliveryDate: deliveryDate,
         finishDate: finishDate,
       },
     });
