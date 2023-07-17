@@ -37,7 +37,6 @@ export const POST = async (req: Request) => {
     let carId = "";
     let repairId = "";
 
-
     // Create Customer
     const existingCustomerEmail = await db.customer.findUnique({
       where: { email: email },
@@ -118,7 +117,7 @@ export const POST = async (req: Request) => {
 
       const repairData = await db.repair.create({
         data: {
-          finishDate: finishDate,
+          finishDate,
           description,
           estimatedCost,
           repairStatus,

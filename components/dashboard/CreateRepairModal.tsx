@@ -32,7 +32,7 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
     estimatedCost: yup.number().required("please enter car make"),
     paid: yup.boolean(),
     fixed: yup.boolean(),
-    picked: yup.boolean(),
+    delivered: yup.boolean(),
     description: yup.string().required("enter plate number"),
     repairStatus: yup.string().required("enter repair status"),
   });
@@ -136,11 +136,11 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
                 className={`${styles.formInputStyles}`}
                 type="text"
                 placeholder="e.g true..."
-                {...register("picked")}
+                {...register("delivered")}
               />
-              {errors.picked && (
+              {errors.delivered && (
                 <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter car picked status
+                  Please enter car delivered status
                 </p>
               )}
             </div>

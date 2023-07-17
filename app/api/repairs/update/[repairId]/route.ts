@@ -42,11 +42,11 @@ export const PUT = async (
     let finishDate: Date | null = null;
     let deliveryDate: Date | null = null;
 
-    if (data.fixed == true) {
+    if (data.fixed) {
       finishDate = new Date();
     }
 
-    if (data.delivered == true) {
+    if (data.delivered) {
       deliveryDate = new Date();
     }
 

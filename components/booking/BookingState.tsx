@@ -7,6 +7,7 @@ import { toast } from "../ui/toast";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import SmallHeading from "../ui/SmallHeading";
+import { useRouter } from "next/navigation";
 
 interface BookingStateProps {}
 
@@ -23,6 +24,8 @@ const BookingState: FC<BookingStateProps> = ({}) => {
     dateTime: null,
   });
 
+  const { push } = useRouter();
+
   const { mutate, error, isLoading, isError } = useMutation({
     mutationFn: async (info: any) => {
       console.log(info);
@@ -36,6 +39,7 @@ const BookingState: FC<BookingStateProps> = ({}) => {
         message: "okay",
         type: "success",
       });
+      push("/");
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -58,7 +62,6 @@ const BookingState: FC<BookingStateProps> = ({}) => {
       time: session.dateTime?.getTime(),
     });
   };
-
 
   return (
     <div>

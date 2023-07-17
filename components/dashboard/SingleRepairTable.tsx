@@ -9,43 +9,29 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Button } from "../ui/Button";
+import RepairDetails from "./RepairDetails";
 
 const columns: GridColDef[] = [
   { field: "sn", headerName: "SN", width: 70 },
   {
     field: "description",
-    headerName: "description",
+    headerName: "Diagnosis",
     width: 200,
   },
   {
     field: "estimatedCost",
-    headerName: "estimatedCost",
-    width: 200,
-  },
-  {
-    field: "trackId",
-    headerName: "trackId",
+    headerName: "Cost",
     width: 200,
   },
   {
     field: "paid",
     headerName: "paid",
-    width: 200,
+    width: 100,
   },
   {
     field: "fixed",
     headerName: "fixed",
-    width: 200,
-  },
-  {
-    field: "startDate",
-    headerName: "startDate",
-    width: 200,
-  },
-  {
-    field: "finishDate",
-    headerName: "finishDate",
-    width: 200,
+    width: 100,
   },
 ];
 
@@ -54,14 +40,11 @@ interface SingleRepairTableProps {
 }
 
 const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
-  // Instead of passing the repairs data down as prop, fetch it on component load so that
-  // whenever a repair is deleted or edited, it's rendered live on the componenet thereby
-  // increasing user experience
-
   const [toggleModal, setToggleModal] = useState<boolean>(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [repairId, setRepairId] = useState<string>("");
   const [repairDetails, setRepairDetails] = useState<any>();
+  const [viewRepair, setViewRepair] = useState<boolean>(false)
 
   const { refresh } = useRouter();
 
@@ -104,11 +87,21 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
             variant="hero"
             className="text-sky-500 border-sky-500"
             onClick={() => {
-              setToggleModal(true);
               setRepairDetails(params.row);
+              setViewRepair(true);
             }}
           >
-            View / Edit
+            View
+          </Button>
+          <Button
+            variant="hero"
+            className="text-sky-500 border-sky-500"
+            onClick={() => {
+              setRepairDetails(params.row);
+              setToggleModal(true);
+            }}
+          >
+            Edit
           </Button>
 
           <div
@@ -151,6 +144,8 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
       {deleteToggle && (
         <DeleteModal repairId={repairId} setDeleteToggle={setDeleteToggle} />
       )}
+
+      {viewRepair && <RepairDetails repairDetails={repairDetails} setViewRepair={setViewRepair} /> }
     </div>
   );
 };

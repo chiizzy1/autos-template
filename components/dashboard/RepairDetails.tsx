@@ -4,19 +4,30 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Mail, PhoneForwarded } from "lucide-react";
 
-interface BookingDetailsProps {
-  setToggleDetails: Dispatch<SetStateAction<boolean>>;
-  bookingDetails: [] | null;
+interface RepairDetailsProps {
+  setViewRepair: Dispatch<SetStateAction<boolean>>;
+  repairDetails: any;
 }
 
-const BookingDetails: FC<BookingDetailsProps> = ({
-  setToggleDetails,
-  bookingDetails,
+const RepairDetails: FC<RepairDetailsProps> = ({
+  setViewRepair,
+  repairDetails,
 }) => {
-  const { booked, email, make, name, model, year, phone, reason, time }: any =
-    bookingDetails;
+  const {
+    delivered,
+    deliveryDate,
+    description,
+    estimatedCost,
+    finishDate,
+    fixed,
+    repairStatus,
+    paid,
+    startDate,
+    trackId,
+    owner,
+  } = repairDetails;
 
-  console.log(bookingDetails);
+  console.log('repair:', repairDetails)
 
   return (
     <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0">
@@ -25,7 +36,7 @@ const BookingDetails: FC<BookingDetailsProps> = ({
           <div
             className="p-1 border border-red-500 rounded-md"
             onClick={() => {
-              setToggleDetails(false);
+              setViewRepair(false);
             }}
           >
             <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
@@ -34,10 +45,7 @@ const BookingDetails: FC<BookingDetailsProps> = ({
 
         <div className="bg-white border p-6 rounded-lg">
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-bold text-dimPurple">
-              {" "}
-              Customer Details
-            </p>
+            <p className="text-sm font-bold text-dimPurple"> Owner Details</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -55,21 +63,19 @@ const BookingDetails: FC<BookingDetailsProps> = ({
           </div>
           <div className="border w-full mb-2" />
           <p className="text-xs mb-1">
-            <strong className="pr-2">Name:</strong> {name}
+            <strong className="pr-2">Name:</strong>{" "}
+            {`${owner.lastName} ${owner.firstName}`}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Email:</strong> {email}
+            <strong className="pr-2">Email:</strong> {owner.email}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Phone:</strong> {phone}
+            <strong className="pr-2">Phone:</strong> {owner.phone}
           </p>
 
           <div className="border w-full mb-2" />
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-bold text-dimPurple">
-              {" "}
-              Appointment Details
-            </p>
+            <p className="text-sm font-bold text-dimPurple"> Repair Details</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -88,31 +94,46 @@ const BookingDetails: FC<BookingDetailsProps> = ({
           <div className="border w-full mb-2" />
 
           <p className="text-xs mb-1">
-            <strong className="pr-2">Car Nake:</strong> {make}
+            <strong className="pr-2">Repair Cost:</strong> {estimatedCost}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Car Model:</strong> {model}
+            <strong className="pr-2">Track ID:</strong> {trackId}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Year Manufactured:</strong> {year}
+            <strong className="pr-2">Repair Status:</strong> {repairStatus}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Reason:</strong> {reason}
+            <strong className="pr-2">Fixed:</strong> {fixed ? "Yes" : "No"}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Selected Session:</strong> {time}
+            <strong className="pr-2">Paid:</strong> {paid ? "Yes" : "No"}
           </p>
           <p className="text-xs mb-1">
-            <strong className="pr-2">Date Booked:</strong>{" "}
-            {new Date(booked).toLocaleString()}
+            <strong className="pr-2">Phone:</strong> {owner.phone}
+          </p>
+          <p className="text-xs mb-1">
+            <strong className="pr-2">Delivered:</strong>{" "}
+            {delivered ? "Yes" : "No"}
+          </p>
+          <p className="text-xs mb-1">
+            <strong className="pr-2">Diagnosis:</strong> {description}
+          </p>
+          <p className="text-xs mb-1">
+            <strong className="pr-2">Start Date:</strong>{" "}
+            {new Date(startDate).toDateString()}
+          </p>
+          <p className="text-xs mb-1">
+            <strong className="pr-2">Finished Date:</strong>{" "}
+            { finishDate ? new Date(finishDate).toDateString() : "null"}
+          </p>
+          <p className="text-xs mb-1">
+            <strong className="pr-2">Date Delivered:</strong>{" "}
+            { delivered ? new Date(deliveryDate).toDateString() : "null"}
           </p>
 
           <div className="border w-full mb-2" />
           <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <p className="text-sm font-bold text-dimPurple">
-              {" "}
-              Actions
-            </p>
+            <p className="text-sm font-bold text-dimPurple"> Actions</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -131,14 +152,14 @@ const BookingDetails: FC<BookingDetailsProps> = ({
           <div className="border w-full mb-2" />
 
           <div className="flex gap-4 items-center text-white">
-            <a href={`tel:${phone}`} target="_blank">
+            <a href={`tel:${owner.phone}`} target="_blank">
               <div className="flex items-center rounded-lg bg-dimPurple p-2">
                 <PhoneForwarded />
                 <p className="pl-2">Call Customer </p>
               </div>
             </a>
 
-            <a href={`mailto:${email}`} target="_blank">
+            <a href={`mailto:${owner.email}`} target="_blank">
               <div className="flex items-center rounded-lg bg-dimPurple p-2">
                 <Mail />
                 <p className="pl-2">Send Customer Email</p>
@@ -151,4 +172,4 @@ const BookingDetails: FC<BookingDetailsProps> = ({
   );
 };
 
-export default BookingDetails;
+export default RepairDetails;

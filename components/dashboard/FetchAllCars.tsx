@@ -85,10 +85,6 @@ const FetchAllCars: FC<FetchAllCarsProps> = () => {
     }
   );
 
-  if (isLoading) {
-    return <h1> Loading...</h1>;
-  }
-
   if (isError) {
     return <div>Error!</div>;
   }

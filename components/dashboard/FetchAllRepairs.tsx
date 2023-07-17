@@ -10,57 +10,50 @@ import SmallHeading from "../ui/SmallHeading";
 import { Button } from "../ui/Button";
 import { AiOutlineDelete } from "react-icons/ai";
 import DeleteModal from "./DeleteModal";
+import RepairDetails from "./RepairDetails";
+import EditRepair from "./EditRepair";
+
 
 const columns: GridColDef[] = [
   { field: "sn", headerName: "SN", width: 70 },
   {
     field: "description",
-    headerName: "description",
+    headerName: "Diagnosis",
     width: 200,
   },
   {
     field: "estimatedCost",
-    headerName: "estimatedCost",
-    width: 200,
-  },
-  {
-    field: "trackId",
-    headerName: "trackId",
+    headerName: "Cost",
     width: 200,
   },
   {
     field: "paid",
     headerName: "paid",
-    width: 200,
+    width: 100,
   },
   {
     field: "fixed",
     headerName: "fixed",
-    width: 200,
-  },
-  {
-    field: "startDate",
-    headerName: "startDate",
-    width: 200,
-  },
-  {
-    field: "finishDate",
-    headerName: "finishDate",
-    width: 200,
+    width: 100,
   },
 ];
+
 
 interface FetchAllRepairsProps {}
 
 const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
-  const [toggle, setToggle] = useState<boolean>(false);
+  const [toggleModal, setToggleModal] = useState<boolean>(false);
+  const [deleteToggle, setDeleteToggle] = useState(false);
   const [repairId, setRepairId] = useState<string>("");
+  const [repairDetails, setRepairDetails] = useState<any>();
+  const [viewRepair, setViewRepair] = useState<boolean>(false)
+
 
   const actionColumn: any = [
     {
       field: "action",
       headerName: "Action",
-      width: 300,
+      width: 500,
       renderCell: (params: any) => (
         <div className="flex gap-4 items-center">
           <Link href={`/dashboard/cars/${params.row.carId}`}>
@@ -73,10 +66,30 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
               owner info
             </Button>
           </Link>
+          <Button
+            variant="hero"
+            className="text-sky-500 border-sky-500"
+            onClick={() => {
+              setRepairDetails(params.row);
+              setViewRepair(true);
+            }}
+          >
+            View
+          </Button>
+          <Button
+            variant="hero"
+            className="text-sky-500 border-sky-500"
+            onClick={() => {
+              setRepairDetails(params.row);
+              setToggleModal(true);
+            }}
+          >
+            Edit
+          </Button>
           <div
             onClick={() => {
               setRepairId(params.row.id);
-              setToggle(true);
+              setDeleteToggle(true);
             }}
           >
             <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
@@ -137,9 +150,18 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
           </div>
         </>
       )}
-      {toggle && (
-        <DeleteModal repairId={repairId} setDeleteToggle={setToggle} />
+      {toggleModal && (
+        <EditRepair
+          setToggleModal={setToggleModal}
+          repairDetails={repairDetails}
+        />
       )}
+
+      {deleteToggle && (
+        <DeleteModal repairId={repairId} setDeleteToggle={setDeleteToggle} />
+      )}
+
+      {viewRepair && <RepairDetails repairDetails={repairDetails} setViewRepair={setViewRepair} /> }
     </>
   );
 };

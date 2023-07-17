@@ -48,44 +48,18 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
   // determine the correct repair stage label to display to our user from data gotten from our database
   const getRepairStatusLabel = repairStages.find(
     ({ value }) => value === repairStatus
-  )?.label;
+  );
 
-  const getPaidLabel = selectOptions.find(({ value }) => value === paid)?.label;
-  const getFixedLabel = selectOptions.find(
-    ({ value }) => value === fixed
-  )?.label;
+  const getPaidLabel = selectOptions.find(({ value }) => value === paid);
+  const getFixedLabel = selectOptions.find(({ value }) => value === fixed);
   const getDeliveredLabel = selectOptions.find(
     ({ value }) => value === delivered
-  )?.label;
-
-  // const getRepairStatusLabel: {
-  //   value: string;
-  //   label: string;
-  // }[] = repairStages.filter((obj) => obj.value === repairStatus);
-
-  // const getPaidLabel: {
-  //   value: boolean;
-  //   label: string;
-  // }[] = selectOptions.filter((obj) => obj.value === paid);
-
-  // const getFixedLabel: {
-  //   value: boolean;
-  //   label: string;
-  // }[] = selectOptions.filter((obj) => obj.value === fixed);
-
-  // const getDeliveredLabel: {
-  //   value: boolean;
-  //   label: string;
-  // }[] = selectOptions.filter((obj) => obj.value === delivered);
+  );
 
   // Handle Form with Yup
   const Schema = yup.object().shape({
     estimatedCost: yup.number(),
-    paid: yup.boolean(),
-    fixed: yup.boolean(),
-    delivered: yup.boolean(),
     description: yup.string(),
-    repairStatus: yup.string(),
   });
 
   const {
@@ -95,18 +69,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
-  const handleFormSubmit = (data: any) => {
-    console.log(data);
-    mutate(data);
-  };
 
-  // const editRepair: any = async (info: any) => {
-  //   console.log("Info:", info);
-  //   const { data } = await axios.put(`/api/repairs/update/${repairId}`, {
-  //     info,
-  //   });
-  //   return data;
-  // };
 
   const { mutate, error, isLoading, isError } = useMutation(
     async (info: any) => {
@@ -140,8 +103,19 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
     }
   );
 
+  const onSubmit = (data: any) => {
+    mutate({
+      ...data,
+      fixed: data.fixed.value,
+      paid: data.paid.value,
+      delivered: data.delivered.value,
+      repairStatus: data.repairStatus.value,
+    });
+  };
+
+
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 ">
         <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
           <div className="flex">
@@ -176,10 +150,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
               <Controller
                 name="repairStatus"
                 control={control}
-                defaultValue={{
-                  value: repairStatus,
-                  label: getRepairStatusLabel,
-                }}
+                defaultValue={getRepairStatusLabel}
                 render={({ field }) => (
                   <Select
                     options={repairStages}
@@ -193,12 +164,12 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
 
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Paid</p>
+              <p className="pb-2">Fixed</p>
 
               <Controller
-                name="repairStatus"
+                name="paid"
                 control={control}
-                defaultValue={{ value: paid, label: getPaidLabel }}
+                defaultValue={getFixedLabel}
                 render={({ field }) => (
                   <Select
                     options={selectOptions}
@@ -210,17 +181,23 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
             </div>
 
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Fixed</p>
+              <p className="pb-2">Paid</p>
 
               <Controller
-                name="repairStatus"
+                name="fixed"
                 control={control}
-                defaultValue={{ value: fixed, label: getFixedLabel }}
+                defaultValue={getPaidLabel}
                 render={({ field }) => (
                   <Select
                     options={selectOptions}
                     {...field}
-                    className="bg-slate-100 text-black"
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? "grey" : "red",
+                        backgroundColor: "grey",
+                      }),
+                    }}
                   />
                 )}
               />
@@ -230,17 +207,20 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
               <p className="pb-2">Delivered</p>
 
               <Controller
-                name="repairStatus"
+                name="delivered"
                 control={control}
-                defaultValue={{
-                  value: delivered,
-                  label: getDeliveredLabel,
-                }}
+                defaultValue={getDeliveredLabel}
                 render={({ field }) => (
                   <Select
                     options={selectOptions}
                     {...field}
-                    className="bg-slate-100 text-black"
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? "grey" : "red",
+                        backgroundColor: "grey",
+                      }),
+                    }}
                   />
                 )}
               />
@@ -269,7 +249,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
               isLoading={isLoading}
               disabled={isLoading}
             >
-              {isLoading ? "Editing ..." : "Edit repair"}
+              {isLoading ? "Updating..." : "Update Data"}
             </Button>
           </div>
         </div>

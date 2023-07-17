@@ -25,7 +25,7 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
     carYear: yup.number().required("What year was your car manufactured?"),
-    message: yup.string(),
+    message: yup.string().required(),
   });
 
   const {

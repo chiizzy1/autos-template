@@ -45,7 +45,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
 
   const { mutate, error, isLoading, isError } = useMutation({
     mutationFn: async (info: any) => {
-      console.log(info);
       const { data } = await axios.post("/api/newclient", info);
       return data.clientData;
     },

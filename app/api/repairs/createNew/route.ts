@@ -19,15 +19,22 @@ export const POST = async (req: Request) => {
     }
 
     let finishDate: Date | null = null;
+    let deliveryDate: Date | null = null;
 
-    if (repairInfo.picked == true) {
+    if (repairInfo.fixed) {
       finishDate = new Date();
     }
+
+    if (repairInfo.delivered) {
+      deliveryDate = new Date();
+    }
+
 
     const repairData = await db.repair.create({
       data: {
         ...repairInfo,
         finishDate: finishDate,
+        deliveryDate: deliveryDate
       },
     });
 

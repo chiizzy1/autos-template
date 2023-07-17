@@ -64,7 +64,7 @@ model CarDetails {
 
 model Repair {
   id            String     @id @default(cuid())
-  description   String
+  description   String @db.Text
   estimatedCost Float
   trackId       String     @default(cuid())
   paid          Boolean    @default(false)
@@ -104,7 +104,7 @@ model AppointmentClient {
   name            String
   email           String
   phone           Int
-  reason          String
+  reason          String @db.Text
   make            String
   model           String
   year            Int

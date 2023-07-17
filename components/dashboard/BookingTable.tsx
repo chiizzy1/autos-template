@@ -60,9 +60,9 @@ const columns: GridColDef[] = [
   // },
 ];
 
-interface RepairsTableProps {}
+interface BookingTableProps {}
 
-const RepairsTable: FC<RepairsTableProps> = () => {
+const BookingTable: FC<BookingTableProps> = () => {
   const [bookingDetails, setBookingDetails] = useState<[] | null>(null);
   const [bookingId, setBookingId] = useState<string>("");
   const [toggleDetails, setToggleDetails] = useState<boolean>(false);
@@ -178,4 +178,4 @@ const RepairsTable: FC<RepairsTableProps> = () => {
   );
 };
 
-export default RepairsTable;
+export default BookingTable;
