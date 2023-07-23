@@ -2,8 +2,12 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const POST = async (req: Request) => {
-  const { plateNumber, carMake, carModel, carYear, ownerId } = await req.json();
+export const POST = async (
+  req: Request,
+  { params }: { params: { carId: string } }
+) => {
+  const carId = params.carId;
+  const data = await req.json();
 
   try {
     const session = await getAuthSession();
@@ -13,40 +17,50 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "Unauthorized to perform this action.",
-          CarData: null,
+          RepairData: null,
         }),
         { status: 401 }
       );
     }
 
-    const existingCar = await db.carDetails.findFirst({
-      where: { plateNumber: plateNumber },
+    const getCarOwnerId = await db.carDetails.findUnique({
+      where: { id: carId },
     });
 
-    if (existingCar) {
+    if (!getCarOwnerId) {
       return new Response(
         JSON.stringify({
-          error: "Car with same plate number already exists!",
-          CarData: null,
+          error: "Car does not exist.",
+          RepairData: null,
         }),
         { status: 400 }
       );
     }
+    let finishDate: Date | null = null;
+    let deliveryDate: Date | null = null;
 
-    const carData = await db.carDetails.create({
+    if (data.fixed) {
+      finishDate = new Date();
+    }
+
+    if (data.delivered) {
+      deliveryDate = new Date();
+    }
+
+    const repairData = await db.repair.create({
       data: {
-        plateNumber: plateNumber,
-        make: carMake,
-        model: carModel,
-        year: carYear,
-        ownerId: ownerId,
+        ...data,
+        finishDate: finishDate,
+        deliveryDate: deliveryDate,
+        carId: carId,
+        customerId: getCarOwnerId.ownerId,
       },
     });
 
     return new Response(
       JSON.stringify({
         error: null,
-        CarData: carData,
+        RepairData: repairData,
       }),
       { status: 200 }
     );
@@ -55,16 +69,16 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          CarData: null,
+          RepairData: null,
         }),
-        { status: 400 }
+        { status: 401 }
       );
     }
 
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        CarData: null,
+        RepairData: null,
       }),
       { status: 500 }
     );

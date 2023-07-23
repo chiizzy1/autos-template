@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,13 +12,16 @@ import { useRouter } from "next/navigation";
 import { createCar } from "@/helpers/customers";
 import { Button } from "../ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
+import { Input } from "../ui/Input";
 
 interface EditCarProps {
   carId: string;
-  setEditModal: (toggle: boolean) => void;
+  setEditModal: Dispatch<SetStateAction<boolean>>;
+  carData: any;
 }
 
-const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
+const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
+  const { make, model, year, plateNumber } = carData;
   // Handle Form with Yup
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),
@@ -36,17 +39,14 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
 
   const editCarDetails: any = async (info: any) => {
     console.log(info);
-    const { data } = await axios.put(`/api/cars/update`, {
-      ...info,
-      id: carId,
-    });
+    const { data } = await axios.put(`/api/cars/update/${carId}`, info);
     return data.CarData;
   };
 
   const { mutate, error, isLoading, isError } = useMutation(editCarDetails, {
     onSuccess: (successData) => {
       console.log(successData);
-        setEditModal(false)
+      setEditModal(false);
       toast({
         title: "success editing car info",
         message: "okay",
@@ -55,7 +55,7 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        setEditModal(false)
+        setEditModal(false);
         toast({
           title: "Error editing car info",
           message: `${error?.response?.data.error} ⚠️`,
@@ -75,32 +75,36 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 ">
         <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
+          <div className="flex">
+            <div
+              className="p-1 border border-red-500 rounded-md"
+              onClick={() => {
+                setEditModal(false);
+              }}
+            >
+              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+            </div>
+          </div>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Vehicle Make</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g Mercedes Benz..."
-                {...register("carMake")}
-              />
+              <Input type="text" defaultValue={make} {...register("carMake")} />
               {errors.carMake && (
                 <p className={`${styles.formErrorStyles}`}>
-                  Please enter your car manufacturer name!
+                  Please enter car manufacturer name!
                 </p>
               )}
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Car Model</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="text"
-                placeholder="e.g GLE 63..."
+                defaultValue={model}
                 {...register("carModel")}
               />
               {errors.carModel && (
                 <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter your car model
+                  Please enter car model
                 </p>
               )}
             </div>
@@ -109,48 +113,36 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">plate Number</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="text"
-                placeholder="e.g GLE 63..."
+                defaultValue={plateNumber}
                 {...register("plateNumber")}
               />
               {errors.plateNumber && (
                 <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter your car model
+                  Please enter car plate number
                 </p>
               )}
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Year</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g 2022..."
-                {...register("carYear")}
-              />
+              <Input type="text" defaultValue={year} {...register("carYear")} />
               {errors.carYear && (
                 <p className={`${styles.formErrorStyles}`}>
-                  please enter the year your car was manufactured!
+                  please enter year car was manufactured!
                 </p>
               )}
             </div>
           </div>
 
-          <div
-            onClick={() => {
-              setEditModal(false);
-            }}
-          > <AiOutlineClose /></div>
-
           <div className="flex items-center justify-center w-full">
             <Button
-              variant="default"
+              variant="purple"
               className="items-center"
               isLoading={isLoading}
               disabled={isLoading}
             >
-              {isLoading ? "Registering New Car" : "Register New Car"}
+              {isLoading ? "Submitting" : "Submit"}
             </Button>
           </div>
         </div>

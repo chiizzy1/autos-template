@@ -1,78 +1,43 @@
 "use client";
 
 import { FC, useState } from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../ui/Loading";
 import { Button } from "../ui/Button";
-import { AiOutlineDelete } from "react-icons/ai";
 import BookingDetails from "./BookingDetails";
 import DeleteBooking from "./DeleteBooking";
 
-//  id make model   reason selectedSession[0].time
-const columns: GridColDef[] = [
-  { field: "sn", headerName: "SN", width: 70 },
-  {
-    field: "name",
-    headerName: "name",
-    width: 200,
-  },
-  {
-    field: "email",
-    headerName: "email",
-    width: 200,
-  },
-  {
-    field: "phone",
-    headerName: "phone",
-    width: 200,
-  },
-  // {
-  //   field: "make",
-  //   headerName: "make",
-  //   width: 200,
-  // },
-  // {
-  //   field: "model",
-  //   headerName: "model",
-  //   width: 200,
-  // },
-  // {
-  //   field: "year",
-  //   headerName: "year",
-  //   width: 200,
-  // },
-  {
-    field: "time",
-    headerName: "appointment session",
-    width: 200,
-  },
-  // {
-  //   field: "booked",
-  //   headerName: "booked on",
-  //   width: 200,
-  // },
-  // {
-  //   field: "reason",
-  //   headerName: "reason",
-  //   width: 200,
-  // },
-];
+import { ColumnDef } from "@tanstack/react-table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { AppointmentClient } from "@prisma/client";
+import { DataTable } from "../ui/DataTable";
+import SmallHeading from "../ui/SmallHeading";
+import EditOpenCloseDays from "./EditOpenCloseDays";
 
 interface BookingTableProps {}
 
 const BookingTable: FC<BookingTableProps> = () => {
-  const [bookingDetails, setBookingDetails] = useState<[] | null>(null);
+  const [bookingDetails, setBookingDetails] = useState<any>();
   const [bookingId, setBookingId] = useState<string>("");
   const [toggleDetails, setToggleDetails] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   // Update appointment to viewed when viewed
 
-  const updateViewed = async (info: string) => {
-    console.log("id:", info);
-    const { data } = await axios.put(`/api/booking/viewed/${info}`);
+  const updateViewed = async (id: string) => {
+    console.log("id:", id);
+    const { data } = await axios.put(`/api/booking/viewed/${id}`);
     return data.updated;
   };
 
@@ -114,56 +79,115 @@ const BookingTable: FC<BookingTableProps> = () => {
     });
   }
 
-  const actionColumn: any = [
+  const columns: ColumnDef<AppointmentClient>[] = [
     {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params: any) => (
-        <div className="flex gap-4 items-center">
-          <Button
-            onClick={() => {
-              setBookingDetails(params.row);
-              setToggleDetails(true);
-              params.row.viewed ? "" : viewed(params.row.id);
-            }}
-            variant="hero"
-            className={`${
-              params.row.viewed ? "bg-green-500" : "bg-red-500"
-            } border-sky-500`}
-          >
-            view details
-          </Button>
-          <div
-            onClick={() => {
-              setBookingId(params.row.id);
-              setDeleteModal(true);
-            }}
-          >
-            <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
-          </div>
-        </div>
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
       ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "sn",
+      header: "SN",
+    },
+    {
+      accessorKey: "name",
+      header: "Name",
+    },
+    {
+      accessorKey: "email",
+      header: "Email",
+    },
+    {
+      accessorKey: "phone",
+      header: "Phone",
+    },
+    {
+      accessorKey: "time",
+      header: "Appointment Time",
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const obj = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setBookingDetails(obj);
+                    setToggleDetails(true);
+                    obj.viewed ? "" : viewed(obj.id);
+                  }}
+                >
+                  View Booking Details
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setBookingId(obj.id);
+                    setDeleteModal(true);
+                  }}
+                >
+                  <Trash className="mr-4" /> Delete
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  const filterField = [
+    {
+      placeholder: "Filter By Name",
+      field: "name",
+    },
+    {
+      placeholder: "Filter By Email",
+      field: "email",
     },
   ];
 
   return (
-    <>
+    <div className="p-4">
       {isLoading && <Loading text="loading appointments" />}
+      <SmallHeading className="py-4">Edit Opening/Closing dates!</SmallHeading>
+
+      <EditOpenCloseDays />
+
+      <SmallHeading className="pb-4 pt-8">See all appointments!!</SmallHeading>
       {bookings && (
-        <div style={{ height: 700, width: "100%" }}>
-          <DataGrid
-            rows={bookings}
-            columns={columns.concat(actionColumn)}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-          />
-        </div>
+        <DataTable
+          columns={columns}
+          data={bookings}
+          filterField={filterField}
+        />
       )}
       {toggleDetails && (
         <BookingDetails
@@ -174,7 +198,7 @@ const BookingTable: FC<BookingTableProps> = () => {
       {deleteModal && (
         <DeleteBooking bookingId={bookingId} setDeleteModal={setDeleteModal} />
       )}
-    </>
+    </div>
   );
 };
 

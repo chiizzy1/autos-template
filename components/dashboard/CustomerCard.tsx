@@ -3,30 +3,37 @@ import { Button } from "../ui/Button";
 
 interface CustomerCardProps {
   customerInfo: any;
-  repairs: any;
-  cars: any;
   setCustomerEditModal: Dispatch<SetStateAction<boolean>>;
   setCustomerDeleteModal: Dispatch<SetStateAction<boolean>>;
   setNewCarModal: Dispatch<SetStateAction<boolean>>;
-  pendingPayments: number;
-  activeRepairs: number;
-  total: number;
-  outstanding: number;
 }
 
 const CustomerCard: FC<CustomerCardProps> = ({
   customerInfo,
-  repairs,
-  cars,
   setCustomerDeleteModal,
   setCustomerEditModal,
   setNewCarModal,
-  activeRepairs,
-  pendingPayments,
-  total,
-  outstanding,
 }) => {
-  const { lastName, firstName, email, phone, createdAt } = customerInfo;
+  const { lastName, firstName, email, phone, createdAt, cars, repairs } =
+    customerInfo;
+
+  let activeRepairs: number = 0;
+  let pendingPayments: number = 0;
+  let total: number = 0;
+  let outstanding: number = 0;
+
+  repairs.map((info: any, i: number) => {
+    if (!info.paid) {
+      pendingPayments++;
+      outstanding += info.estimatedCost;
+    }
+    if (!info.fixed) activeRepairs++;
+    total += info.estimatedCost;
+    return {
+      ...info,
+      sn: i + 1,
+    };
+  });
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
@@ -123,14 +130,14 @@ const CustomerCard: FC<CustomerCardProps> = ({
         </p>
         <p className="text-xs mb-1">
           <strong className="pr-2">Total payment:</strong> $
-          {total - outstanding}
+          {(total - outstanding).toLocaleString("en")}
         </p>
         <p className="text-xs">
           <strong className="pr-2">Pending Payment:</strong> ${outstanding}
         </p>
       </div>
 
-      <div className="bg-white shadow-lg border p-4 rounded-lg flex flex-col gap-2">
+      <div className="bg-white border p-6 rounded-lg flex flex-col gap-2">
         <Button variant="purple" onClick={() => setCustomerDeleteModal(true)}>
           Delete Customer Data
         </Button>

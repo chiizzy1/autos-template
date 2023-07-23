@@ -6,7 +6,7 @@ export const PUT = async (
   req: Request,
   { params }: { params: { customerId: string } }
 ) => {
-  const { email, firstName, lastName, phone } = await req.json();
+  const data = await req.json();
 
   const customerId = params.customerId;
 
@@ -41,12 +41,12 @@ export const PUT = async (
 
     const updateCustomerData = await db.customer.update({
       where: { id: customerId as string },
-      data: { email, firstName, lastName, phone },
+      data: { ...data },
     });
 
     return new Response(
       JSON.stringify({
-        error: "Customer does not exist!",
+        error: null,
         UpdatedCustomerData: updateCustomerData,
       }),
       { status: 200 }

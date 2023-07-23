@@ -8,86 +8,69 @@ import EditCustomerInfo from "./EditCustomerInfo";
 import RepairsTable from "./RepairsTable";
 import NewCarModal from "./NewCarModal";
 import SmallHeading from "../ui/SmallHeading";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../ui/Loading";
 
 interface CustomerProps {
-  data: any;
   customerId: string;
 }
 
-const Customer: FC<CustomerProps> = ({ data, customerId }) => {
+const fetchDetails = async (customerId: string) => {
+  const { data } = await axios.get(`/api/customers/${customerId}`);
+  return data.customerData;
+};
+
+const Customer: FC<CustomerProps> = ({ customerId }) => {
   const [customerEditModal, setCustomerEditModal] = useState(false);
   const [customerDeleteModal, setCustomerDeleteModal] = useState(false);
   const [newCarModal, setNewCarModal] = useState(false);
 
-  const { cars, repairs, ...customerInfo }: any = data;
+  
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["customer"],
+    queryFn: () => fetchDetails(customerId),
+  });
 
-  // add SN to Cars array
-  let customerCars: [] = [];
-
-  if (cars) {
-    customerCars = cars.map((info: any, i: number) => {
-      return {
-        ...info,
-        sn: i + 1,
-      };
-    });
+  if (isError) {
+    return (
+      <h4 className="text-red-500 font-bold text-2xl">Error Loading page!</h4>
+    );
   }
 
-  // add SN to repairs array
-  let repairsData: [] = [];
-  let activeRepairs: number = 0;
-  let pendingPayments: number = 0;
-  let total: number = 0;
-  let outstanding: number = 0;
-
-  if (repairs) {
-    repairsData = repairs.map((info: any, i: number) => {
-      if (!info.paid) {
-        pendingPayments++;
-        outstanding += info.estimatedCost;
-      }
-      if (!info.fixed) activeRepairs++;
-      total += info.estimatedCost;
-      return {
-        ...info,
-        sn: i + 1,
-      };
-    });
-  }
-
+  
   return (
     <>
-      <SmallHeading className="pl-4 py-4">
-        {`${data.lastName} ${data.firstName}`} Transactions Page
-      </SmallHeading>
-      <CustomerCard
-        customerInfo={customerInfo}
-        cars={cars}
-        repairs={repairs}
-        setCustomerDeleteModal={setCustomerDeleteModal}
-        setCustomerEditModal={setCustomerEditModal}
-        setNewCarModal={setNewCarModal}
-        activeRepairs={activeRepairs}
-        pendingPayments={pendingPayments}
-        total={total}
-        outstanding={outstanding}
-      />
+    {isLoading && <Loading text="Loading Customer Data" /> }
+      {data && (
+        <>
+          <SmallHeading className="pl-4 py-4">
+            {`${data?.lastName} ${data?.firstName}`} Transactions Page
+          </SmallHeading>
+          <CustomerCard
+            customerInfo={data}
+            setCustomerDeleteModal={setCustomerDeleteModal}
+            setCustomerEditModal={setCustomerEditModal}
+            setNewCarModal={setNewCarModal}
+          />{" "}
+        </>
+      )}
       <div className="p-4">
-        {customerCars && (
+        {data && (
           <>
             <div className="flex">
               <SmallHeading className="py-4">
-                All {`${data.lastName} ${data.firstName}`} Cars
+                All {`${data?.lastName} ${data?.firstName}`} Cars
               </SmallHeading>
             </div>
             <CarsTable customerId={customerId} />
           </>
         )}
 
-        {repairsData && (
+        {data && (
           <>
             <SmallHeading className="py-4">
-              All {`${data.lastName} ${data.firstName}`} Repairs
+              All {`${data?.lastName} ${data?.firstName}`} Repairs
             </SmallHeading>
             <RepairsTable customerId={customerId} />
           </>
@@ -96,7 +79,8 @@ const Customer: FC<CustomerProps> = ({ data, customerId }) => {
           <EditCustomerInfo
             customerId={customerId}
             setCustomerEditModal={setCustomerEditModal}
-          />
+            customerData = {data}
+           />
         )}
         {customerDeleteModal && (
           <DeleteCustomer

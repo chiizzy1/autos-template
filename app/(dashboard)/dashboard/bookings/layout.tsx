@@ -1,9 +1,8 @@
-import { Footer, Navbar } from "@/components";
 import "@/app/globals.css";
 
 export const metadata = {
-  title: "Car Clinic | Customers",
-  description: "All registered customers!",
+  title: "Car Clinic | Appointments",
+  description: "see all appointments",
 };
 
 export default function RootLayout({

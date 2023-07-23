@@ -78,7 +78,7 @@ export const POST = async (req: Request) => {
     customerId = customerData.id;
 
     // Create car
-    if (customerId) {
+    if (customerId.length > 0) {
       const existingCar = await db.carDetails.findFirst({
         where: { plateNumber: plateNumber },
       });
@@ -107,8 +107,7 @@ export const POST = async (req: Request) => {
     }
 
     // Create Repair
-
-    if (customerId && carId) {
+    if (carId.length > 0) {
       let finishDate: Date | null = null;
 
       if (fixed == true) {

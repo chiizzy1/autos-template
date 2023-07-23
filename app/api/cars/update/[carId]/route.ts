@@ -2,8 +2,13 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const POST = async (req: Request) => {
-  const repairInfo = await req.json();
+export const PUT = async (
+  req: Request,
+  { params }: { params: { carId: string } }
+) => {
+  const carId = params.carId;
+  const { plateNumber, carMake, carModel, carYear } = await req.json();
+
   try {
     const session = await getAuthSession();
     const user = session?.user;
@@ -12,36 +17,28 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: "Unauthorized to perform this action.",
-          RepairData: null,
+          CarData: null,
         }),
         { status: 401 }
       );
     }
 
-    let finishDate: Date | null = null;
-    let deliveryDate: Date | null = null;
-
-    if (repairInfo.fixed) {
-      finishDate = new Date();
-    }
-
-    if (repairInfo.delivered) {
-      deliveryDate = new Date();
-    }
-
-
-    const repairData = await db.repair.create({
+    const updateCarData = await db.carDetails.update({
+      where: {
+        id: carId,
+      },
       data: {
-        ...repairInfo,
-        finishDate: finishDate,
-        deliveryDate: deliveryDate
+        plateNumber: plateNumber,
+        make: carMake,
+        model: carModel,
+        year: carYear,
       },
     });
 
     return new Response(
       JSON.stringify({
         error: null,
-        RepairData: repairData,
+        CarData: updateCarData,
       }),
       { status: 200 }
     );
@@ -50,7 +47,7 @@ export const POST = async (req: Request) => {
       return new Response(
         JSON.stringify({
           error: error.issues,
-          RepairData: null,
+          CarData: null,
         }),
         { status: 401 }
       );
@@ -59,7 +56,7 @@ export const POST = async (req: Request) => {
     return new Response(
       JSON.stringify({
         error: "Internal Server Error",
-        RepairData: null,
+        CarData: null,
       }),
       { status: 500 }
     );

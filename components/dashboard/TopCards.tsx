@@ -4,22 +4,15 @@ import { RxPerson } from "react-icons/rx";
 import { AiOutlineCar, AiOutlineWallet } from "react-icons/ai";
 import { GiAutoRepair } from "react-icons/gi";
 
-
-
 interface TopCardsProps {
-  customers: [];
-  cars: [];
-  repairs: [];
+  customers: any;
+  cars: any;
+  repairs: any;
 }
 
 const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
   let init = 0;
   repairs.map((obj: any) => (init += obj.estimatedCost));
-
-  // title
-  // stat
-  // link
-  //
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">

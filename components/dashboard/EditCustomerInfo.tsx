@@ -11,17 +11,23 @@ import { toast } from "../ui/toast";
 import { createNewCustomer } from "@/helpers/customers";
 import { Button } from "../ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
+import { Input } from "../ui/Input";
+import { useRouter } from "next/navigation";
 
 interface EditCustomerInfoProps {
   customerId: string;
   setCustomerEditModal: (toggle: boolean) => void;
+  customerData: any;
 }
 
 const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
   customerId,
   setCustomerEditModal,
+  customerData,
 }) => {
-  // Handle Form with Yup
+  const { firstName, lastName, email, phone } = customerData;
+
+  const { refresh } = useRouter();
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
@@ -33,7 +39,6 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm({ resolver: yupResolver(Schema) });
 
   const editCustomerData: any = async (info: any) => {
@@ -53,6 +58,7 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
         message: "okay",
         type: "success",
       });
+      refresh();
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -78,21 +84,20 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
         <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
           <div className="flex">
             <div
-              className="p-1 border border-sky-500 rounded-md"
+              className="p-1 border border-red-500 rounded-md"
               onClick={() => {
                 setCustomerEditModal(false);
               }}
             >
-              <AiOutlineClose className="text-4xl  text-sky-500 font-black cursor-pointer" />
+              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">First Name</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="text"
-                placeholder="First Name..."
+                defaultValue={`${firstName}`}
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -103,10 +108,9 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Last Name</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="text"
-                placeholder="Last name..."
+                defaultValue={`${lastName}`}
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -120,10 +124,9 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Phone</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="tel"
-                placeholder="Phone..."
+                defaultValue={`${phone}`}
                 {...register("phone")}
               />
               {errors.phone && (
@@ -134,10 +137,9 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
             </div>
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Email</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="email"
-                placeholder="Email..."
+                defaultValue={`${email}`}
                 {...register("email")}
               />
               {errors.email && (

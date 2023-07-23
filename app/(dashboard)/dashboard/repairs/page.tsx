@@ -8,9 +8,7 @@ const page: FC<pageProps> = ({}) => {
   return (
     <main className="min-h-screen">
       <Header page="" />
-      <div className="p-4">
-        <FetchAllRepairs />
-      </div>
+      <FetchAllRepairs />
     </main>
   );
 };

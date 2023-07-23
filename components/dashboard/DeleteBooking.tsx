@@ -59,12 +59,12 @@ const DeleteBooking: FC<DeleteBookingProps> = ({
       <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
         <div className="flex">
           <div
-            className="p-1 border border-sky-500 rounded-md"
+            className="p-1 border border-red-500 rounded-md"
             onClick={() => {
               setDeleteModal(false);
             }}
           >
-            <AiOutlineClose className="text-4xl  text-sky-500 font-black cursor-pointer" />
+            <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
           </div>
         </div>
 

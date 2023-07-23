@@ -69,14 +69,10 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
-
-
   const { mutate, error, isLoading, isError } = useMutation(
     async (info: any) => {
       console.log("Info:", info);
-      const { data } = await axios.put(`/api/repairs/update/${id}`, {
-        ...info,
-      });
+      const { data } = await axios.put(`/api/repairs/update/${id}`, info);
       return data;
     },
     {
@@ -113,7 +109,6 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
     });
   };
 
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 ">
@@ -132,7 +127,6 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Estimated Cost</p>
               <Input
-                className={`${styles.formInputStyles}`}
                 type="text"
                 defaultValue={`${estimatedCost}`}
                 {...register("estimatedCost")}
@@ -152,11 +146,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
                 control={control}
                 defaultValue={getRepairStatusLabel}
                 render={({ field }) => (
-                  <Select
-                    options={repairStages}
-                    {...field}
-                    className="bg-slate-100 text-black"
-                  />
+                  <Select options={repairStages} {...field} />
                 )}
               />
             </div>
@@ -171,11 +161,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
                 control={control}
                 defaultValue={getFixedLabel}
                 render={({ field }) => (
-                  <Select
-                    options={selectOptions}
-                    {...field}
-                    className="bg-slate-100 text-black"
-                  />
+                  <Select options={selectOptions} {...field} />
                 )}
               />
             </div>
@@ -188,17 +174,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
                 control={control}
                 defaultValue={getPaidLabel}
                 render={({ field }) => (
-                  <Select
-                    options={selectOptions}
-                    {...field}
-                    styles={{
-                      control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: state.isFocused ? "grey" : "red",
-                        backgroundColor: "grey",
-                      }),
-                    }}
-                  />
+                  <Select options={selectOptions} {...field} />
                 )}
               />
             </div>
@@ -211,17 +187,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
                 control={control}
                 defaultValue={getDeliveredLabel}
                 render={({ field }) => (
-                  <Select
-                    options={selectOptions}
-                    {...field}
-                    styles={{
-                      control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: state.isFocused ? "grey" : "red",
-                        backgroundColor: "grey",
-                      }),
-                    }}
-                  />
+                  <Select options={selectOptions} {...field} />
                 )}
               />
             </div>
@@ -244,7 +210,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
 
           <div className="flex items-center justify-center w-full">
             <Button
-              variant="default"
+              variant="purple"
               className="items-center"
               isLoading={isLoading}
               disabled={isLoading}

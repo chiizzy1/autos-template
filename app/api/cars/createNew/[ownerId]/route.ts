@@ -2,8 +2,11 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-export const PUT = async (req: Request) => {
-  const { plateNumber, carMake, carModel, carYear, id } = await req.json();
+export const POST = async (req: Request,
+  { params }: { params: { ownerId: string } }
+) => {
+  const ownerId = params.ownerId;
+  const { plateNumber, carMake, carModel, carYear } = await req.json();
 
   try {
     const session = await getAuthSession();
@@ -19,22 +22,34 @@ export const PUT = async (req: Request) => {
       );
     }
 
-    const updateCarData = await db.carDetails.update({
-      where: {
-        id: id as string,
-      },
+    const existingCar = await db.carDetails.findFirst({
+      where: { plateNumber: plateNumber },
+    });
+
+    if (existingCar) {
+      return new Response(
+        JSON.stringify({
+          error: "Car with same plate number already exists!",
+          CarData: null,
+        }),
+        { status: 400 }
+      );
+    }
+
+    const carData = await db.carDetails.create({
       data: {
         plateNumber: plateNumber,
         make: carMake,
         model: carModel,
         year: carYear,
+        ownerId: ownerId,
       },
     });
 
     return new Response(
       JSON.stringify({
         error: null,
-        CarData: updateCarData,
+        CarData: carData,
       }),
       { status: 200 }
     );
@@ -45,7 +60,7 @@ export const PUT = async (req: Request) => {
           error: error.issues,
           CarData: null,
         }),
-        { status: 401 }
+        { status: 400 }
       );
     }
 

@@ -8,32 +8,23 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { AiOutlineDelete } from "react-icons/ai";
-import { Button } from "../ui/Button";
 import RepairDetails from "./RepairDetails";
 
-const columns: GridColDef[] = [
-  { field: "sn", headerName: "SN", width: 70 },
-  {
-    field: "description",
-    headerName: "Diagnosis",
-    width: 200,
-  },
-  {
-    field: "estimatedCost",
-    headerName: "Cost",
-    width: 200,
-  },
-  {
-    field: "paid",
-    headerName: "paid",
-    width: 100,
-  },
-  {
-    field: "fixed",
-    headerName: "fixed",
-    width: 100,
-  },
-];
+import { CarDetails, Repair } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react";
+import { Checkbox } from "../ui/Checkbox";
+import { DataTable } from "../ui/DataTable";
+import Loading from "../ui/Loading";
 
 interface SingleRepairTableProps {
   carId: string;
@@ -44,7 +35,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [repairId, setRepairId] = useState<string>("");
   const [repairDetails, setRepairDetails] = useState<any>();
-  const [viewRepair, setViewRepair] = useState<boolean>(false)
+  const [viewRepair, setViewRepair] = useState<boolean>(false);
 
   const { refresh } = useRouter();
 
@@ -76,63 +67,129 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
     });
   }
 
-  const actionColumn: any = [
+  const columns: ColumnDef<Repair>[] = [
     {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params: any) => (
-        <div className="flex gap-4 items-center">
-          <Button
-            variant="hero"
-            className="text-sky-500 border-sky-500"
-            onClick={() => {
-              setRepairDetails(params.row);
-              setViewRepair(true);
-            }}
-          >
-            View
-          </Button>
-          <Button
-            variant="hero"
-            className="text-sky-500 border-sky-500"
-            onClick={() => {
-              setRepairDetails(params.row);
-              setToggleModal(true);
-            }}
-          >
-            Edit
-          </Button>
-
-          <div
-            onClick={() => {
-              setDeleteToggle(true);
-              setRepairId(params.row.id);
-            }}
-          >
-            <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
-          </div>
-        </div>
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
       ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "sn",
+      header: "SN",
+    },
+    {
+      accessorKey: "description",
+      header: "Diagnostic description",
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[300px] truncate">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "estimatedCost",
+      header: "Cost",
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("estimatedCost"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+
+        return <p>{formatted}</p>;
+      },
+    },
+    {
+      accessorKey: "paid",
+      header: "Payment Status",
+    },
+    {
+      accessorKey: "fixed",
+      header: "Repair Status",
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const obj = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setRepairDetails(obj);
+                    setViewRepair(true);
+                  }}
+                >
+                  View
+                </div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setRepairDetails(obj);
+                    setToggleModal(true);
+                  }}
+                >
+                  Edit
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setDeleteToggle(true);
+                    setRepairId(obj.id);
+                  }}
+                >
+                  <Trash className="mr-4" /> Delete
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  const filterField = [
+    {
+      placeholder: "Filter By Diagnostic",
+      field: "description",
     },
   ];
   return (
-    <div>
+    <div className="p-4">
+      {isLoading && <Loading text="loading" />}
       {repairs && (
-        <div style={{ height: 300, width: "100%" }}>
-          <DataGrid
-            rows={repairs}
-            columns={columns.concat(actionColumn)}
-            autoHeight={true}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-          />
-        </div>
+        <DataTable columns={columns} data={repairs} filterField={filterField} />
       )}
       {toggleModal && (
         <EditRepair
@@ -145,7 +202,12 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
         <DeleteModal repairId={repairId} setDeleteToggle={setDeleteToggle} />
       )}
 
-      {viewRepair && <RepairDetails repairDetails={repairDetails} setViewRepair={setViewRepair} /> }
+      {viewRepair && (
+        <RepairDetails
+          repairDetails={repairDetails}
+          setViewRepair={setViewRepair}
+        />
+      )}
     </div>
   );
 };

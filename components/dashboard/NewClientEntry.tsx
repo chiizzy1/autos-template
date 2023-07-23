@@ -113,7 +113,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">First Name</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="First Name..."
                 {...register("firstName")}
@@ -127,7 +126,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Last Name</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="Last name..."
                 {...register("lastName")}
@@ -143,12 +141,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Phone</p>
-              <Input
-                className="bg-slate-100 text-black"
-                type="tel"
-                placeholder="Phone..."
-                {...register("phone")}
-              />
+              <Input type="tel" placeholder="Phone..." {...register("phone")} />
               {errors.phone && (
                 <p className={`${styles.formErrorStyles}`}>
                   Please enter a valid phone number.
@@ -158,7 +151,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Email</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="email"
                 placeholder="Email..."
                 {...register("email")}
@@ -173,9 +165,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
 
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/3 px-3 mb-6 md:mb-0">
-              <p className="pb-2">Vehicle Make</p>
+              <p className="pb-2">Car Make</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g Mercedes Benz..."
                 {...register("carMake")}
@@ -189,7 +180,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
               <p className="pb-2">Car Model</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g GLE 63..."
                 {...register("carModel")}
@@ -201,9 +191,8 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
               )}
             </div>
             <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Year</p>
+              <p className="pb-2">Car Year</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="number"
                 placeholder="e.g 2022..."
                 {...register("carYear")}
@@ -225,19 +214,14 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 control={control}
                 defaultValue={{ value: "Check-In", label: "Check-In" }}
                 render={({ field }) => (
-                  <Select
-                    options={repairStages}
-                    {...field}
-                    className="bg-slate-100 text-black"
-                  />
+                  <Select options={repairStages} {...field} />
                 )}
               />
             </div>
 
             <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">plate Number</p>
+              <p className="pb-2">Plate Number</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g GLE 63..."
                 {...register("plateNumber")}
@@ -254,7 +238,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full sm:w-1/3 px-3 mb-6 md:mb-0">
               <p className="pb-2">Estimated Cost</p>
               <Input
-                className="bg-slate-100 text-black"
                 type="text"
                 placeholder="e.g $50.23..."
                 {...register("estimatedCost")}
@@ -274,11 +257,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 control={control}
                 defaultValue={{ value: false, label: "No" }}
                 render={({ field }) => (
-                  <Select
-                    options={selectOptions}
-                    {...field}
-                    className="bg-slate-100 text-black"
-                  />
+                  <Select options={selectOptions} {...field} />
                 )}
               />
             </div>
@@ -291,17 +270,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 control={control}
                 defaultValue={{ value: false, label: "No" }}
                 render={({ field }) => (
-                  <Select
-                    options={selectOptions}
-                    {...field}
-                    styles={{
-                      control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: state.isFocused ? "grey" : "red",
-                        backgroundColor: "grey",
-                      }),
-                    }}
-                  />
+                  <Select options={selectOptions} {...field} />
                 )}
               />
             </div>
@@ -311,7 +280,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
             <div className="w-full px-3 mb-6 sm:mb-0">
               <p className="pb-2">Car Diagnosis</p>
               <Textarea
-                className="bg-slate-100 text-black"
                 placeholder="e.g servicing..."
                 {...register("description")}
               />
@@ -325,12 +293,12 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
 
           <div className="flex items-center justify-center w-full">
             <Button
-              variant="default"
+              variant="purple"
               className="items-center"
               isLoading={isLoading}
               disabled={isLoading}
             >
-              {isLoading ? "Registering New Car" : "Register New Car"}
+              {isLoading ? "Submiting" : "Submit"}
             </Button>
           </div>
         </div>

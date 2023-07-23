@@ -36,10 +36,7 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
 
   const createNewCar = async (info: any) => {
     console.log(info);
-    const { data } = await axios.post(`/api/cars/createNew`, {
-      ...info,
-      ownerId: customerId,
-    });
+    const { data } = await axios.post(`/api/cars/createNew/${customerId}`, info);
     return data;
   };
 

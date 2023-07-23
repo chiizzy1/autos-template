@@ -3,41 +3,28 @@
 import { FC, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Link from "next/link";
 import Loading from "../ui/Loading";
 import SmallHeading from "../ui/SmallHeading";
 import { Button } from "../ui/Button";
-import { AiOutlineDelete } from "react-icons/ai";
 import DeleteModal from "./DeleteModal";
 import RepairDetails from "./RepairDetails";
 import EditRepair from "./EditRepair";
 
-
-const columns: GridColDef[] = [
-  { field: "sn", headerName: "SN", width: 70 },
-  {
-    field: "description",
-    headerName: "Diagnosis",
-    width: 200,
-  },
-  {
-    field: "estimatedCost",
-    headerName: "Cost",
-    width: 200,
-  },
-  {
-    field: "paid",
-    headerName: "paid",
-    width: 100,
-  },
-  {
-    field: "fixed",
-    headerName: "fixed",
-    width: 100,
-  },
-];
-
+import { ColumnDef } from "@tanstack/react-table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Repair } from "@prisma/client";
+import { DataTable } from "../ui/DataTable";
 
 interface FetchAllRepairsProps {}
 
@@ -46,58 +33,7 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
   const [deleteToggle, setDeleteToggle] = useState(false);
   const [repairId, setRepairId] = useState<string>("");
   const [repairDetails, setRepairDetails] = useState<any>();
-  const [viewRepair, setViewRepair] = useState<boolean>(false)
-
-
-  const actionColumn: any = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 500,
-      renderCell: (params: any) => (
-        <div className="flex gap-4 items-center">
-          <Link href={`/dashboard/cars/${params.row.carId}`}>
-            <Button variant="hero" className="text-sky-500 border-sky-500">
-              car info
-            </Button>
-          </Link>
-          <Link href={`/dashboard/customers/${params.row.customerId}`}>
-            <Button variant="hero" className="text-sky-500 border-sky-500">
-              owner info
-            </Button>
-          </Link>
-          <Button
-            variant="hero"
-            className="text-sky-500 border-sky-500"
-            onClick={() => {
-              setRepairDetails(params.row);
-              setViewRepair(true);
-            }}
-          >
-            View
-          </Button>
-          <Button
-            variant="hero"
-            className="text-sky-500 border-sky-500"
-            onClick={() => {
-              setRepairDetails(params.row);
-              setToggleModal(true);
-            }}
-          >
-            Edit
-          </Button>
-          <div
-            onClick={() => {
-              setRepairId(params.row.id);
-              setDeleteToggle(true);
-            }}
-          >
-            <AiOutlineDelete className="text-red-500 text-2xl cursor-pointer" />
-          </div>
-        </div>
-      ),
-    },
-  ];
+  const [viewRepair, setViewRepair] = useState<boolean>(false);
 
   const getAllRepairs = async () => {
     const { data } = await axios.get("/api/repairs/getAllRepairs");
@@ -129,25 +65,149 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
     });
   }
 
+  const columns: ColumnDef<Repair>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "sn",
+      header: "SN",
+    },
+    {
+      accessorKey: "description",
+      header: "Diagnostic description",
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <span className="max-w-[300px] truncate">
+              {row.getValue("description")}
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "estimatedCost",
+      header: "Cost",
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("estimatedCost"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+
+        return <p>{formatted}</p>;
+      },
+    },
+    {
+      accessorKey: "paid",
+      header: "Paid",
+    },
+    {
+      accessorKey: "fixed",
+      header: "Fixed",
+    },
+    {
+      accessorKey: "delivered",
+      header: "Delivered",
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const obj = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href={`/dashboard/cars/${obj.carId}`}>View Car</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={`/dashboard/customers/${obj.customerId}`}>
+                  View Customer
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setRepairDetails(obj);
+                    setViewRepair(true);
+                  }}
+                >
+                  View
+                </div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setRepairDetails(obj);
+                    setToggleModal(true);
+                  }}
+                >
+                  Edit
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <div
+                  onClick={() => {
+                    setDeleteToggle(true);
+                    setRepairId(obj.id);
+                  }}
+                >
+                  <Trash className="mr-4" /> Delete
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  const filterField = [
+    {
+      placeholder: "Filter By Diagnostic",
+      field: "description",
+    },
+  ];
+
   return (
-    <>
+    <div className="p-4">
       {isLoading && <Loading text="Loading repairs data" />}
       {data && (
         <>
           <SmallHeading className="py-4">Latest repairs</SmallHeading>
-          <div style={{ height: 300, width: "100%" }}>
-            <DataGrid
-              rows={allRepairsData}
-              columns={columns.concat(actionColumn)}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
-                },
-              }}
-              pageSizeOptions={[5, 10]}
-              checkboxSelection
-            />
-          </div>
+
+          <DataTable
+            columns={columns}
+            data={allRepairsData}
+            filterField={filterField}
+          />
         </>
       )}
       {toggleModal && (
@@ -161,8 +221,13 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
         <DeleteModal repairId={repairId} setDeleteToggle={setDeleteToggle} />
       )}
 
-      {viewRepair && <RepairDetails repairDetails={repairDetails} setViewRepair={setViewRepair} /> }
-    </>
+      {viewRepair && (
+        <RepairDetails
+          repairDetails={repairDetails}
+          setViewRepair={setViewRepair}
+        />
+      )}
+    </div>
   );
 };
 

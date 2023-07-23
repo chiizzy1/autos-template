@@ -1,40 +1,48 @@
 "use client";
 
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import axios, { AxiosError } from "axios";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import styles from "@/style";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
-import { createCar } from "@/helpers/customers";
 import { Button } from "../ui/Button";
 import { AiOutlineClose } from "react-icons/ai";
+import { Input } from "../ui/Input";
+import { Textarea } from "../ui/Textarea";
+import Select from "react-select";
 
 interface CreateRepairModalProps {
-  customerId: string;
   carId: string;
-  setToggleModal: (toggle: boolean) => void;
+  setToggleModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const CreateRepairModal: FC<CreateRepairModalProps> = ({
-  customerId,
   carId,
   setToggleModal,
 }) => {
   // console.log(customerId);
   const { refresh } = useRouter();
 
-  // Handle Form with Yup
+  const selectOptions = [
+    { value: true, label: "Yes" },
+    { value: false, label: "No" },
+  ];
+
+  // Repair Stages Options
+  const repairStages = [
+    { value: "Check-In", label: "Check-In" },
+    { value: "In-Progress", label: "In Progress" },
+    { value: "Ready-for-Pick-up", label: "Ready for Pick up" },
+    { value: "Delivered", label: "Delivered" },
+  ];
+
   const Schema = yup.object().shape({
-    estimatedCost: yup.number().required("please enter car make"),
-    paid: yup.boolean(),
-    fixed: yup.boolean(),
-    delivered: yup.boolean(),
-    description: yup.string().required("enter plate number"),
-    repairStatus: yup.string().required("enter repair status"),
+    estimatedCost: yup.number().required(),
+    description: yup.string().required(),
   });
 
   const {
@@ -46,18 +54,14 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
 
   const createNewCar: any = async (info: any) => {
     console.log(info);
-    const { data } = await axios.post(`/api/repairs/createNew`, {
-      ...info,
-      customerId: customerId,
-      carId: carId,
-    });
+    const { data } = await axios.post(`/api/repairs/createNew/${carId}`, info);
     return data;
   };
 
   const { mutate, error, isLoading, isError } = useMutation(createNewCar, {
     onSuccess: (successData) => {
       console.log(successData);
-      setToggleModal(false)
+      setToggleModal(false);
 
       toast({
         title: "success creating new repair",
@@ -79,19 +83,34 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
     },
   });
 
-  const handleFormSubmit = (data: any) => {
-    mutate(data);
+  const onSubmit = (data: any) => {
+    mutate({
+      ...data,
+      fixed: data.fixed.value,
+      paid: data.paid.value,
+      delivered: data.delivered.value,
+      repairStatus: data.repairStatus.value,
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="fixed bg-black/50 w-full h-full z-20 left-0 top-0 ">
         <div className="absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 rounded-lg flex flex-col gap-6">
+          <div className="flex">
+            <div
+              className="p-1 border border-red-500 rounded-md"
+              onClick={() => {
+                setToggleModal(false);
+              }}
+            >
+              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+            </div>
+          </div>
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full sm:w-1/4 px-3 mb-6 md:mb-0">
+            <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Estimated Cost</p>
-              <input
-                className={`${styles.formInputStyles}`}
+              <Input
                 type="text"
                 placeholder="e.g $50.23..."
                 {...register("estimatedCost")}
@@ -102,57 +121,67 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
                 </p>
               )}
             </div>
-            <div className="w-full sm:w-1/4 px-3 mb-6 md:mb-0">
-              <p className="pb-2">Repair status</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="repair..."
-                {...register("repairStatus")}
+
+            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Repair Status</p>
+
+              <Controller
+                name="repairStatus"
+                control={control}
+                defaultValue={{ value: "Check-In", label: "Check-In" }}
+                render={({ field }) => (
+                  <Select options={repairStages} {...field} />
+                )}
               />
-              {errors.repairStatus && (
-                <p className={`${styles.formErrorStyles}`}>
-                  Please enter estimated cost!
-                </p>
-              )}
-            </div>
-            <div className="w-full sm:w-1/4 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Payment status (boolean)</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g true..."
-                {...register("paid")}
-              />
-              {errors.paid && (
-                <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter car payment status
-                </p>
-              )}
-            </div>
-            <div className="w-full sm:w-1/4 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Picked up (boolean)</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g true..."
-                {...register("delivered")}
-              />
-              {errors.delivered && (
-                <p className={`text-red-500 ${styles.formErrorStyles}`}>
-                  Please enter car delivered status
-                </p>
-              )}
             </div>
           </div>
 
           <div className="flex flex-wrap -mx-3 mb-6">
-            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
+            <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Fixed</p>
+
+              <Controller
+                name="paid"
+                control={control}
+                defaultValue={{ value: false, label: "No" }}
+                render={({ field }) => (
+                  <Select options={selectOptions} {...field} />
+                )}
+              />
+            </div>
+
+            <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Paid</p>
+
+              <Controller
+                name="fixed"
+                control={control}
+                defaultValue={{ value: false, label: "No" }}
+                render={({ field }) => (
+                  <Select options={selectOptions} {...field} />
+                )}
+              />
+            </div>
+
+            <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
+              <p className="pb-2">Delivered</p>
+
+              <Controller
+                name="delivered"
+                control={control}
+                defaultValue={{ value: false, label: "No" }}
+                render={({ field }) => (
+                  <Select options={selectOptions} {...field} />
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full px-3 mb-6 sm:mb-0">
               <p className="pb-2">Repair description</p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g servicing..."
+              <Textarea
+                placeholder="e.g Gearbox repair"
                 {...register("description")}
               />
               {errors.description && (
@@ -161,35 +190,16 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
                 </p>
               )}
             </div>
-            <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
-              <p className="pb-2">Fixed status (boolean) </p>
-              <input
-                className={`${styles.formInputStyles}`}
-                type="text"
-                placeholder="e.g true..."
-                {...register("fixed")}
-              />
-              {errors.fixed && (
-                <p className={`${styles.formErrorStyles}`}>
-                  please enter car fixed status!
-                </p>
-              )}
-            </div>
           </div>
 
-          <div
-            onClick={() => {
-              setToggleModal(false);
-            }}
-          > <AiOutlineClose /></div>
           <div className="flex items-center justify-center w-full">
             <Button
-              variant="default"
+              variant="purple"
               className="items-center"
               isLoading={isLoading}
               disabled={isLoading}
             >
-              {isLoading ? "Registering New Car" : "Register New Car"}
+              {isLoading ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </div>

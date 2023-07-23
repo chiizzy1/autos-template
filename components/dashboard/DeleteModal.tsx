@@ -68,7 +68,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ setDeleteToggle, repairId }) => {
           Are you sure you want to delete this repair details?
         </h2>
         <h3 className="text-red-600 text-sm">
-          Pressing the delete button will permenantly delete your post
+          Pressing the delete button will permenantly delete this repair details
         </h3>
 
         <Button

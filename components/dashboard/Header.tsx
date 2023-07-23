@@ -47,9 +47,11 @@ const Header: FC<HeaderProps> = ({ page }) => {
             </div>
 
             {page === "dashboard" ? (
-              <Button onClick={() => setToggle(true)} variant="purple">
-                New Entry
-              </Button>
+              <>
+                <Button onClick={() => setToggle(true)} variant="purple">
+                  New Entry
+                </Button>
+              </>
             ) : page === "allCustomer" ? (
               <Button onClick={() => setNewCustomer(true)} variant="purple">
                 New Customer

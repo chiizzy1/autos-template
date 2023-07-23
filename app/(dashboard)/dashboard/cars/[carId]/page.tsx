@@ -26,7 +26,6 @@ export default function CarDetail(url: URL) {
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  let customerId: string = "";
   async function fetchCarData() {
     const { data } = await axios.get(`/api/cars/getCar/${carId}`);
     return data.CarData;
@@ -46,12 +45,9 @@ export default function CarDetail(url: URL) {
     return <div>Error!</div>;
   }
 
-  if (data) {
-    customerId = data.ownerId;
-  }
-
   return (
     <main className="min-h-screen">
+      {isLoading && <Loading text="Loading Car Info" />}
       {data && (
         <>
           <Header page="" />
@@ -62,27 +58,21 @@ export default function CarDetail(url: URL) {
             setEditModal={setEditModal}
             setDeleteModal={setDeleteModal}
           />
-
-          {carId && (
-            <div className="p-4">
-              <SmallHeading className="py-4">Car Repair History</SmallHeading>
-              <SingleRepairTable carId={carId} />
-            </div>
-          )}
-          {toggleModal && (
-            <CreateRepairModal
-              customerId={customerId}
-              carId={carId}
-              setToggleModal={setToggleModal}
-            />
-          )}
-          {editModal && <EditCar carId={carId} setEditModal={setEditModal} />}
-          {deleteModal && (
-            <DeleteCar carId={carId} setDeleteModal={setDeleteModal} />
-          )}
         </>
       )}
-      {isLoading && <Loading text="Loading Car Info" />}
+
+      <SmallHeading className="p-4">Car Repair History</SmallHeading>
+      <SingleRepairTable carId={carId} />
+
+      {toggleModal && (
+        <CreateRepairModal carId={carId} setToggleModal={setToggleModal} />
+      )}
+      {editModal && (
+        <EditCar carId={carId} carData={data} setEditModal={setEditModal} />
+      )}
+      {deleteModal && (
+        <DeleteCar carId={carId} setDeleteModal={setDeleteModal} />
+      )}
     </main>
   );
 }
