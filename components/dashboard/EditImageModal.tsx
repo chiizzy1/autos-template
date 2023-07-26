@@ -41,11 +41,11 @@ const EditImageModal: FC<EditImageModalProps> = ({ setToggle, image }) => {
   };
 
   const { mutate, error, isLoading, isError } = useMutation(editImage, {
-    onSuccess: (successData) => {
+    onSuccess: () => {
       setToggle(false);
       toast({
-        message: "succcessfully updated",
-        title: "Success",
+        message: "succcess",
+        title: "successfully updated image",
         type: "success",
       });
     },

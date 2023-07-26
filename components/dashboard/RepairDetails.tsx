@@ -1,10 +1,8 @@
 "use client";
 
 import { Dispatch, FC, SetStateAction } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { Activity, Mail, PhoneForwarded, Wrench } from "lucide-react";
-import { buttonVariants } from "../ui/Button";
 import ActionButtons from "../ui/ActionButtons";
+import { X } from "lucide-react";
 
 interface RepairDetailsProps {
   setViewRepair: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +37,7 @@ const RepairDetails: FC<RepairDetailsProps> = ({
               setViewRepair(false);
             }}
           >
-            <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+             <X size={16} color="#f50000" strokeWidth={1.25} />{" "}
           </div>
         </div>
 

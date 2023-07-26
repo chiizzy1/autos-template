@@ -1,16 +1,14 @@
 "use client";
 
 import { FC, useState } from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import EditRepair from "./EditRepair";
 import DeleteModal from "./DeleteModal";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { AiOutlineDelete } from "react-icons/ai";
 import RepairDetails from "./RepairDetails";
 
-import { CarDetails, Repair } from "@prisma/client";
+import {  Repair } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/Button";
 import {
@@ -44,14 +42,9 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
     return data.RepairData;
   }
 
-  const { data, isLoading } = useQuery(
+  const { data, isError, isLoading } = useQuery(
     ["carRepairHistory"],
     fetchCarRepairsData,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
   );
 
   // add SN to Cars array
@@ -65,6 +58,10 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
         sn: i + 1,
       };
     });
+  }
+
+  if (isError) {
+    <p>Error loading data!</p>
   }
 
   const columns: ColumnDef<Repair>[] = [

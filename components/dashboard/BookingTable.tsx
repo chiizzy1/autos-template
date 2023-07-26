@@ -34,21 +34,12 @@ const BookingTable: FC<BookingTableProps> = () => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   // Update appointment to viewed when viewed
-
   const updateViewed = async (id: string) => {
-    console.log("id:", id);
     const { data } = await axios.put(`/api/booking/viewed/${id}`);
     return data.updated;
   };
 
-  const { mutate: viewed } = useMutation(updateViewed, {
-    onSuccess: (successData) => {
-      console.log(successData);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  const { mutate: viewed } = useMutation(updateViewed);
 
   // Fetch all Booking data
   const getAllBookings = async () => {
@@ -58,12 +49,7 @@ const BookingTable: FC<BookingTableProps> = () => {
 
   const { data, error, isError, isLoading } = useQuery(
     ["allBookings"],
-    getAllBookings,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
+    getAllBookings
   );
 
   let bookings: [] = [];

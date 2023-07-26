@@ -28,15 +28,15 @@ const BookingState: FC<BookingStateProps> = ({}) => {
 
   const { mutate, error, isLoading, isError } = useMutation({
     mutationFn: async (info: any) => {
-      console.log(info);
       const { data } = await axios.post("/api/booking/new", info);
       return data.booking;
     },
     onSuccess: (successData) => {
       console.log(successData);
       toast({
-        title: "success creating new repair",
-        message: "okay",
+        title: "Great!!",
+        message: "Successfully booked appointment",
+        duration: 5000,
         type: "success",
       });
       push("/");
@@ -44,13 +44,12 @@ const BookingState: FC<BookingStateProps> = ({}) => {
     onError: (error) => {
       if (error instanceof AxiosError) {
         toast({
-          title: "Error creating new repair",
+          title: "Error!!",
           message: `${error?.response?.data.error} ⚠️`,
+          duration: 5000,
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 

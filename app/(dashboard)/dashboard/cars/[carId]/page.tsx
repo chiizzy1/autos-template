@@ -9,7 +9,7 @@ import SingleRepairTable from "@/components/dashboard/SingleRepairTable";
 import Loading from "@/components/ui/Loading";
 import SmallHeading from "@/components/ui/SmallHeading";
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 
 type URL = {
@@ -33,12 +33,7 @@ export default function CarDetail(url: URL) {
 
   const { data, error, isError, isLoading } = useQuery(
     ["carInfo"],
-    fetchCarData,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
+    fetchCarData
   );
 
   if (isError) {
@@ -63,7 +58,7 @@ export default function CarDetail(url: URL) {
           <SingleRepairTable carId={carId} />
         </>
       )}
-      
+
       {toggleModal && (
         <CreateRepairModal carId={carId} setToggleModal={setToggleModal} />
       )}

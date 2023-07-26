@@ -1,14 +1,12 @@
 import { FC } from "react";
 import { done, four, one, three, two } from "@/assets";
 import Image from "next/image";
-// import { PiNumberCircleOne } from "react-icons/"
 
 interface trackUiProps {
   status: string;
 }
 
 const TrackUi: FC<trackUiProps> = ({ status }) => {
-  // Check-In  In-Progress  Ready-for-Pick-up  Delivered
 
   let stage: number =
     status === "Check-In"

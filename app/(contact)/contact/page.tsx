@@ -12,7 +12,7 @@ const page: FC<pageProps> = ({}) => {
       <div className="sm:py-16 py-6 w-full">
         <div className="container max-w-7xl mx-auto">
           <LargeHeading>Contact Us</LargeHeading>
-          <div className="flex gap-6 flex-col items-center justify-center sm:flex-row">
+          <div className="flex gap-6 flex-col items-center justify-center sm:flex-row transition-all ease-in-out">
             <div className="flex w-full flex-col">
               <Paragraph className="max-w-lg">
                 We value your feedback, inquiries, and any other communication

@@ -27,6 +27,8 @@ export const POST = async (
         repairStatus,
         startDate,
         finishDate,
+        deliveryDate,
+        delivered,
       } = trackInfo;
 
       const { make, model, year } = car;
@@ -49,6 +51,8 @@ export const POST = async (
             year,
             firstName,
             lastName,
+            deliveryDate,
+            delivered,
           },
         }),
         { status: 200 }

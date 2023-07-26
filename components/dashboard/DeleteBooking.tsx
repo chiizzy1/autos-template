@@ -25,13 +25,12 @@ const DeleteBooking: FC<DeleteBookingProps> = ({
       return data;
     },
     {
-      onSuccess: (successData: any) => {
-        console.log(successData);
+      onSuccess: () => {
         setDeleteModal(false);
 
         toast({
-          title: "success deleting booking",
-          message: "okay",
+          title: "success",
+          message: "Successfully deleted!",
           type: "success",
         });
 
@@ -45,7 +44,6 @@ const DeleteBooking: FC<DeleteBookingProps> = ({
             type: "error",
           });
         }
-        console.log(error);
       },
     }
   );
@@ -72,7 +70,7 @@ const DeleteBooking: FC<DeleteBookingProps> = ({
           Are you sure you want to delete this appointment data?
         </h2>
         <h3 className="text-red-600 text-sm">
-          Pressing the delete button will permenantly this appointment data
+          clicking the delete button will permenantly this appointment data
         </h3>
 
         <Button

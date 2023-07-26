@@ -60,7 +60,7 @@ export default function UploadImages() {
       <Header page="" />
       <div className="p-4">
         <SmallHeading className="py-4">Upload Image</SmallHeading>
-        <div className="flex flex-col sm:flex-row gap-6">
+        <div className="flex flex-col sm:flex-row gap-6 transition-all ease-in-out">
           <div className="pt-6 rounded-lg border p-4 overflow-hidden w-full relative h-60">
             {image ? (
               <Image src={image} alt="image_upload" fill

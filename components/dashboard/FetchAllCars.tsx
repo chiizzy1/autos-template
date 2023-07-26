@@ -3,10 +3,8 @@
 import { FC, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import Link from "next/link";
 import Loading from "../ui/Loading";
-import { AiOutlineDelete } from "react-icons/ai";
 import DeleteCar from "./DeleteCar";
 
 import { CarDetails } from "@prisma/client";

@@ -22,13 +22,12 @@ const DeleteModal: FC<DeleteModalProps> = ({ setDeleteToggle, repairId }) => {
       return data;
     },
     {
-      onSuccess: (successData: any) => {
-        console.log(successData);
+      onSuccess: () => {
         setDeleteToggle(false);
 
         toast({
-          title: "success deleting repair",
-          message: "okay",
+          title: "success",
+          message: "successfully deleted repair",
           type: "success",
         });
         refresh();
@@ -41,11 +40,9 @@ const DeleteModal: FC<DeleteModalProps> = ({ setDeleteToggle, repairId }) => {
             type: "error",
           });
         }
-        console.log(error);
       },
     }
   );
-  console.log("repairid:", repairId);
 
   const deleteRepair = () => {
     mutate(repairId);

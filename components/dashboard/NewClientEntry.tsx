@@ -67,8 +67,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 
@@ -77,7 +75,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     { value: false, label: "No" },
   ];
 
-  // Check-In  In-Progress  Ready-for-Pick-up
+ 
   const repairStages = [
     { value: "Check-In", label: "Check-In" },
     { value: "In-Progress", label: "In Progress" },

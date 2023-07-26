@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { toast } from "../ui/toast";
 import { Button } from "../ui/Button";

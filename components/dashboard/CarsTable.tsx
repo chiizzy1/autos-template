@@ -23,7 +23,6 @@ import { CarDetails } from "@prisma/client";
 import { DataTable } from "../ui/DataTable";
 import CreateRepairModal from "./CreateRepairModal";
 import EditCar from "./EditCar";
-import Loading from "../ui/Loading";
 
 interface CarsTableProps {
   customerId: string;
@@ -43,12 +42,7 @@ const CarsTable: FC<CarsTableProps> = ({ customerId }) => {
 
   const { data, error, isError, isLoading } = useQuery(
     ["customerCars"],
-    customerCars,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
+    customerCars
   );
 
   // add SN to repairs array

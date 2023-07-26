@@ -3,14 +3,12 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
 import { toast } from "../ui/toast";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import styles from "@/style";
-import { AiOutlineClose } from "react-icons/ai";
 import { X } from "lucide-react";
 
 interface NewCustomerProps {
@@ -20,7 +18,7 @@ interface NewCustomerProps {
 const NewCustomer: FC<NewCustomerProps> = ({ setNewCustomer }) => {
   const { push } = useRouter();
 
-  // Handle Form with Yup
+ 
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
@@ -31,7 +29,6 @@ const NewCustomer: FC<NewCustomerProps> = ({ setNewCustomer }) => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 

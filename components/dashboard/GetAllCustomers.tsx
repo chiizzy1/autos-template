@@ -37,11 +37,6 @@ const GetAllCustomers: FC<GetAllCustomersProps> = ({}) => {
   const { data, error, isError, isLoading } = useQuery(
     ["allCustomers"],
     getAllCustomers,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
   );
 
   if (isLoading) {

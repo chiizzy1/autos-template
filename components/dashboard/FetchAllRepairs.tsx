@@ -42,12 +42,7 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
 
   const { data, error, isError, isLoading } = useQuery(
     ["allRepairs"],
-    getAllRepairs,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
+    getAllRepairs
   );
 
   if (isError) {

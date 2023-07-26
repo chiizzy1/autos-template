@@ -22,7 +22,6 @@ import { Badge } from "@/components/ui/Badge";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Repair } from "@prisma/client";
 import { DataTable } from "../ui/DataTable";
-import Loading from "../ui/Loading";
 
 interface RepairsTableProps {
   customerId: string;
@@ -44,14 +43,12 @@ const RepairsTable: FC<RepairsTableProps> = ({ customerId }) => {
 
   const { data, error, isError, isLoading } = useQuery(
     ["allRepairs"],
-    allRepairs,
-    {
-      onSuccess: (successData) => {
-        console.log(successData);
-      },
-    }
+    allRepairs
   );
 
+  if (isError) {
+    <p>Error loading table!</p>
+  }
   // add SN to repairs array
   let repairs: [] = [];
 

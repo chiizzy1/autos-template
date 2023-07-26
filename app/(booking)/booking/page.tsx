@@ -15,7 +15,7 @@ const page: FC<pageProps> = ({}) => {
         <div className="container max-w-7xl mx-auto">
           <LargeHeading>Book an Appointment</LargeHeading>
 
-          <div className="flex gap-6 flex-col md:flex-row transition-all">
+          <div className="flex gap-6 flex-col md:flex-row transition-all ease-in-out">
             <div className="basis-2/3 w-full rounded-lg p-6 bg-white relative">
               <BookingState />
             </div>

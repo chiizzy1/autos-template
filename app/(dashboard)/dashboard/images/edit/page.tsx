@@ -12,7 +12,7 @@ const EditImage = async () => {
       <SmallHeading className="p-4 mt-8">
         Select an image to see options
       </SmallHeading>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5  gap-4 p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5  gap-4 p-4 transition-all ease-in-out">
         {images &&
           images.map((image) => (
             <EditImageCard key={image.id} image={image} />

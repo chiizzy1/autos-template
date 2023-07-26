@@ -27,13 +27,12 @@ const DeleteCustomer: FC<DeleteCustomerProps> = ({
       return data;
     },
     {
-      onSuccess: (successData: any) => {
-        console.log(successData);
+      onSuccess: () => {
         setCustomerDeleteModal(false);
 
         toast({
-          title: "success deleting repair",
-          message: "okay",
+          title: "success",
+          message: "successfully deleted customer data",
           type: "success",
         });
 
@@ -47,7 +46,6 @@ const DeleteCustomer: FC<DeleteCustomerProps> = ({
             type: "error",
           });
         }
-        console.log(error);
       },
     }
   );

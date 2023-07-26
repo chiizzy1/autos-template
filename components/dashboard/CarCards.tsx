@@ -34,7 +34,7 @@ const CarCards: FC<CarCardsProps> = ({
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 transition-all ease-in-out">
       <div className="bg-white border p-6 rounded-lg">
         <div className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div className="text-sm font-medium">Car Details</div>

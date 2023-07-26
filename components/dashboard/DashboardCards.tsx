@@ -1,6 +1,6 @@
 import { FC } from "react";
 import BarChart from "./BarChart";
-import RecentOrders from "./RecentOrders";
+import RecentPayments from "./RecentPayments";
 import TopCards from "./TopCards";
 import { db } from "@/lib/db";
 
@@ -38,9 +38,9 @@ const DashboardCards: FC<DashboardCardsProps> = async ({}) => {
         cars={carsData}
         repairs={repairsData}
       />
-      <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4">
+      <div className="p-4 grid md:grid-cols-3 grid-cols-1 gap-4 transition-all ease-in-out">
         <BarChart chartData={repairsData} />
-        <RecentOrders repairs={repairsData} />
+        <RecentPayments repairs={repairsData} />
       </div>
     </div>
   );

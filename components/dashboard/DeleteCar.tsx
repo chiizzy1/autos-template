@@ -22,13 +22,12 @@ const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal }) => {
       return data;
     },
     {
-      onSuccess: (successData: any) => {
-        console.log(successData);
+      onSuccess: () => {
         setDeleteModal(false);
 
         toast({
-          title: "success deleting repair",
-          message: "okay",
+          title: "success",
+          message: "succcessfully deleted car",
           type: "success",
         });
         refresh();
@@ -41,12 +40,10 @@ const DeleteCar: FC<DeleteCarProps> = ({ carId, setDeleteModal }) => {
             type: "error",
           });
         }
-        console.log(error);
       },
     }
   );
-
-  console.log("carId:", carId);
+  
 
   const deleteRepair = () => {
     mutate(carId);

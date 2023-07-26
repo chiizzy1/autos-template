@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Link from "next/link";
-import { RiHome2Line } from "react-icons/ri";
 import { buttonVariants } from "../ui/Button";
+import { Home } from "lucide-react";
 
 interface UnauthorizedProps {}
 
@@ -17,7 +17,7 @@ const Unauthorized: FC<UnauthorizedProps> = ({}) => {
         })}
         href="/"
       >
-        <RiHome2Line className="mr-2 h-4 w-4" />
+        <Home />
         Back to home
       </Link>
     </section>

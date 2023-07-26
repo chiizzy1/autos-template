@@ -8,7 +8,6 @@ import * as yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import styles from "@/style";
 import { toast } from "../ui/toast";
-import { createNewCustomer } from "@/helpers/customers";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { useRouter } from "next/navigation";
@@ -42,7 +41,6 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
   } = useForm({ resolver: yupResolver(Schema) });
 
   const editCustomerData: any = async (info: any) => {
-    console.log(info);
     const { data } = await axios.put(`/api/customers/update/${customerId}`, {
       ...info,
     });
@@ -54,8 +52,8 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
       console.log(successData);
       setCustomerEditModal(false);
       toast({
-        title: "success editing customer info",
-        message: "okay",
+        title: "success",
+        message: "succcessfully updated customer data",
         type: "success",
       });
       refresh();
@@ -69,8 +67,6 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 

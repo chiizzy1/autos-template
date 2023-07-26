@@ -9,7 +9,7 @@ const About = async () => {
   return (
     <section className={`sm:py-16 py-6 w-full`}>
       <div className="container max-w-7xl mx-auto">
-        <div className="flex gap-8 md:flex-row flex-col transition-all ease-in-out">
+        <div className="flex gap-6 md:flex-row flex-col transition-all ease-in-out">
           <div className="w-full flex items-center justify-center">
             <div className="rounded-lg overflow-hidden max-w-xl ">
               <Image
@@ -25,7 +25,7 @@ const About = async () => {
           </div>
           <div className="w-full flex items-center justify-center">
             <div className="self-start">
-              <h3 className="text-2xl text-dimPurple font-bold text-left sm:pb-9 pb-6 ">
+              <h3 className="text-2xl text-dimPurple font-bold text-left sm:pb-7 pb-4 ">
                 About Us
               </h3>
               <p className="max-w-xl text-left font-normal text-sm">

@@ -5,8 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { add, format } from "date-fns";
 import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { toast } from "../ui/toast";
+import axios from "axios";
 import Loading from "../ui/Loading";
 import {
   Tooltip,
@@ -36,6 +35,8 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
 }) => {
   const [select, setSelect] = useState(-1);
 
+  // Make each session 30 minutes long 
+
   const getTimes = () => {
     if (!session.justDate) return;
 
@@ -56,34 +57,13 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
 
   const times = getTimes();
 
-  // console.log('date:',session.justDate)
-  // console.log(session.dateTime?.getTime());
-
-  const sessionData = async (info: any) => {
-    const { data } = await axios.post(`/api/booking/${info}`);
+  const sessionData = async (id: any) => {
+    const { data } = await axios.post(`/api/booking/${id}`);
     return data?.selected;
   };
 
-  const { mutate, error, isLoading, isError, data } = useMutation(sessionData, {
-    onSuccess: (successData) => {
-      console.log(successData);
-
-      toast({
-        title: "success creating new car",
-        message: "okay",
-        type: "success",
-      });
-    },
-    onError: (error) => {
-      if (error instanceof AxiosError) {
-        toast({
-          title: "Error creating new customer",
-          message: `${error?.response?.data.error} ⚠️`,
-          type: "error",
-        });
-      }
-    },
-  });
+  // gets information about selected date and all available sessions for the selected date
+  const { mutate, error, isLoading, isError, data } = useMutation(sessionData);
 
   let allSelectedSessions: Map<any, any> = new Map();
 
@@ -106,7 +86,7 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
   if (isError) {
     return <p className="text-red-500 font-bold">Error loading data!</p>;
   }
-  //  console.log(allSelectedSessions)
+
   return (
     <div>
       <h4 className="font-medium text-sm mt-8">
@@ -123,15 +103,15 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
         filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6}
         onChange={(date: Date) => {
           setSession((prevDetails) => ({ ...prevDetails, justDate: date }));
-          console.log(typeof date.getTime());
-          console.log(date.getTime());
           mutate(date.getTime());
         }}
       />
 
       {data?.open === true && (
         <>
-          <h4 className="font-medium text-sm mt-8">All sessions for selected date</h4>
+          <h4 className="font-medium text-sm mt-8">
+            All sessions for selected date
+          </h4>
           <div className="grid grid-cols-tile gap-6 mt-4">
             {times?.map((time, i) =>
               allSelectedSessions.has(`${time.getTime()}`) ? (
@@ -171,7 +151,9 @@ const SelectDateTime: FC<SelectDateTimeProps> = ({
       )}
 
       {data?.open === false && (
-        <h3 className="text-red-500">No Available sessions for this date!!</h3>
+        <h4 className="text-red-500">
+          No Available sessions for selected date!!
+        </h4>
       )}
     </div>
   );

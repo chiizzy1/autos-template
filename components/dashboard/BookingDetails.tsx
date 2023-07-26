@@ -2,7 +2,6 @@
 
 import { Dispatch, FC, SetStateAction } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { Mail, PhoneForwarded } from "lucide-react";
 import ActionButtons from "../ui/ActionButtons";
 
 interface BookingDetailsProps {

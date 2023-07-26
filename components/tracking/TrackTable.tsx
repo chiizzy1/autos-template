@@ -14,6 +14,21 @@ interface TrackTableProps {
 }
 
 const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
+  const {
+    finishDate,
+    firstName,
+    lastName,
+    make,
+    model,
+    year,
+    description,
+    estimatedCost,
+    paid,
+    fixed,
+    delivered,
+    startDate,
+    deliveryDate,
+  } = trackData;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 1200 }} aria-label="simple table">
@@ -22,29 +37,40 @@ const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
             <TableCell>Customer Name</TableCell>
             <TableCell>vehicle info</TableCell>
             <TableCell>Vehicle Diagnosis</TableCell>
-            <TableCell>Repair Cost</TableCell>
+            <TableCell>Repair Cost($)</TableCell>
+            <TableCell>Paid</TableCell>
+            <TableCell>Fixed</TableCell>
+            <TableCell>Delivered</TableCell>
             <TableCell>Check-In date</TableCell>
             <TableCell>Check-Out date</TableCell>
+            <TableCell>Date Picked Up</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow
-            key={trackData.firstName}
+            key={firstName}
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
           >
             <TableCell component="th" scope="row">
-              {`${trackData.firstName} ${trackData.lastName}`}
+              {`${firstName} ${lastName}`}
             </TableCell>
-            <TableCell>{`${trackData.make} ${trackData.model} ${trackData.year}`}</TableCell>
-            <TableCell>{trackData.description}</TableCell>
-            <TableCell>{trackData.estimatedCost}</TableCell>
+            <TableCell>{`${make} ${model} ${year}`}</TableCell>
+            <TableCell>{description}</TableCell>
+            <TableCell>{new Intl.NumberFormat().format(estimatedCost)}</TableCell>
+            <TableCell>{paid ? "Yes" : "No"}</TableCell>
+            <TableCell>{fixed ? "Yes" : "No"}</TableCell>
+            <TableCell>{delivered ? "Yes" : "No"}</TableCell>
+            <TableCell>{new Date(startDate).toDateString()}</TableCell>
             <TableCell>
-              {new Date(trackData.startDate).toDateString()}
+              {finishDate
+                ? new Date(finishDate).toDateString()
+                : "work in progress"}
             </TableCell>
             <TableCell>
-              {new Date(trackData.finishDate).toDateString()}
+              {deliveryDate
+                ? new Date(deliveryDate).toDateString()
+                : "not picked up"}
             </TableCell>
-            {/* <TableCell > <p className={`p-[px] rounded-[5px]  ${row.protein > 4 ? 'bg-red-500' : 'bg-green-400'}`}>{row.protein}</p></TableCell> */}
           </TableRow>
         </TableBody>
       </Table>

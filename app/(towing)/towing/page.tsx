@@ -23,7 +23,7 @@ const page: FC<pageProps> = ({}) => {
         <div className="container max-w-7xl mx-auto">
           <LargeHeading>Towing & Roadside Assistance</LargeHeading>
 
-          <div className="flex gap-6 flex-col sm:flex-row">
+          <div className="flex gap-6 flex-col sm:flex-row transition-all ease-in-out">
             <div className="w-full">
               <p>
                 Welcome to our Towing & Roadside Assistance Services at Car

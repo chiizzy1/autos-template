@@ -64,7 +64,7 @@ export default function TrackPage() {
           <LargeHeading>Track Your Car Repair</LargeHeading>
 
           <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <div className="flex flex-wrap items-center -mx-3 mb-6 transition-all">
+            <div className="flex flex-wrap items-center -mx-3 mb-6 transition-all ease-in-out">
               <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
                 <Input
                   className="bg-zinc-100"

@@ -24,7 +24,6 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
   carId,
   setToggleModal,
 }) => {
-  // console.log(customerId);
   const { refresh } = useRouter();
 
   const selectOptions = [
@@ -32,7 +31,6 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
     { value: false, label: "No" },
   ];
 
-  // Repair Stages Options
   const repairStages = [
     { value: "Check-In", label: "Check-In" },
     { value: "In-Progress", label: "In Progress" },
@@ -53,7 +51,6 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
   } = useForm({ resolver: yupResolver(Schema) });
 
   const createNewCar: any = async (info: any) => {
-    console.log(info);
     const { data } = await axios.post(`/api/repairs/createNew/${carId}`, info);
     return data;
   };
@@ -64,8 +61,8 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
       setToggleModal(false);
 
       toast({
-        title: "success creating new repair",
-        message: "okay",
+        title: "success",
+        message: "Successfully created new car repair",
         type: "success",
       });
       refresh();
@@ -78,8 +75,6 @@ const CreateRepairModal: FC<CreateRepairModalProps> = ({
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 

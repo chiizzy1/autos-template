@@ -3,11 +3,11 @@ import { FC } from "react";
 import { formatTimeToNow } from "@/lib/utils";
 import { BiDollar } from "react-icons/bi";
 
-interface RecentOrdersProps {
+interface RecentPaymentsProps {
   repairs: any;
 }
 
-const RecentOrders: FC<RecentOrdersProps> = ({ repairs }) => {
+const RecentPayments: FC<RecentPaymentsProps> = ({ repairs }) => {
   return (
     <div className="w-full scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-100  col-span-1 relative lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white overflow-y-scroll">
       <h1>Recent Payments</h1>
@@ -40,4 +40,4 @@ const RecentOrders: FC<RecentOrdersProps> = ({ repairs }) => {
   );
 };
 
-export default RecentOrders;
+export default RecentPayments;

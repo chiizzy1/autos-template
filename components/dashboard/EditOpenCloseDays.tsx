@@ -14,8 +14,7 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
   const [day, setDay] = useState<any>();
   const [selected, setSelected] = useState<Date | null>(null);
 
-  // Get cureent status of selected date
-
+  // Get open/close status of selected date
   const getDayStatus = async (info: any) => {
     const { data } = await axios.post(`/api/booking/${info}`);
     return data?.selected;
@@ -27,7 +26,6 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
     isLoading: loadingDay,
   } = useMutation(getDayStatus, {
     onSuccess: (successData) => {
-      console.log(successData);
       setDay(successData);
       setSelected(new Date(parseInt(successData.day)));
     },
@@ -45,8 +43,7 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
   const { mutate, error, isLoading, isError, data } = useMutation(
     editOpenClose,
     {
-      onSuccess: (successData) => {
-        console.log("weed:", successData);
+      onSuccess: () => {
         setDay((prev: any) => ({ ...prev, open: !prev.open }));
         toast({
           title: "successfully edited day!!",
@@ -91,7 +88,7 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
             loading...
           </Button>
         )}
-        {(day && !loadingDay) && (
+        {day && !loadingDay && (
           <Button
             variant="outline"
             className={`${day.open ? "bg-green-500" : "bg-red-500"}`}

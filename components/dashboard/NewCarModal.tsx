@@ -19,7 +19,6 @@ interface NewCarModalProps {
 }
 
 const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
-  // Handle Form with Yup
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
@@ -31,22 +30,21 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm({ resolver: yupResolver(Schema) });
 
   const createNewCar = async (info: any) => {
-    console.log(info);
-    const { data } = await axios.post(`/api/cars/createNew/${customerId}`, info);
+    const { data } = await axios.post(
+      `/api/cars/createNew/${customerId}`,
+      info
+    );
     return data;
   };
 
   const { mutate, error, isLoading, isError } = useMutation(createNewCar, {
-    onSuccess: (successData) => {
-      console.log(successData);
-
+    onSuccess: () => {
       toast({
-        title: "success creating new car",
-        message: "okay",
+        title: "success",
+        message: "successfully created new car",
         type: "success",
       });
     },
@@ -58,8 +56,6 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 
@@ -77,7 +73,7 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
               setNewCarModal(false);
             }}
           >
-             <X size={16} color="#f50000" strokeWidth={1.25} />
+            <X size={16} color="#f50000" strokeWidth={1.25} />
           </div>
         </div>
 

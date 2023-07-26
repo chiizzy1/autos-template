@@ -9,7 +9,6 @@ import { useMutation } from "@tanstack/react-query";
 import styles from "@/style";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
-import { createCar } from "@/helpers/customers";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import { X } from "lucide-react";
@@ -22,7 +21,7 @@ interface EditCarProps {
 
 const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
   const { make, model, year, plateNumber } = carData;
-  // Handle Form with Yup
+
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
@@ -38,7 +37,6 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
   } = useForm({ resolver: yupResolver(Schema) });
 
   const editCarDetails: any = async (info: any) => {
-    console.log(info);
     const { data } = await axios.put(`/api/cars/update/${carId}`, info);
     return data.CarData;
   };
@@ -48,8 +46,8 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
       console.log(successData);
       setEditModal(false);
       toast({
-        title: "success editing car info",
-        message: "okay",
+        title: "success",
+        message: "successfully updated car details",
         type: "success",
       });
     },
@@ -62,8 +60,6 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
           type: "error",
         });
       }
-
-      console.log(error);
     },
   });
 

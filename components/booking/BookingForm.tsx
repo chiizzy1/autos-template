@@ -7,7 +7,6 @@ import * as yup from "yup";
 import styles from "@/style";
 import { Textarea } from "../ui/Textarea";
 import { Input } from "../ui/Input";
-import { appointmentForm } from "@/constants";
 import { Button } from "../ui/Button";
 
 interface BookingFormProps {
@@ -16,7 +15,7 @@ interface BookingFormProps {
 }
 
 const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
-  // Handle Form with Yup
+  
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
@@ -34,37 +33,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(Schema) });
 
-  // const form = appointmentForm.map((info, index) => (
-  //   <div key={info.register}>
-  //     {info.element === "input" ? (
-  //       <div className={`w-full ${info.width} px-3 mb-6 md:mb-0`}>
-  //         <p className="pb-2">{info.label}</p>
-  //         <Input
-  //           type={info.type}
-  //           placeholder={info.placeholder}
-  //           className="bg-slate-100"
-  //           {...register(`${info.register}`)}
-  //         />
-  //         {errors.firstName && (
-  //           <p className={`text-red-400 text-xs italic`}>{info.errorMessage}</p>
-  //         )}
-  //       </div>
-  //     ) : (
-  //       <div className="w-full px-3 mb-6 sm:mb-0">
-  //         <p className="pb-2">{info.label}</p>
-  //         <Textarea
-  //           placeholder={info.placeholder}
-  //           {...register(`${info.register}`)}
-  //           className="bg-slate-100"
-  //         />
-  //         {errors.message && (
-  //           <p className={`${styles.formErrorStyles}`}>{info.errorMessage}</p>
-  //         )}
-  //       </div>
-  //     )}
-  //   </div>
-  // ));
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-wrap -mx-3 mb-6">
@@ -73,7 +41,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
           <Input
             type="text"
             placeholder="e.g John.."
-            className="bg-slate-100"
             {...register("firstName")}
           />
           {errors.firstName && (
@@ -85,7 +52,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
           <p className="pb-2">Last Name</p>
           <Input
-            className="bg-slate-100"
             type="text"
             placeholder="e.g Doe..."
             {...register("lastName")}
@@ -102,7 +68,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
           <p className="pb-2">Phone</p>
           <Input
-            className="bg-slate-100"
             type="tel"
             placeholder="e.g 081200000..."
             {...register("phone")}
@@ -116,7 +81,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/2 px-3 mb-6 sm:mb-0">
           <p className="pb-2">Email</p>
           <Input
-            className="bg-slate-100"
             type="email"
             placeholder="e.g john@doe@gmail.com..."
             {...register("email")}
@@ -133,7 +97,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/3 px-3 mb-6 md:mb-0">
           <p className="pb-2">Vehicle Make</p>
           <Input
-            className="bg-slate-100"
             type="text"
             placeholder="e.g Mercedes Benz..."
             {...register("carMake")}
@@ -148,7 +111,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
           <p className="pb-2">Car Model</p>
           <Input
-            className="bg-slate-100"
             type="text"
             placeholder="e.g GLE 63..."
             {...register("carModel")}
@@ -162,7 +124,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/3 px-3 mb-6 sm:mb-0">
           <p className="pb-2">Year</p>
           <Input
-            className="bg-slate-100"
             type="number"
             placeholder="e.g 2022..."
             {...register("carYear")}
@@ -181,7 +142,6 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
           <Textarea
             placeholder="Share any additional information with us."
             {...register("message")}
-            className="bg-slate-100"
           />
           {errors.message && (
             <p className={`${styles.formErrorStyles}`}>cannot be blank!</p>

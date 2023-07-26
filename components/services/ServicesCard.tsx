@@ -1,6 +1,6 @@
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { FC } from "react";
-import { AiOutlineRight } from "react-icons/ai";
 
 interface ServicesCardProps {
   description: string;
@@ -19,7 +19,7 @@ const ServicesCard: FC<ServicesCardProps> = ({ description, image, title }) => {
         <p className="text-xs pt-4">{description}</p>
         <div className="flex pt-6 items-center text-dimPurple gap-1 hover:gap-2 cursor-pointer">
           <p className="text-xs">view more</p>
-          <AiOutlineRight className="text-xs" />
+          <ChevronRight size={20} strokeWidth={1.75} />
         </div>
       </div>
     </div>
