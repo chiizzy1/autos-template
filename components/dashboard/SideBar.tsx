@@ -47,7 +47,7 @@ const SideBar: FC<SideBarProps> = ({ children }) => {
               <BsCalendarEvent size={20} />
             </div>
           </Link>
-          <Link href="/dashboard/upload">
+          <Link href="/dashboard/images/edit">
             <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-2 p-3 rounded-lg inline-block">
               <FiUpload size={20} />
             </div>

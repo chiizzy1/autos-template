@@ -23,15 +23,13 @@ const Gallery = async () => {
             filtered.map((image) => (
               <div
                 key={image.id}
-                className="rounded-md max-h-48 overflow-hidden"
+                className="overflow-hidden relative rounded-lg w-full h-40"
               >
                 <Image
                   src={image.url}
-                  alt="mechanic"
-                  priority
-                  width={500}
-                  height={300}
-                  style={{ objectFit: "cover" }}
+                  alt="gallery_image"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             ))}

@@ -1,12 +1,8 @@
 import "@/app/globals.css";
 
-// You need to import our styles for the button to look right. Best to import in the root /layout.tsx
-import "@uploadthing/react/styles.css";
-
-
 export const metadata = {
-  title: "Car Clinic | Upload Files",
-  description: "Upload Images!",
+  title: "Car Clinic | Image",
+  description: "Edit Image",
 };
 
 export default function RootLayout({

@@ -1,7 +1,6 @@
 "use client";
 
 import { FC } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
@@ -12,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "@/style";
 import { Input } from "../ui/Input";
+import { X } from "lucide-react";
 
 interface NewCarModalProps {
   setNewCarModal: (toggle: boolean) => void;
@@ -77,7 +77,7 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
               setNewCarModal(false);
             }}
           >
-            <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+             <X size={16} color="#f50000" strokeWidth={1.25} />
           </div>
         </div>
 

@@ -170,8 +170,7 @@ const CarsTable: FC<CarsTableProps> = ({ customerId }) => {
 
   return (
     <>
-      {isLoading && <Loading text="Loading..." />}
-      {cars.length > 0 && (
+      {data && (
         <DataTable columns={columns} data={cars} filterField={filterField} />
       )}
       {toggleRepair && (

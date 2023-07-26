@@ -19,7 +19,7 @@ const TrackDetails: FC<TrackDetailsProps> = ({ data }) => {
       <div className="flex gap-8 lg:flex-row flex-col sm:py-9 py-6">
         <div className="w-full rounded-md bg-green-50 p-6">
           <SmallHeading>Car Repair Status</SmallHeading>
-          <TrackUi status="Ready-for-Pick-up" />
+          <TrackUi status={data.repairStatus} />
         </div>
 
         <div className="w-full bg-sky-50 border rounded-md p-6">

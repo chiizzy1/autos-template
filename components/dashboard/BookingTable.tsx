@@ -177,17 +177,24 @@ const BookingTable: FC<BookingTableProps> = () => {
   return (
     <div className="p-4">
       {isLoading && <Loading text="loading appointments" />}
-      <SmallHeading className="py-4">Edit Opening/Closing dates!</SmallHeading>
 
-      <EditOpenCloseDays />
+      {data && (
+        <>
+          <SmallHeading className="py-4">
+            Edit Opening/Closing dates!
+          </SmallHeading>
 
-      <SmallHeading className="pb-4 pt-8">See all appointments!!</SmallHeading>
-      {bookings && (
-        <DataTable
-          columns={columns}
-          data={bookings}
-          filterField={filterField}
-        />
+          <EditOpenCloseDays />
+
+          <SmallHeading className="pb-4 pt-8">
+            See all appointments!!
+          </SmallHeading>
+          <DataTable
+            columns={columns}
+            data={bookings}
+            filterField={filterField}
+          />
+        </>
       )}
       {toggleDetails && (
         <BookingDetails

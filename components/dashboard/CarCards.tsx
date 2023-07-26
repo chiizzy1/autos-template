@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { Button } from "../ui/Button";
+import { ArrowLeftRight, Car } from "lucide-react";
 
 interface CarCardsProps {
   setToggleModal: Dispatch<SetStateAction<boolean>>;
@@ -37,20 +38,7 @@ const CarCards: FC<CarCardsProps> = ({
       <div className="bg-white border p-6 rounded-lg">
         <div className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div className="text-sm font-medium">Car Details</div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
+          <Car size={20} strokeWidth={1.25} />
         </div>
         <div className="border w-full mb-2" />
         <p className="text-xs font-medium  mb-1">
@@ -104,20 +92,7 @@ const CarCards: FC<CarCardsProps> = ({
       <div className="bg-white border p-6 rounded-lg">
         <div className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div className="text-sm font-medium">Stats</div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="h-4 w-4 text-muted-foreground"
-          >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
+          <ArrowLeftRight size={20} strokeWidth={1.25} />
         </div>
         <div className="border w-full mb-2" />
         <p className="text-xs mb-1">

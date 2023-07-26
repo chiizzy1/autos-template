@@ -1,20 +1,14 @@
 import { getAuthSession } from "@/lib/auth";
+import { cloudinaryConfig } from "@/lib/clodinaryConfig";
 import { db } from "@/lib/db";
 import { z } from "zod";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export const POST = async (
   req: Request,
   { params }: { params: { imageId: string } }
 ) => {
   const imageId = params.imageId;
-  const { newImage, oldImageUrl } = await req.json();
+  const { newImage } = await req.json();
   try {
     const session = await getAuthSession();
     const user = session?.user;
@@ -45,7 +39,7 @@ export const POST = async (
     }
 
     // Upload new image to Cloudinary and get the parameters
-    const result = await cloudinary.uploader.upload(newImage);
+    const result = await cloudinaryConfig.uploader.upload(newImage);
 
     const editImage = await db.pictures.update({
       where: { id: imageId },
@@ -56,7 +50,7 @@ export const POST = async (
     });
 
     // Delete old image from cloudinary
-    await cloudinary.uploader.destroy(oldImageUrl);
+    await cloudinaryConfig.uploader.destroy(getOldImage.key);
 
     return new Response(
       JSON.stringify({

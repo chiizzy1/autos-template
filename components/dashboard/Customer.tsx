@@ -60,15 +60,11 @@ const Customer: FC<CustomerProps> = ({ customerId }) => {
           <>
             <div className="flex">
               <SmallHeading className="py-4">
-                All {`${data?.lastName} ${data?.firstName}`} Cars
+                {`${data?.lastName} ${data?.firstName}`} Cars
               </SmallHeading>
             </div>
             <CarsTable customerId={customerId} />
-          </>
-        )}
-
-        {data && (
-          <>
+         
             <SmallHeading className="py-4">
               All {`${data?.lastName} ${data?.firstName}`} Repairs
             </SmallHeading>

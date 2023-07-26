@@ -11,6 +11,7 @@ import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import styles from "@/style";
 import { AiOutlineClose } from "react-icons/ai";
+import { X } from "lucide-react";
 
 interface NewCustomerProps {
   setNewCustomer: (toggle: boolean) => void;
@@ -78,7 +79,7 @@ const NewCustomer: FC<NewCustomerProps> = ({ setNewCustomer }) => {
                 setNewCustomer(false);
               }}
             >
-              <AiOutlineClose className="text-4xl  text-sky-500 font-black cursor-pointer" />
+               <X size={16} color="#f50000" strokeWidth={1.25} />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">

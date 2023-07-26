@@ -53,7 +53,6 @@ export default function TrackPage() {
   );
 
   const handleFormSubmit = (data: any) => {
-    console.log(data);
     mutate(data.trackId);
   };
 
@@ -87,7 +86,7 @@ export default function TrackPage() {
                   isLoading={isLoading}
                   disabled={isLoading}
                 >
-                  {isLoading ? "Fetching car repair data" : "Track your repair"}
+                  {isLoading ? "Tracking car repair..." : "Track your repair"}
                 </Button>
               </div>
             </div>

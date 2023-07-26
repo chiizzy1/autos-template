@@ -5,8 +5,8 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Dispatch, FC, SetStateAction } from "react";
 import { toast } from "../ui/toast";
-import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "../ui/Button";
+import { X } from "lucide-react";
 
 interface DeleteBookingProps {
   setDeleteModal: Dispatch<SetStateAction<boolean>>;
@@ -64,7 +64,7 @@ const DeleteBooking: FC<DeleteBookingProps> = ({
               setDeleteModal(false);
             }}
           >
-            <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+            <X size={16} color="#f50000" strokeWidth={1.25} />
           </div>
         </div>
 

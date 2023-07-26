@@ -11,8 +11,8 @@ import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 import { createCar } from "@/helpers/customers";
 import { Button } from "../ui/Button";
-import { AiOutlineClose } from "react-icons/ai";
 import { Input } from "../ui/Input";
+import { X } from "lucide-react";
 
 interface EditCarProps {
   carId: string;
@@ -82,7 +82,7 @@ const EditCar: FC<EditCarProps> = ({ carId, setEditModal, carData }) => {
                 setEditModal(false);
               }}
             >
-              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+              <X size={16} color="#f50000" strokeWidth={1.25} />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">

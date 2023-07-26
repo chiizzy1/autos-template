@@ -1,18 +1,6 @@
-import {
-  people01,
-  people02,
-  people03,
-  send,
-  shield,
-  star,
-  carIcon,
-  diagnosticIcon,
-  lastIcon,
-  mechanicIcon,
-} from "@/assets";
+import { carIcon, diagnosticIcon, lastIcon, mechanicIcon } from "@/assets";
 import { v4 as uuidv4 } from "uuid";
-
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 export const services = [
   {
@@ -144,30 +132,6 @@ export const days = [
   },
 ];
 
-export const features = [
-  {
-    id: "feature-1",
-    icon: star,
-    title: "Rewards",
-    content:
-      "The best credit cards offer some tantalizing combinations of promotions and prizes",
-  },
-  {
-    id: "feature-2",
-    icon: shield,
-    title: "100% Secured",
-    content:
-      "We take proactive steps make sure your information and transactions are secure.",
-  },
-  {
-    id: "feature-3",
-    icon: send,
-    title: "Balance Transfer",
-    content:
-      "A balance transfer credit card can save you a lot of money in interest charges.",
-  },
-];
-
 export const servicesContent = [
   {
     id: "service-1",
@@ -204,7 +168,6 @@ export const feedback = [
     title: "Software Engineer",
     content:
       "I recently brought my car in for service and was extremely impressed with the quality of work and customer service. The staff was friendly and knowledgeable, and my car was fixed in no time. I highly recommend this auto workshop to anyone in need of reliable and professional service.",
-    img: people02,
   },
   {
     id: 2,
@@ -212,7 +175,6 @@ export const feedback = [
     title: "Teacher",
     content:
       "I've been taking my car to this workshop for years and have always been satisfied with their service. The staff is always friendly and takes the time to explain the work that needs to be done. I highly recommend this workshop to anyone in need of car maintenance or repairs.",
-    img: people01,
   },
   {
     id: 3,
@@ -220,32 +182,6 @@ export const feedback = [
     title: "Accountant",
     content:
       "I recently had my brakes replaced at this workshop and was very happy with the quality of work. The staff was very professional and the pricing was very competitive. I would definitely recommend this workshop to anyone in need of car repairs or maintenance.",
-    img: people03,
-  },
-  // {
-  //   id: 4,
-  //   name: "Jessica Chen",
-  //   title: "Marketing Manager",
-  //   content: "I brought my car in for an oil change and was very happy with the service I received. The staff was friendly and knowledgeable, and my car was ready in no time. I would definitely recommend this workshop to anyone in need of car maintenance or repairs.",
-  //   img: people01
-  // }
-];
-
-export const stats = [
-  {
-    id: "stats-1",
-    title: "User Active",
-    value: "3800+",
-  },
-  {
-    id: "stats-2",
-    title: "Trusted by Company",
-    value: "230+",
-  },
-  {
-    id: "stats-3",
-    title: "Transaction",
-    value: "$230M+",
   },
 ];
 
@@ -322,22 +258,22 @@ export const footerLinks = [
 export const socialMedia = [
   {
     id: "social-media-1",
-    icon: <FaInstagram className="text-3xl text-dimPurple" />,
+    icon: <Instagram className="text-dimPurple" size={20} strokeWidth={1.25} />,
     link: "https://www.instagram.com/",
   },
   {
     id: "social-media-2",
-    icon: <FaFacebook className="text-3xl text-dimPurple" />,
+    icon: <Facebook className="text-dimPurple" size={20} strokeWidth={1.25} />,
     link: "https://www.facebook.com/",
   },
   {
     id: "social-media-3",
-    icon: <FaTwitter className="text-3xl text-dimPurple" />,
+    icon: <Twitter className="text-dimPurple" size={20} strokeWidth={1.25} />,
     link: "https://www.twitter.com/",
   },
   {
     id: "social-media-4",
-    icon: <FaLinkedin className="text-3xl text-dimPurple" />,
+    icon: <Linkedin className="text-dimPurple" size={20} strokeWidth={1.25} />,
     link: "https://www.linkedin.com/",
   },
 ];
@@ -412,5 +348,5 @@ export const appointmentForm = [
     placeholder: "Share any additional information with us.",
     register: "message",
     errorMessage: "cannot be blank!",
-  }
+  },
 ];

@@ -178,7 +178,7 @@ const GetAllCustomers: FC<GetAllCustomersProps> = ({}) => {
     <div className="p-4">
       <SmallHeading className="my-4">All Customers</SmallHeading>
 
-      {customersData.length > 0 && (
+      {data && (
         <DataTable
           columns={columns}
           data={customersData}

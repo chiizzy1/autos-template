@@ -2,11 +2,11 @@
 
 import axios, { AxiosError } from "axios";
 import { FC } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
+import { X } from "lucide-react";
 
 interface DeleteModalProps {
   repairId: string;
@@ -61,7 +61,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ setDeleteToggle, repairId }) => {
               setDeleteToggle(false);
             }}
           >
-            <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+            <X size={16} color="#f50000" strokeWidth={1.25} />{" "}
           </div>
         </div>
         <h2 className="text-xl">

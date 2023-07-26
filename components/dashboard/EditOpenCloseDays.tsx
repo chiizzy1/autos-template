@@ -88,12 +88,12 @@ const EditOpenCloseDays: FC<EditOpenCloseDaysProps> = ({}) => {
 
         {loadingDay && (
           <Button variant="purple" isLoading={loadingDay} disabled={loadingDay}>
-            loading data
+            loading...
           </Button>
         )}
-        {day && (
+        {(day && !loadingDay) && (
           <Button
-            variant="default"
+            variant="outline"
             className={`${day.open ? "bg-green-500" : "bg-red-500"}`}
             isLoading={isLoading}
             disabled={isLoading}

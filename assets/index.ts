@@ -20,6 +20,7 @@ import done from "./done.svg";
 import adminIcon from "./adminIcon.png";
 import repairSvg from "./repairIcon.svg";
 import carSvg from "./carIcon.svg";
+import towing from "./towing.jpg"
 
 export {
   quotes,
@@ -44,5 +45,5 @@ export {
   adminIcon,
   repairSvg,
   carSvg,
-  
+  towing
 };

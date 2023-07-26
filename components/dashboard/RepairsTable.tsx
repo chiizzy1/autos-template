@@ -185,8 +185,7 @@ const RepairsTable: FC<RepairsTableProps> = ({ customerId }) => {
 
   return (
     <>
-      {isLoading && <Loading text="loading" />}
-      {repairs.length > 0 && (
+      {data && (
         <DataTable columns={columns} data={repairs} filterField={filterField} />
       )}
       {toggleModal && (

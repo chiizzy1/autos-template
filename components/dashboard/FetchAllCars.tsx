@@ -184,7 +184,7 @@ const FetchAllCars: FC<FetchAllCarsProps> = () => {
   return (
     <>
       {isLoading && <Loading text="Loading cars" />}
-      {allCars.length > 0 && (
+      {data && (
         <div className="p-4">
           <SmallHeading className="py-4">
             See all cars in our database

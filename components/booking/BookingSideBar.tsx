@@ -1,13 +1,25 @@
 import { days } from "@/constants";
-import { BsTelephoneFill } from "react-icons/bs";
+import { Mail, PhoneForwarded } from "lucide-react";
 import SmallHeading from "../ui/SmallHeading";
+import { buttonVariants } from "../ui/Button";
 
 const BookingSideBar = () => (
   <div className="rounded-lg p-6 bg-white">
     <SmallHeading> Have a question?</SmallHeading>
-    <p>Give us a call, we&apos;re here to help you.</p>
-    <div className="flex items-center ">
-      <BsTelephoneFill /> <span className="ml-2">012-345-678-9</span>
+    <p className="text-sm">Get in touch, we&apos;re always here to help you.</p>
+    <div className="mt-2 flex flex-col gap-2">
+      <a className="w-full" href={`tel:0123456789`} target="_blank">
+        <div className={buttonVariants({ variant: "outline" })}>
+          <PhoneForwarded size={20} className="text-dimPurple" strokeWidth={1.75} />
+          <p className="pl-2 text-sm">Call Us</p>
+        </div>
+      </a>
+      <a className="w-full" href={`mailto:admin@carclinic.com`} target="_blank">
+        <div className={buttonVariants({ variant: "outline" })}>
+          <Mail size={20} className="text-dimPurple" strokeWidth={1.75} />
+          <p className="pl-2 text-sm">Send Us an Email</p>
+        </div>{" "}
+      </a>
     </div>
     <hr className="my-8" />
 
@@ -16,10 +28,7 @@ const BookingSideBar = () => (
 
     <hr className="my-8" />
 
-    
-
     <div className="w-full relative m-auto p-4 border rounded-lg">
-      
       <SmallHeading> Opening Hours</SmallHeading>
       <ul>
         {days.map((day: any) => (
@@ -30,9 +39,7 @@ const BookingSideBar = () => (
             <div className="flex items-center">
               <p className="text-dimPurple text-sm font-semibold">{day.day}</p>
 
-              <p className="absolute right-6 text-xs">
-                {day.activity}
-              </p>
+              <p className="absolute right-6 text-xs">{day.activity}</p>
             </div>
           </li>
         ))}

@@ -187,8 +187,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
   ];
   return (
     <div className="p-4">
-      {isLoading && <Loading text="loading" />}
-      {repairs && (
+      {data && (
         <DataTable columns={columns} data={repairs} filterField={filterField} />
       )}
       {toggleModal && (

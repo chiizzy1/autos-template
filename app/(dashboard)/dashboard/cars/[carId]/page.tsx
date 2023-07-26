@@ -58,12 +58,12 @@ export default function CarDetail(url: URL) {
             setEditModal={setEditModal}
             setDeleteModal={setDeleteModal}
           />
+
+          <SmallHeading className="p-4">Car Repair History</SmallHeading>
+          <SingleRepairTable carId={carId} />
         </>
       )}
-
-      <SmallHeading className="p-4">Car Repair History</SmallHeading>
-      <SingleRepairTable carId={carId} />
-
+      
       {toggleModal && (
         <CreateRepairModal carId={carId} setToggleModal={setToggleModal} />
       )}

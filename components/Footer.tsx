@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { footerLinks, socialMedia } from "@/constants";
-import { buttonVariants } from "./ui/Button";
+import { Mail, PhoneForwarded } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -31,14 +32,37 @@ export default function Footer() {
           ))}
 
           <div className="ss:my-0 my-4 min-w-[150px]">
-            <span className="text-dimPurple text-sm font-semibold ">Newsletter</span>
+            <span className="text-dimPurple text-sm font-semibold ">
+              Contact Details
+            </span>
             <div className="flex flex-col gap-2 mt-4">
-              <label >
-                <span className="font-normal text-sm text-black">Get latest info about car fixes</span>
-              </label>
-              <input type="text" placeholder="Enter your email address" className="input border border-dimPurple w-full bg-transparent" />
+              <a className="w-full" href={`tel:0123456789`} target="_blank">
+                <div className="flex items-center">
+                  <PhoneForwarded
+                    size={20}
+                    className="text-dimPurple"
+                    strokeWidth={1.75}
+                  />
+                  <p className="pl-2 text-xs">0123456789</p>
+                </div>
+              </a>
+              <a
+                className="w-full"
+                href={`mailto:admin@carclinic.com`}
+                target="_blank"
+              >
+                <div className="flex items-center">
+                  <Mail size={20} className="text-dimPurple" strokeWidth={1.75} />
+                  <p className="pl-2 text-xs">admin@carclinic.com</p>
+                </div>{" "}
+              </a>
 
-              <Link href={`/`} className={`${buttonVariants({ variant: 'outline' })}`}>Submit</Link>
+              <div className="flex items-center">
+                <MapPin size={20} className="text-dimPurple" strokeWidth={1.75} />
+                <p className="text-xs pl-2">
+                  plot 4-6, lekki ikate, lagos state, Nigeria
+                </p>{" "}
+              </div>
             </div>
           </div>
         </div>

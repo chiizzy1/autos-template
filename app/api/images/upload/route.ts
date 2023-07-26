@@ -1,13 +1,8 @@
 import { getAuthSession } from "@/lib/auth";
+import { cloudinaryConfig } from "@/lib/clodinaryConfig";
 import { db } from "@/lib/db";
 import { z } from "zod";
-import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config({
-  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME,
-  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 
 export const POST = async (req: Request) => {
@@ -36,7 +31,7 @@ export const POST = async (req: Request) => {
       );
     }
     // Upload image to Cloudinary
-    const result = await cloudinary.uploader.upload(image);
+    const result = await cloudinaryConfig.uploader.upload(image);
 
     // Save to db
     const saveDB = await db.pictures.create({

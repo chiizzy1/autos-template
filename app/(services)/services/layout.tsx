@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      <div className="pt-[5rem]">{children}</div>
+      <div className="pt-[4rem]">{children}</div>
       <Footer />
     </>
   );

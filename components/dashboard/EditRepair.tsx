@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import axios, { AxiosError } from "axios";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,13 +12,13 @@ import Select from "react-select";
 import { useRouter } from "next/navigation";
 import { createCar } from "@/helpers/customers";
 import { Button } from "../ui/Button";
-import { AiOutlineClose } from "react-icons/ai";
 import { Input } from "../ui/Input";
 import { Textarea } from "../ui/Textarea";
+import { X } from "lucide-react";
 
 interface EditRepairProps {
   repairDetails: any;
-  setToggleModal: (toggle: boolean) => void;
+  setToggleModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
@@ -120,7 +120,7 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
                 setToggleModal(false);
               }}
             >
-              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+              <X size={16} color="#f50000" strokeWidth={1.25} />
             </div>
           </div>
           <div className="flex flex-wrap -mx-3 mb-6">

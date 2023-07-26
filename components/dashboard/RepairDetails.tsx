@@ -4,6 +4,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Activity, Mail, PhoneForwarded, Wrench } from "lucide-react";
 import { buttonVariants } from "../ui/Button";
+import ActionButtons from "../ui/ActionButtons";
 
 interface RepairDetailsProps {
   setViewRepair: Dispatch<SetStateAction<boolean>>;
@@ -118,21 +119,7 @@ const RepairDetails: FC<RepairDetailsProps> = ({
           <p className="text-sm font-bold text-dimPurple"> Actions</p>
           <div className="border w-full mb-2" />
 
-          <div className="flex gap-4 items-center">
-            <a href={`tel:${owner.phone}`} target="_blank">
-              <div className={buttonVariants({ variant: "purple" })}>
-                <PhoneForwarded />
-                <p className="pl-2 text-xs">Call Customer </p>
-              </div>
-            </a>
-
-            <a href={`mailto:${owner.email}`} target="_blank">
-              <div className={buttonVariants({ variant: "purple" })}>
-                <Mail />
-                <p className="pl-2 text-xs">Send Customer Email</p>
-              </div>{" "}
-            </a>
-          </div>
+          <ActionButtons email={owner.email} phone={owner.phone} />
         </div>
       </div>
     </div>

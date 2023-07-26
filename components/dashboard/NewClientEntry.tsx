@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "@/style";
 import { Button } from "../ui/Button";
-import { AiOutlineClose } from "react-icons/ai";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -14,6 +13,7 @@ import { toast } from "../ui/toast";
 import Select from "react-select";
 import { Textarea } from "../ui/Textarea";
 import { Input } from "../ui/Input";
+import { X } from "lucide-react";
 
 interface NewClientEntryProps {
   setToggle: (toggle: boolean) => void;
@@ -105,7 +105,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
                 setToggle(false);
               }}
             >
-              <AiOutlineClose className="text-2xl  text-red-500 font-black cursor-pointer" />
+              <X size={16} color="#f50000" strokeWidth={1.25} />
             </div>
           </div>
           <h3 className="font-bold text-center text-xl">Create new entry</h3>

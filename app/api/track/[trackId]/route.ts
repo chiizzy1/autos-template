@@ -60,7 +60,7 @@ export const POST = async (
         error: "Invalid Tracking ID!!",
         trackData: null,
       }),
-      { status: 401 }
+      { status: 400 }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
