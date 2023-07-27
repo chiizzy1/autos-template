@@ -39,7 +39,9 @@ const Header: FC<HeaderProps> = ({ page }) => {
               </div>
               <p
                 className={`font-bold text-base text-dimPurple ml-4 ${
-                  page === "dashboard" ? "hidden sm:flex" : ""
+                  page === "dashboard" || page === "allCustomer"
+                    ? "hidden sm:flex"
+                    : ""
                 }`}
               >
                 Hello, {session.user.name}
@@ -49,12 +51,12 @@ const Header: FC<HeaderProps> = ({ page }) => {
             {page === "dashboard" ? (
               <>
                 <Button onClick={() => setToggle(true)} variant="purple">
-                  New Entry
+                  + New Entry
                 </Button>
               </>
             ) : page === "allCustomer" ? (
               <Button onClick={() => setNewCustomer(true)} variant="purple">
-                New Customer
+                + New Customer
               </Button>
             ) : (
               ""

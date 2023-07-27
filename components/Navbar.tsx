@@ -22,6 +22,30 @@ export default async function Navbar() {
 
         <div className="hidden md:flex gap-4">
           <Link
+            href="/about"
+            className={`${buttonVariants({
+              variant: "link",
+            })} `}
+          >
+            About Us
+          </Link>
+          <Link
+            href="/services"
+            className={`${buttonVariants({
+              variant: "link",
+            })} `}
+          >
+            Services
+          </Link>
+          <Link
+            href="/booking"
+            className={`${buttonVariants({
+              variant: "link",
+            })} `}
+          >
+            Booking
+          </Link>
+          <Link
             href="/tracking"
             className={`${buttonVariants({
               variant: "link",
@@ -37,22 +61,7 @@ export default async function Navbar() {
           >
             Towing
           </Link>
-          <Link
-            href="/booking"
-            className={`${buttonVariants({
-              variant: "link",
-            })} `}
-          >
-            Booking
-          </Link>
-          <Link
-            href="/services"
-            className={`${buttonVariants({
-              variant: "link",
-            })} `}
-          >
-            Services
-          </Link>
+
           <Link
             href="/contact"
             className={`${buttonVariants({

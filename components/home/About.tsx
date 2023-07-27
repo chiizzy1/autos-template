@@ -7,7 +7,7 @@ const About = async () => {
   });
 
   return (
-    <section className={`sm:py-16 py-6 w-full`}>
+    <section className={`sm:py-8 py-4 w-full`}>
       <div className="container max-w-7xl mx-auto">
         <div className="flex gap-6 md:flex-row flex-col transition-all ease-in-out">
           <div className="w-full flex items-center justify-center">

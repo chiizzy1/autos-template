@@ -8,13 +8,13 @@ const BookingSideBar = () => (
     <SmallHeading> Have a question?</SmallHeading>
     <p className="text-sm">Get in touch, we&apos;re always here to help you.</p>
     <div className="mt-2 flex flex-col gap-2">
-      <a className="w-full" href={`tel:0123456789`} target="_blank">
+      <a href={`tel:0123456789`} target="_blank">
         <div className={buttonVariants({ variant: "outline" })}>
           <PhoneForwarded size={20} className="text-dimPurple" strokeWidth={1.75} />
           <p className="pl-2 text-sm">Call Us</p>
         </div>
       </a>
-      <a className="w-full" href={`mailto:admin@carclinic.com`} target="_blank">
+      <a href={`mailto:admin@carclinic.com`} target="_blank">
         <div className={buttonVariants({ variant: "outline" })}>
           <Mail size={20} className="text-dimPurple" strokeWidth={1.75} />
           <p className="pl-2 text-sm">Send Us an Email</p>

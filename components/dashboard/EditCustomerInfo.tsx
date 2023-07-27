@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "@/style";
 import { toast } from "../ui/toast";
 import { Button } from "../ui/Button";
@@ -27,6 +27,7 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
   const { firstName, lastName, email, phone } = customerData;
 
   const { refresh } = useRouter();
+  const queryClient = useQueryClient()
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
@@ -48,8 +49,8 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
   };
 
   const { mutate, error, isLoading, isError } = useMutation(editCustomerData, {
-    onSuccess: (successData) => {
-      console.log(successData);
+    onSuccess: () => {
+      queryClient.invalidateQueries(["allCustomers"])
       setCustomerEditModal(false);
       toast({
         title: "success",

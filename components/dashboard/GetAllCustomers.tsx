@@ -47,7 +47,7 @@ const GetAllCustomers: FC<GetAllCustomersProps> = ({}) => {
     return <div>Error!</div>;
   }
 
-  let customersData: [] = [];
+  let customersData: any = [];
 
   if (data) {
     customersData = data.map((info: any, i: number) => {

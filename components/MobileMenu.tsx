@@ -1,10 +1,9 @@
 "use client";
 
-import { Info, LayoutDashboard, Loader2, User } from "lucide-react";
+import { Info, LayoutDashboard, Loader2, Menu, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "./ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,8 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/DropdownMenu";
 import { toast } from "./ui/toast";
-import Image from "next/image";
-import { close, menu } from "@/assets";
+import { X } from "lucide-react";
+import { Button } from "./ui/Button";
 
 const MobileMenu = () => {
   const { data: session } = useSession();
@@ -37,29 +36,38 @@ const MobileMenu = () => {
 
   return (
     <nav className="z-[999] md:hidden">
-      <div className="shadow-2xl rounded-md outline outline-2 outline-white">
+      <div className="shadow-2xl rounded-md">
         <DropdownMenu open={open} onOpenChange={setOpen}>
-          <DropdownMenuTrigger asChild onClick={() => setOpen((prev) => !prev)}>
-            {/* <Image
-              src={open ? close : menu}
-              alt="menu"
-              className="w-[28px] h-[28px] object-contain"
-            /> */}
-            <Button variant='outline' size='lg'>
-              Menu
-            </Button>
+          <DropdownMenuTrigger className="cursor-pointer" onClick={() => setOpen((prev) => !prev)}>
+            {open ? (
+              <X size={40} className="text-dimPurple" />
+            ) : (
+              <Menu size={40} className="text-dimPurple" />
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuGroup onClick={() => setOpen(false)}>
               <DropdownMenuItem asChild>
-                {session ? (
-                  <Link
-                    href="/dashboard"
-                    className="w-full flex items-center gap-1.5"
-                  >
-                    <LayoutDashboard className="mr-2 h-5 w-5" />
-                    <span>Dashboard</span>
-                  </Link>
+                {session && session?.user.role === "AUTHORIZED" ? (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="w-full flex items-center gap-1.5"
+                    >
+                      <LayoutDashboard className="mr-2 h-5 w-5" />
+                      <span>Dashboard</span>
+                    </Link>
+
+                    <Button
+                      onClick={signUserOut}
+                      variant="purple"
+                      isLoading={isLoading}
+                      disabled={isLoading}
+                    >
+                      <User className="mr-2 h-5 w-5" />
+                      {isLoading ? "Signing out" : "Sign out"}
+                    </Button>
+                  </>
                 ) : (
                   <Link
                     href="/login"
@@ -71,6 +79,33 @@ const MobileMenu = () => {
                 )}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/about"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>About Us</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/services"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Services</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/booking"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Booking</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
                   href="/tracking"
@@ -89,15 +124,7 @@ const MobileMenu = () => {
                   <span>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/booking"
-                  className="w-full flex items-center gap-1.5"
-                >
-                  <Info className="mr-2 h-5 w-5" />
-                  <span>Booking</span>
-                </Link>
-              </DropdownMenuItem>
+
               <DropdownMenuItem asChild>
                 <Link
                   href="/towing"
@@ -106,23 +133,6 @@ const MobileMenu = () => {
                   <Info className="mr-2 h-5 w-5" />
                   <span>Towing</span>
                 </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  href="/services"
-                  className="w-full flex items-center gap-1.5"
-                >
-                  <Info className="mr-2 h-5 w-5" />
-                  <span>Services</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signUserOut} className="gap-1.5">
-                <User className="mr-2 h-5 w-5" />
-                <span>{isLoading ? "Signing out" : "Sign out"}</span>
-                {isLoading ? (
-                  <Loader2 className="animate-spin h-4 w-4" />
-                ) : null}
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

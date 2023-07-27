@@ -1,6 +1,15 @@
 import { carIcon, diagnosticIcon, lastIcon, mechanicIcon } from "@/assets";
 import { v4 as uuidv4 } from "uuid";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import {
+  BadgeCheck,
+  Facebook,
+  HeartHandshake,
+  Instagram,
+  Lightbulb,
+  Linkedin,
+  Twitter,
+  UserCheck,
+} from "lucide-react";
 
 export const services = [
   {
@@ -258,23 +267,101 @@ export const footerLinks = [
 export const socialMedia = [
   {
     id: "social-media-1",
-    icon: <Instagram className="text-dimPurple" size={20} strokeWidth={1.25} />,
+    icon: <Instagram className="text-dimPurple" size={32} strokeWidth={2} />,
     link: "https://www.instagram.com/",
   },
   {
     id: "social-media-2",
-    icon: <Facebook className="text-dimPurple" size={20} strokeWidth={1.25} />,
+    icon: <Facebook className="text-dimPurple" size={32} strokeWidth={2} />,
     link: "https://www.facebook.com/",
   },
   {
     id: "social-media-3",
-    icon: <Twitter className="text-dimPurple" size={20} strokeWidth={1.25} />,
+    icon: <Twitter className="text-dimPurple" size={32} strokeWidth={2} />,
     link: "https://www.twitter.com/",
   },
   {
     id: "social-media-4",
-    icon: <Linkedin className="text-dimPurple" size={20} strokeWidth={1.25} />,
+    icon: <Linkedin className="text-dimPurple" size={32} strokeWidth={2} />,
     link: "https://www.linkedin.com/",
+  },
+];
+
+export const stats = [
+  {
+    id: "stats-1",
+    title: "Active Customers",
+    value: "3,807",
+  },
+  {
+    id: "stats-2",
+    title: "Completed Repairs",
+    value: "23,230",
+  },
+  {
+    id: "stats-3",
+    title: "Average Customer Rating",
+    value: "98%",
+  },
+];
+
+export const coreValues = [
+  {
+    id: uuidv4(),
+    title: "Innovation",
+    icon: <Lightbulb className="text-dimPurple" strokeWidth={1.5} />,
+    content:
+      "We embrace innovation and embrace new technologies to enhance our services and deliver greater value to our customers.",
+  },
+  {
+    id: uuidv4(),
+    title: "Quality Excellence",
+    icon: <BadgeCheck className="text-dimPurple" strokeWidth={1.5} />,
+    content:
+      "We are dedicated to delivering the highest quality of workmanship and service.",
+  },
+  {
+    id: uuidv4(),
+    title: "Customer-Centric",
+    icon: <UserCheck className="text-dimPurple" strokeWidth={1.5} />,
+    content: "Our customers are at the heart of everything we do.",
+  },
+  {
+    id: uuidv4(),
+    title: "Integrity",
+    icon: <HeartHandshake className="text-dimPurple" strokeWidth={1.5} />,
+    content:
+      "We uphold the highest standards of honesty, transparency, and ethical conduct in all our dealings. ",
+  },
+];
+
+export const whyChooseUs = [
+  {
+    id: uuidv4(),
+    index: 0,
+    title: "Expert Team",
+    content:
+      "Our team of skilled and certified technicians is the backbone of Car Clinic. They are not only experts in their field but also passionate about what they do. With their extensive knowledge and state-of-the-art equipment, they can handle all your automotive needs with precision and care.",
+    image:
+      "https://images.pexels.com/photos/6285158/pexels-photo-6285158.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: uuidv4(),
+    index: 1,
+    title: "Quality Parts",
+    content:
+      "We use only high-quality parts and components to ensure the best performance and longevity for your vehicle. Your safety and the reliability of your car are of utmost importance to us.",
+    image:
+      "https://images.pexels.com/photos/14165725/pexels-photo-14165725.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: uuidv4(),
+    index: 2,
+    title: "State-of-the-Art Facility",
+    content:
+      " Our modern facility is equipped with the latest technology and tools to deliver superior automotive services. We continually invest in upgrading our facility and training our team to stay up-to-date with the latest advancements in the automotive industry.",
+    image:
+      "https://images.pexels.com/photos/8985660/pexels-photo-8985660.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   },
 ];
 

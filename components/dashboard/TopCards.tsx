@@ -1,6 +1,5 @@
+import { CalendarClock, Wrench } from "lucide-react";
 import { FC } from "react";
-import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
-import { RxPerson } from "react-icons/rx";
 import { AiOutlineCar, AiOutlineWallet } from "react-icons/ai";
 import { GiAutoRepair } from "react-icons/gi";
 
@@ -8,9 +7,10 @@ interface TopCardsProps {
   customers: any;
   cars: any;
   repairs: any;
+  booking: any;
 }
 
-const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
+const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs, booking }) => {
   let init = 0;
   repairs.map((obj: any) => (init += obj.estimatedCost));
 
@@ -62,7 +62,7 @@ const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
           </svg>
         </div>
         <div>
-          <div className="text-2xl font-bold">{customers.length}</div>
+          <div className="text-2xl font-bold">{booking.length}</div>
           <p className="text-xs text-muted-foreground">
             +180.1% from last month
           </p>
@@ -71,10 +71,10 @@ const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
 
       <div className="bg-white border p-6 rounded-lg">
         <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <div className="text-sm font-medium">{`Car${
-            cars.length > 1 ? "s" : ""
+          <div className="text-sm font-medium">{`Pending Appointment${
+            booking.length > 1 ? "s" : ""
           }`}</div>
-          <AiOutlineCar size={17} />{" "}
+          <CalendarClock size={16} strokeWidth={1} />
         </div>
         <div>
           <div className="text-2xl font-bold">{cars.length}</div>
@@ -90,7 +90,7 @@ const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs }) => {
             repairs.length > 1 ? "s" : ""
           }`}</div>
 
-          <GiAutoRepair size={17} />
+          <Wrench size={16} strokeWidth={1} />
         </div>
         <div>
           <div className="text-2xl font-bold">{repairs.length}</div>

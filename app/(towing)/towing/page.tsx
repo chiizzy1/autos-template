@@ -1,9 +1,7 @@
-import { customerCare, towing } from "@/assets";
+import { towing } from "@/assets";
 import LargeHeading from "@/components/ui/LargeHeading";
-import Paragraph from "@/components/ui/Paragraph";
 import SmallHeading from "@/components/ui/SmallHeading";
 import Image from "next/image";
-import Link from "next/link";
 import { FC } from "react";
 import {
   Accordion,
@@ -11,8 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
-import { Mail, PhoneForwarded } from "lucide-react";
-import { buttonVariants } from "@/components/ui/Button";
+import AdminButtons from "@/components/ui/AdminButtons";
 
 interface pageProps {}
 
@@ -35,30 +32,7 @@ const page: FC<pageProps> = ({}) => {
                 no matter the situation
               </p>
 
-              <div className="mt-6 flex gap-4 items-center text-white">
-                <a className="w-full" href={`tel:0123456789`} target="_blank">
-                  <div className={buttonVariants({ variant: "purple" })}>
-                    <PhoneForwarded
-                      size={20}
-                      strokeWidth={1.75}
-                    />
-                    <p className="pl-2 text-sm">0123456789</p>
-                  </div>
-                </a>
-                <a
-                  className="w-full"
-                  href={`mailto:support@carclinic.com`}
-                  target="_blank"
-                >
-                  <div className={buttonVariants({ variant: "purple" })}>
-                    <Mail
-                      size={20}
-                      strokeWidth={1.75}
-                    />
-                    <p className="pl-2 text-sm">support@carclinic.com</p>
-                  </div>{" "}
-                </a>
-              </div>
+              <AdminButtons />
             </div>
             <div className="w-full">
               <div className="overflow-hidden relative rounded-lg w-full h-60">

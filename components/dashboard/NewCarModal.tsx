@@ -19,6 +19,8 @@ interface NewCarModalProps {
 }
 
 const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
+
+  const {refresh} = useRouter()
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
@@ -47,6 +49,7 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
         message: "successfully created new car",
         type: "success",
       });
+      refresh();
     },
     onError: (error) => {
       if (error instanceof AxiosError) {

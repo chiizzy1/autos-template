@@ -26,7 +26,6 @@ const Customer: FC<CustomerProps> = ({ customerId }) => {
   const [customerDeleteModal, setCustomerDeleteModal] = useState(false);
   const [newCarModal, setNewCarModal] = useState(false);
 
-  
   const { data, isError, isLoading } = useQuery({
     queryKey: ["customer"],
     queryFn: () => fetchDetails(customerId),
@@ -38,14 +37,13 @@ const Customer: FC<CustomerProps> = ({ customerId }) => {
     );
   }
 
-  
   return (
     <>
-    {isLoading && <Loading text="Loading Customer Data" /> }
+      {isLoading && <Loading text="Loading Customer Data" />}
       {data && (
         <>
           <SmallHeading className="pl-4 py-4">
-            {`${data?.lastName} ${data?.firstName}`} Transactions Page
+            {`${data?.lastName} ${data?.firstName}`} Page
           </SmallHeading>
           <CustomerCard
             customerInfo={data}
@@ -64,9 +62,9 @@ const Customer: FC<CustomerProps> = ({ customerId }) => {
               </SmallHeading>
             </div>
             <CarsTable customerId={customerId} />
-         
+
             <SmallHeading className="py-4">
-              All {`${data?.lastName} ${data?.firstName}`} Repairs
+              {`${data?.lastName} ${data?.firstName}`} Repairs
             </SmallHeading>
             <RepairsTable customerId={customerId} />
           </>
@@ -75,8 +73,8 @@ const Customer: FC<CustomerProps> = ({ customerId }) => {
           <EditCustomerInfo
             customerId={customerId}
             setCustomerEditModal={setCustomerEditModal}
-            customerData = {data}
-           />
+            customerData={data}
+          />
         )}
         {customerDeleteModal && (
           <DeleteCustomer
