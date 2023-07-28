@@ -18,15 +18,12 @@ const Hero = async () => {
         <div className="hero-overlay bg-opacity-80"></div>
         <div className="hero-content  text-white">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="mb-2 text-4xl font-bold">
+            <h1 className="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold">
               Expert Auto Solutions for a Smoother Ride <br />
             </h1>
-            <p className="max-w-2xl text-base text-center text-zinc-300">
+            <p className="max-w-xl text-sm text-center text-zinc-300">
               Service you can trust for reliable and efficient automobile
-              repairs and maintenance. Our team of expert mechanics uses
-              state-of-the-art equipment to diagnose and fix any issues with
-              your vehicle. Trust us to keep your car running smoothly and
-              safely.
+              repairs and maintenance.
             </p>
 
             <div className="w-full flex items-center justify-center mt-6">

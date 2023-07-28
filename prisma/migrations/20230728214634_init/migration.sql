@@ -5,7 +5,7 @@ CREATE TABLE `User` (
     `email` VARCHAR(191) NULL,
     `emailVerified` DATETIME(3) NULL,
     `image` VARCHAR(191) NULL,
-    `role` ENUM('AUTHORIZED', 'UNAUTHORIZED') NOT NULL DEFAULT 'UNAUTHORIZED',
+    `role` ENUM('AUTHORIZED', 'UNAUTHORIZED') NOT NULL DEFAULT 'AUTHORIZED',
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -46,11 +46,13 @@ CREATE TABLE `CarDetails` (
 -- CreateTable
 CREATE TABLE `Repair` (
     `id` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` TEXT NOT NULL,
     `estimatedCost` DOUBLE NOT NULL,
     `trackId` VARCHAR(191) NOT NULL,
     `paid` BOOLEAN NOT NULL DEFAULT false,
     `fixed` BOOLEAN NOT NULL DEFAULT false,
+    `delivered` BOOLEAN NOT NULL DEFAULT false,
+    `deliveryDate` DATETIME(3) NULL,
     `carId` VARCHAR(191) NOT NULL,
     `repairStatus` VARCHAR(191) NOT NULL,
     `customerId` VARCHAR(191) NOT NULL,
@@ -76,6 +78,7 @@ CREATE TABLE `Pictures` (
 CREATE TABLE `SelectedDay` (
     `id` VARCHAR(191) NOT NULL,
     `day` VARCHAR(191) NOT NULL,
+    `open` BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -86,10 +89,11 @@ CREATE TABLE `AppointmentClient` (
     `name` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `phone` INTEGER NOT NULL,
-    `reason` VARCHAR(191) NOT NULL,
+    `reason` TEXT NOT NULL,
     `make` VARCHAR(191) NOT NULL,
     `model` VARCHAR(191) NOT NULL,
     `year` INTEGER NOT NULL,
+    `viewed` BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
