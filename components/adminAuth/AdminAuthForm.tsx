@@ -31,6 +31,7 @@ const AdminAuthForm: FC<AdminAuthFormProps> = ({ className, ...props }) => {
     <div className={cn("flex justify-center", className)} {...props}>
       <Button
         isLoading={isLoading}
+        variant={'purple'}
         type="button"
         className="max-w-sm w-full bg-slate-200"
         onClick={loginWithGoogle}

@@ -52,7 +52,7 @@ const BookingTable: FC<BookingTableProps> = () => {
     getAllBookings
   );
 
-  let bookings: [] = [];
+  let bookings: any = [];
 
   if (data) {
     bookings = data.map((info: any, i: number) => {
@@ -104,6 +104,22 @@ const BookingTable: FC<BookingTableProps> = () => {
     {
       accessorKey: "time",
       header: "Appointment Time",
+    },
+    {
+      accessorKey: "viewed",
+      header: "status",
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <Badge variant={row.getValue("viewed") ? "secondary" : "view"}>
+              {row.getValue("viewed") ? "viewed" : "view"}
+            </Badge>
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue("title")}
+            </span>
+          </div>
+        );
+      },
     },
     {
       id: "actions",

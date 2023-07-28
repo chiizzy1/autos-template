@@ -35,35 +35,47 @@ const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Customer Name</TableHead>
-          <TableHead>vehicle info</TableHead>
-          <TableHead>Vehicle Diagnotic</TableHead>
-          <TableHead>Repair Cost($)</TableHead>
-          <TableHead>Paid</TableHead>
-          <TableHead>Fixed</TableHead>
-          <TableHead>Delivered</TableHead>
-          <TableHead>Check-In date</TableHead>
-          <TableHead>Check-Out date</TableHead>
-          <TableHead>Date Picked Up</TableHead>
+          <TableHead className="text-sm font-semibold">Customer Name</TableHead>
+          <TableHead className="text-sm font-semibold">vehicle info</TableHead>
+          <TableHead className="text-sm font-semibold">
+            Vehicle Diagnotic
+          </TableHead>
+          <TableHead className="text-sm font-semibold">
+            Repair Cost($)
+          </TableHead>
+          <TableHead className="text-sm font-semibold">Paid</TableHead>
+          <TableHead className="text-sm font-semibold">Fixed</TableHead>
+          <TableHead className="text-sm font-semibold">Delivered</TableHead>
+          <TableHead className="text-sm font-semibold">Check-In date</TableHead>
+          <TableHead className="text-sm font-semibold">
+            Check-Out date
+          </TableHead>
+          <TableHead className="text-sm font-semibold">
+            Date Picked Up
+          </TableHead>
         </TableRow>
       </TableHeader>
 
       <TableBody>
         <TableRow key={firstName}>
-          <TableCell>{`${firstName} ${lastName}`}</TableCell>
-          <TableCell>{`${make} ${model} ${year}`}</TableCell>
-          <TableCell>{description}</TableCell>
-          <TableCell>{new Intl.NumberFormat().format(estimatedCost)}</TableCell>
-          <TableCell>{paid ? "Yes" : "No"}</TableCell>
-          <TableCell>{fixed ? "Yes" : "No"}</TableCell>
-          <TableCell>{delivered ? "Yes" : "No"}</TableCell>
-          <TableCell>{new Date(startDate).toDateString()}</TableCell>
-          <TableCell>
+          <TableCell className="text-xs">{`${firstName} ${lastName}`}</TableCell>
+          <TableCell className="text-xs">{`${make} ${model} ${year}`}</TableCell>
+          <TableCell className="text-xs">{description}</TableCell>
+          <TableCell className="text-xs">
+            {new Intl.NumberFormat().format(estimatedCost)}
+          </TableCell>
+          <TableCell className="text-xs">{paid ? "Yes" : "No"}</TableCell>
+          <TableCell className="text-xs">{fixed ? "Yes" : "No"}</TableCell>
+          <TableCell className="text-xs">{delivered ? "Yes" : "No"}</TableCell>
+          <TableCell className="text-xs">
+            {new Date(startDate).toDateString()}
+          </TableCell>
+          <TableCell className="text-xs">
             {finishDate
               ? new Date(finishDate).toDateString()
               : "work in progress"}
           </TableCell>
-          <TableCell>
+          <TableCell className="text-xs">
             {deliveryDate
               ? new Date(deliveryDate).toDateString()
               : "not picked up"}
