@@ -138,6 +138,11 @@ const FetchAllRepairs: FC<FetchAllRepairsProps> = ({}) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(obj.trackId)}
+              >
+                Copy payment ID
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href={`/dashboard/cars/${obj.carId}`}>View Car</Link>
               </DropdownMenuItem>

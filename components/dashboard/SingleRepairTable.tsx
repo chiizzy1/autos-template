@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import RepairDetails from "./RepairDetails";
 
-import {  Repair } from "@prisma/client";
+import { Repair } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/Button";
 import {
@@ -44,7 +44,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
 
   const { data, isError, isLoading } = useQuery(
     ["carRepairHistory"],
-    fetchCarRepairsData,
+    fetchCarRepairsData
   );
 
   // add SN to Cars array
@@ -61,7 +61,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
   }
 
   if (isError) {
-    <p>Error loading data!</p>
+    <p>Error loading data!</p>;
   }
 
   const columns: ColumnDef<Repair>[] = [
@@ -138,6 +138,11 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(obj.trackId)}
+              >
+                Copy payment ID
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <div
                   onClick={() => {
