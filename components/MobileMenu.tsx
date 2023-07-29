@@ -38,7 +38,10 @@ const MobileMenu = () => {
     <nav className="z-[999] md:hidden">
       <div className="shadow-2xl rounded-md">
         <DropdownMenu open={open} onOpenChange={setOpen}>
-          <DropdownMenuTrigger className="cursor-pointer" onClick={() => setOpen((prev) => !prev)}>
+          <DropdownMenuTrigger
+            className="cursor-pointer"
+            onClick={() => setOpen((prev) => !prev)}
+          >
             {open ? (
               <X size={40} className="text-dimPurple" />
             ) : (
@@ -117,21 +120,20 @@ const MobileMenu = () => {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
-                  href="/contact"
-                  className="w-full flex items-center gap-1.5"
-                >
-                  <Info className="mr-2 h-5 w-5" />
-                  <span>Contact Us</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <Link
                   href="/towing"
                   className="w-full flex items-center gap-1.5"
                 >
                   <Info className="mr-2 h-5 w-5" />
                   <span>Towing</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/contact"
+                  className="w-full flex items-center gap-1.5"
+                >
+                  <Info className="mr-2 h-5 w-5" />
+                  <span>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
