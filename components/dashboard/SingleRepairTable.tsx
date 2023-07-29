@@ -141,7 +141,7 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(obj.trackId)}
               >
-                Copy payment ID
+                Copy Tracking ID
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <div
