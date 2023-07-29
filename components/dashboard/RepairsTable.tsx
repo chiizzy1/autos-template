@@ -47,7 +47,7 @@ const RepairsTable: FC<RepairsTableProps> = ({ customerId }) => {
   );
 
   if (isError) {
-    <p>Error loading table!</p>
+    <p>Error loading table!</p>;
   }
   // add SN to repairs array
   let repairs: [] = [];
@@ -135,6 +135,11 @@ const RepairsTable: FC<RepairsTableProps> = ({ customerId }) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(obj.trackId)}
+              >
+                Copy Tracking ID
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <div
                   onClick={() => {
