@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export default function UploadImages() {
   const [image, setImage] = useState<any>();
+  const [imageError, setImageError] = useState<string>("");
   const handleImageUpload = (e: any) => {
     const file = e.target.files[0];
 
@@ -41,18 +42,23 @@ export default function UploadImages() {
       toast({
         message: "Success",
         title: "Success",
-        type: "success"
-      })
-      setImage('')
+        type: "success",
+      });
+      setImage("");
     },
     onError: (error) => {
       console.log(error);
-      setImage("")
+      setImage("");
     },
   });
 
   const submitFile = () => {
-    mutate(image);
+    if (!image) {
+      setImageError("Please choose a valid file");
+    } else {
+      setImageError("")
+      mutate(image);
+    }
   };
 
   return (
@@ -63,8 +69,12 @@ export default function UploadImages() {
         <div className="flex flex-col sm:flex-row gap-6 transition-all ease-in-out">
           <div className="pt-6 rounded-lg border p-4 overflow-hidden w-full relative h-60">
             {image ? (
-              <Image src={image} alt="image_upload" fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+              <Image
+                src={image}
+                alt="image_upload"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
             ) : (
               <p>Image Preview</p>
             )}
@@ -77,6 +87,9 @@ export default function UploadImages() {
               onChange={handleImageUpload}
             />
 
+            {imageError && (
+              <p className="text-red-500 italic text-xs">{imageError}</p>
+            )}
             <Button
               variant="purple"
               isLoading={isLoading}
