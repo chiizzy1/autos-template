@@ -29,7 +29,7 @@ const About = async () => {
                 About Us
               </h3>
               <p className="max-w-xl text-left font-normal text-sm">
-                At our automobile workshop, we provide high-quality repairs and
+                At Carclinic, we provide high-quality repairs and
                 maintenance services to keep your vehicle in top condition. Our
                 team of experienced mechanics has the skills and expertise to
                 handle any repair, from minor issues li ke oil changes and tire
