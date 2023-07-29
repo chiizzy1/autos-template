@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Dropzone.jsx", "components/Dropzone.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Dropzone.jsx", "components/Dropzone.jsx", "components/WhatsAppWidgwet.jsx"],
   "exclude": ["node_modules"]
 }

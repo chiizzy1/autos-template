@@ -62,7 +62,7 @@ const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs, booking }) => {
           </svg>
         </div>
         <div>
-          <div className="text-2xl font-bold">{booking.length}</div>
+          <div className="text-2xl font-bold"> {customers.length}</div>
           <p className="text-xs text-muted-foreground">
             +180.1% from last month
           </p>
@@ -77,7 +77,7 @@ const TopCards: FC<TopCardsProps> = ({ customers, cars, repairs, booking }) => {
           <CalendarClock size={16} strokeWidth={1} />
         </div>
         <div>
-          <div className="text-2xl font-bold">{cars.length}</div>
+          <div className="text-2xl font-bold">{booking.length}</div>
           <p className="text-xs text-muted-foreground">
             +3520.1% from last month
           </p>
