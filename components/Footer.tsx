@@ -52,13 +52,21 @@ export default function Footer() {
                 target="_blank"
               >
                 <div className="flex items-center">
-                  <Mail size={20} className="text-dimPurple" strokeWidth={1.75} />
+                  <Mail
+                    size={20}
+                    className="text-dimPurple"
+                    strokeWidth={1.75}
+                  />
                   <p className="pl-2 text-xs">admin@carclinic.com</p>
                 </div>{" "}
               </a>
 
               <div className="flex items-center">
-                <MapPin size={20} className="text-dimPurple" strokeWidth={1.75} />
+                <MapPin
+                  size={20}
+                  className="text-dimPurple"
+                  strokeWidth={1.75}
+                />
                 <p className="text-xs pl-2">
                   plot 4-6, lekki ikate, lagos state, Nigeria
                 </p>{" "}
@@ -68,7 +76,7 @@ export default function Footer() {
         </div>
 
         <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3F3E45]">
-          <p className="font-poppins font-normal text-center text-xs leading-[27px] text-stone-600">
+          <p className="font-normal text-center text-xs leading-[27px] text-stone-600">
             Copyright Ⓒ 2023 Car Clinic. All Rights Reserved.
           </p>
 
@@ -85,6 +93,14 @@ export default function Footer() {
               </Link>
             ))}
           </div>
+        </div>
+
+        <div className="flex items-center justify-center pt-6 border-t-[1px] border-t-[#3F3E45]">
+          <Link href="https://izzydev.netlify.app/">
+            <p className="text-xs text-dimPurple">
+              Designed and built by Chinwuba Israel
+            </p>
+          </Link>
         </div>
       </div>
     </section>
