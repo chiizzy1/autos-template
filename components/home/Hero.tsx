@@ -18,7 +18,7 @@ const Hero = async () => {
         <div className="hero-overlay bg-opacity-80"></div>
         <div className="hero-content  text-white">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold">
+            <h1 className="mb-2 text-2xl sm:text-3xl text-left sm:text-center md:text-4xl font-bold">
               Expert Auto Solutions for a Smoother Ride <br />
             </h1>
             <p className="max-w-xl text-sm text-center text-zinc-300">
