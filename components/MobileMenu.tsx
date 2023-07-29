@@ -53,12 +53,11 @@ const MobileMenu = () => {
               <DropdownMenuItem asChild>
                 {session && session?.user.role === "AUTHORIZED" ? (
                   <>
-                    <Link
-                      href="/dashboard"
-                      className="w-full flex items-center gap-1.5"
-                    >
-                      <LayoutDashboard className="mr-2 h-5 w-5" />
-                      <span>Dashboard</span>
+                    <Link href="/dashboard">
+                      <div className="w-full flex items-center gap-1.5">
+                        <LayoutDashboard className="mr-2 h-5 w-5" />
+                        <span>Dashboard</span>
+                      </div>
                     </Link>
 
                     <Button
