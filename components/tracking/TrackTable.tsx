@@ -45,10 +45,10 @@ const TrackTable: FC<TrackTableProps> = ({ trackData }) => {
           </TableHead>
           <TableHead className="text-sm font-semibold">Paid</TableHead>
           <TableHead className="text-sm font-semibold">Fixed</TableHead>
-          <TableHead className="text-sm font-semibold">Delivered</TableHead>
+          <TableHead className="text-sm font-semibold">Picked Up</TableHead>
           <TableHead className="text-sm font-semibold">Check-In date</TableHead>
           <TableHead className="text-sm font-semibold">
-            Check-Out date
+            Repair completed date 
           </TableHead>
           <TableHead className="text-sm font-semibold">
             Date Picked Up
