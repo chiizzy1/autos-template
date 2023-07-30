@@ -2,6 +2,7 @@
 # AUTOS TEMPLATE
 
 Experience the power of a fully functional, sleek, and responsive auto workshop template designed to cater to the needs of modern workshops seamlessly. Elevate your day-to-day transactions with ease and efficiency, enhancing productivity and customer satisfaction to drive greater sales and profitability.
+[Visit website](https://autos-template-6fnm.vercel.app/)
 ## Features
 
 - **Tracking:** A tracking ID is given to the customer to keep track and get real-time updates about the their car.
