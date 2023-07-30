@@ -52,24 +52,12 @@ const MobileMenu = () => {
             <DropdownMenuGroup onClick={() => setOpen(false)}>
               <DropdownMenuItem asChild>
                 {session && session?.user.role === "AUTHORIZED" ? (
-                  <>
-                    <Link href="/dashboard">
-                      <div className="w-full flex items-center gap-1.5">
-                        <LayoutDashboard className="mr-2 h-5 w-5" />
-                        <span>Dashboard</span>
-                      </div>
-                    </Link>
-
-                    <Button
-                      onClick={signUserOut}
-                      variant="purple"
-                      isLoading={isLoading}
-                      disabled={isLoading}
-                    >
-                      <User className="mr-2 h-5 w-5" />
-                      {isLoading ? "Signing out" : "Sign out"}
-                    </Button>
-                  </>
+                  <Link href="/dashboard">
+                    <div className="w-full flex items-center gap-1.5">
+                      <LayoutDashboard className="mr-2 h-5 w-5" />
+                      <span>Dashboard</span>
+                    </div>
+                  </Link>
                 ) : (
                   <Link
                     href="/login"
@@ -135,6 +123,18 @@ const MobileMenu = () => {
                   <span>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
+              {!session && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signUserOut} className="gap-1.5">
+                    <User className="mr-2 h-5 w-5" />
+                    <span>{isLoading ? "Signing out" : "Sign out"}</span>
+                    {isLoading ? (
+                      <Loader2 className="animate-spin h-4 w-4" />
+                    ) : null}
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
