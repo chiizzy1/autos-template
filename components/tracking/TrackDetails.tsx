@@ -19,12 +19,12 @@ const TrackDetails: FC<TrackDetailsProps> = ({ data }) => {
       <SmallHeading className="mb-4 mt-10">Tracking Details</SmallHeading>
       <TrackTable trackData={data} />
       <div className="flex gap-8 lg:flex-row flex-col sm:py-9 py-6 pt-10">
-        <div className="w-full rounded-md bg-dimWhite p-6">
+        <div className="w-full rounded-md bg-stone-300 p-6">
           <SmallHeading className="text-center">Car Repair Status</SmallHeading>
           <TrackUi status={data.repairStatus} />
         </div>
 
-        <div className="w-full bg-dimWhite border rounded-md p-6">
+        <div className="w-full bg-stone-300 border rounded-md p-6">
           <SmallHeading className="text-center">Not Satisfied?</SmallHeading>
           <div className="flex items-center justify-center gap-6 sm:py-9 py-6">
             <div className="rounded-full overflow-hidden">
