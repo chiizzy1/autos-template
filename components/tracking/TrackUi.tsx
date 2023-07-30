@@ -18,12 +18,12 @@ const TrackUi: FC<trackUiProps> = ({ status }) => {
 
   return (
     <div className="w-full flex flex-col sm:flex-row items-center justify-between sm:py-9 py-6">
-      <div className="flex flex-row justify-start sm:flex-col sm:justify-center gap-4">
+      <div className="flex flex-row  sm:flex-col gap-4">
         <Image src={done} width={30} height={30} alt="icon" />
         <p className="text-xs font-medium">Check-In</p>
       </div>
 
-      <div className="flex flex-row justify-start sm:flex-col sm:justify-center gap-4">
+      <div className="flex flex-row  sm:flex-col  gap-4">
         <Image
           src={stage >= 2 ? done : two}
           width={30}
@@ -33,7 +33,7 @@ const TrackUi: FC<trackUiProps> = ({ status }) => {
         <p className="text-xs font-medium">Repair in Progress</p>
       </div>
 
-      <div className="flex flex-row justify-start sm:flex-col sm:justify-center gap-4">
+      <div className="flex flex-row  sm:flex-col  gap-4">
         <Image
           src={stage >= 3 ? done : three}
           width={30}
@@ -43,7 +43,7 @@ const TrackUi: FC<trackUiProps> = ({ status }) => {
         <p className="text-xs font-medium">Ready for Pick-up</p>
       </div>
 
-      <div className="flex flex-row justify-start sm:flex-col  sm:justify-center gap-4">
+      <div className="flex flex-row  sm:flex-col  gap-4">
         <Image
           src={stage >= 4 ? done : four}
           width={30}
