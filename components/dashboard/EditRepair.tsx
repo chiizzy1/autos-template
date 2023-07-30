@@ -81,8 +81,8 @@ const EditRepair: FC<EditRepairProps> = ({ repairDetails, setToggleModal }) => {
         setToggleModal(false);
 
         toast({
-          title: "success creating new repair",
-          message: "okay",
+          title: "success",
+          message: "successfully updated repair details",
           type: "success",
         });
       },
