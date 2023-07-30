@@ -23,6 +23,7 @@ import { ArrowUpDown, MoreHorizontal, Trash } from "lucide-react";
 import { Checkbox } from "../ui/Checkbox";
 import { DataTable } from "../ui/DataTable";
 import Loading from "../ui/Loading";
+import { toast } from "../ui/toast";
 
 interface SingleRepairTableProps {
   carId: string;
@@ -139,7 +140,14 @@ const SingleRepairTable: FC<SingleRepairTableProps> = ({ carId }) => {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(obj.trackId)}
+                onClick={() => {
+                  navigator.clipboard.writeText(obj.trackId);
+                  toast({
+                    title: "Copied",
+                    message: "Tracking ID copied to clipboard",
+                    type: "success",
+                  });
+                }}
               >
                 Copy Tracking ID
               </DropdownMenuItem>

@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Repair } from "@prisma/client";
 import { DataTable } from "../ui/DataTable";
+import { toast } from "../ui/toast";
 
 interface RepairsTableProps {
   customerId: string;
@@ -136,7 +137,14 @@ const RepairsTable: FC<RepairsTableProps> = ({ customerId }) => {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(obj.trackId)}
+                onClick={() => {
+                  navigator.clipboard.writeText(obj.trackId);
+                  toast({
+                    title: "Copied",
+                    message: "Tracking ID copied to clipboard",
+                    type: "success",
+                  });
+                }}
               >
                 Copy Tracking ID
               </DropdownMenuItem>
