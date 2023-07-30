@@ -15,12 +15,11 @@ interface BookingFormProps {
 }
 
 const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
-  
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
     email: yup.string().email().required("Please enter a valid email address"),
-    phone: yup.number().required("Please enter a valid phone number"),
+    phone: yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
     carYear: yup.number().required("What year was your car manufactured?"),
@@ -68,8 +67,8 @@ const BookingForm: FC<BookingFormProps> = ({ onSubmit, isLoading }) => {
         <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
           <p className="pb-2">Phone</p>
           <Input
-            type="tel"
-            placeholder="e.g 081200000..."
+            type="text"
+            placeholder="e.g +1 (555) 123-4567"
             {...register("phone")}
           />
           {errors.phone && (

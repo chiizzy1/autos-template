@@ -103,7 +103,7 @@ model AppointmentClient {
   id              String           @id @default(cuid())
   name            String
   email           String
-  phone           Int
+  phone           String
   reason          String           @db.Text
   make            String
   model           String

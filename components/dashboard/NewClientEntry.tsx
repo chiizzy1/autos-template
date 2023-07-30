@@ -22,7 +22,6 @@ interface NewClientEntryProps {
 const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
   const { push } = useRouter();
 
-  
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
@@ -62,7 +61,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     onError: (error) => {
       if (error instanceof AxiosError) {
         toast({
-          title: "Error creating new repair",
+          title: "Error creating new entry",
           message: `${error?.response?.data.error} ⚠️`,
           type: "error",
         });
@@ -111,7 +110,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
               <p className="pb-2">First Name</p>
               <Input
                 type="text"
-                placeholder="First Name..."
+                placeholder="e.g doe"
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -124,7 +123,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
               <p className="pb-2">Last Name</p>
               <Input
                 type="text"
-                placeholder="Last name..."
+                placeholder="e.g jon"
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -138,7 +137,11 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full sm:w-1/2 px-3 mb-6 md:mb-0">
               <p className="pb-2">Phone</p>
-              <Input type="tel" placeholder="Phone..." {...register("phone")} />
+              <Input
+                type="text"
+                placeholder="e.g +1 (555) 123-4567"
+                {...register("phone")}
+              />
               {errors.phone && (
                 <p className={`${styles.formErrorStyles}`}>
                   Please enter a valid phone number.
@@ -149,7 +152,7 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
               <p className="pb-2">Email</p>
               <Input
                 type="email"
-                placeholder="Email..."
+                placeholder="e.g jon@example.com"
                 {...register("email")}
               />
               {errors.email && (

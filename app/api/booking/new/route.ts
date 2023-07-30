@@ -27,7 +27,7 @@ export const POST = async (req: Request) => {
         model: carModel,
         year: carYear,
         name: `${lastName} ${firstName}`,
-        phone: phone,
+        phone: `${phone}`,
         reason: message,
       },
     });
