@@ -27,12 +27,12 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
   const { firstName, lastName, email, phone } = customerData;
 
   const { refresh } = useRouter();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
     email: yup.string().email().required("Please enter a valid email address"),
-    phone: yup.number().required("Please enter a valid phone number"),
+    phone: yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
   });
 
   const {
@@ -50,13 +50,15 @@ const EditCustomerInfo: FC<EditCustomerInfoProps> = ({
 
   const { mutate, error, isLoading, isError } = useMutation(editCustomerData, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["allCustomers"])
       setCustomerEditModal(false);
       toast({
         title: "success",
         message: "succcessfully updated customer data",
         type: "success",
       });
+      queryClient.invalidateQueries(["allCustomers"]);
+      queryClient.invalidateQueries(["customer"]);
+
       refresh();
     },
     onError: (error) => {

@@ -23,7 +23,7 @@ const NewCustomer: FC<NewCustomerProps> = ({ setNewCustomer }) => {
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
     email: yup.string().email().required("Please enter a valid email address"),
-    phone: yup.number().required("Please enter a valid phone number"),
+    phone: yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
   });
 
   const {

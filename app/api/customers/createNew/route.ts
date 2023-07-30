@@ -22,7 +22,7 @@ export const POST = async (req: Request) => {
       where: { email: email },
     });
     const existingCustomerPhone = await db.customer.findFirst({
-      where: { phone: phone },
+      where: { phone: `${phone}` },
     });
 
     if (existingCustomerEmail) {
@@ -50,7 +50,7 @@ export const POST = async (req: Request) => {
         email: email,
         firstName: firstName,
         lastName: lastName,
-        phone: phone,
+        phone: `${phone}`,
         adminId: user.id,
       },
     });

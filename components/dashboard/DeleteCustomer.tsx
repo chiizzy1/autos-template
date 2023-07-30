@@ -2,7 +2,7 @@
 
 import axios, { AxiosError } from "axios";
 import { FC } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
@@ -20,7 +20,7 @@ const DeleteCustomer: FC<DeleteCustomerProps> = ({
   page,
 }) => {
   const { push, refresh } = useRouter();
-
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(
     async (id: string) => {
       const { data } = await axios.delete(`/api/customers/delete/${id}`);
@@ -35,6 +35,8 @@ const DeleteCustomer: FC<DeleteCustomerProps> = ({
           message: "successfully deleted customer data",
           type: "success",
         });
+        queryClient.invalidateQueries(["allCustomers"]);
+        queryClient.invalidateQueries(["customer"]);
 
         page === "customer" ? push(`/dashboard/customers/`) : refresh();
       },

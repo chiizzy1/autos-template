@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "../ui/toast";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
@@ -19,8 +19,8 @@ interface NewCarModalProps {
 }
 
 const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
-
-  const {refresh} = useRouter()
+  const queryClient = useQueryClient();
+  const { refresh } = useRouter();
   const Schema = yup.object().shape({
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
@@ -49,6 +49,8 @@ const NewCarModal: FC<NewCarModalProps> = ({ setNewCarModal, customerId }) => {
         message: "successfully created new car",
         type: "success",
       });
+      queryClient.invalidateQueries(["allCustomers"]);
+      queryClient.invalidateQueries(["customer"]);
       refresh();
     },
     onError: (error) => {

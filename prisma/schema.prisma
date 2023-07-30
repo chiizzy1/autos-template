@@ -37,7 +37,7 @@ model Customer {
   firstName String
   lastName  String
   email     String       @unique
-  phone     Int          @unique
+  phone     String       @unique
   cars      CarDetails[]
 
   admin   User     @relation(fields: [adminId], references: [id])
@@ -64,7 +64,7 @@ model CarDetails {
 
 model Repair {
   id            String     @id @default(cuid())
-  description   String @db.Text
+  description   String     @db.Text
   estimatedCost Float
   trackId       String     @default(cuid())
   paid          Boolean    @default(false)
@@ -104,7 +104,7 @@ model AppointmentClient {
   name            String
   email           String
   phone           Int
-  reason          String @db.Text
+  reason          String           @db.Text
   make            String
   model           String
   year            Int

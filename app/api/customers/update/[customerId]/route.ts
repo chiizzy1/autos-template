@@ -40,7 +40,7 @@ export const PUT = async (
     }
 
     const updateCustomerData = await db.customer.update({
-      where: { id: customerId as string },
+      where: { id: customerId },
       data: { ...data },
     });
 

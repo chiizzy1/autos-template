@@ -22,12 +22,12 @@ interface NewClientEntryProps {
 const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
   const { push } = useRouter();
 
-  // Handle Form with Yup
+  
   const Schema = yup.object().shape({
     firstName: yup.string().required("User Name cannot be empty!"),
     lastName: yup.string().required("User Name cannot be empty!"),
     email: yup.string().email().required("Please enter a valid email address"),
-    phone: yup.number().required("Please enter a valid phone number"),
+    phone: yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
     carMake: yup.string().required("please enter car make"),
     carModel: yup.string().required("What model is your?"),
     carYear: yup.number().required("What year was your car manufactured?"),
@@ -75,7 +75,6 @@ const NewClientEntry: FC<NewClientEntryProps> = ({ setToggle }) => {
     { value: false, label: "No" },
   ];
 
- 
   const repairStages = [
     { value: "Check-In", label: "Check-In" },
     { value: "In-Progress", label: "In Progress" },
