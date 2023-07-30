@@ -17,7 +17,7 @@ const TrackUi: FC<trackUiProps> = ({ status }) => {
       : 4;
 
   return (
-    <div className="w-full flex flex-col sm:flex-row items-center justify-between sm:py-9 py-6">
+    <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between sm:py-9 py-6">
       <div className="flex flex-row  sm:flex-col gap-4">
         <Image src={done} width={30} height={30} alt="icon" />
         <p className="text-xs font-medium">Check-In</p>
