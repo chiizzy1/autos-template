@@ -43,7 +43,7 @@ const TrackUi: FC<trackUiProps> = ({ status }) => {
         <p className="text-xs font-medium">Ready for Pick-up</p>
       </div>
 
-      <div className="flex flex-row sm:flex-col items-center sm:justify-center gap-4">
+      <div className="flex flex-row sm:flex-col items-center justify-center gap-4">
         <Image
           src={stage >= 4 ? done : four}
           width={30}
