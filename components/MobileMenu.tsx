@@ -123,7 +123,7 @@ const MobileMenu = () => {
                   <span>Contact Us</span>
                 </Link>
               </DropdownMenuItem>
-              {!session && (
+              {session && session?.user.role === "AUTHORIZED" ? (
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signUserOut} className="gap-1.5">
@@ -134,6 +134,8 @@ const MobileMenu = () => {
                     ) : null}
                   </DropdownMenuItem>
                 </>
+              ) : (
+                ""
               )}
             </DropdownMenuGroup>
           </DropdownMenuContent>
